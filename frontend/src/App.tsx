@@ -7,46 +7,10 @@ import Dashboard from './pages/Dashboard';
 // Lucide icons
 import { Globe as GlobeIcon, ClipboardList, ShieldAlert, Users, User, Flame } from 'lucide-react';
 
-// Stub components for Phase 2 that will be fully implemented in Phase 3
-function LogPlaceholder() {
-  return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-8 glass-card max-w-xl mx-auto my-12 border border-white/5">
-      <span className="text-4xl mb-4">📝</span>
-      <h2 className="text-xl font-bold text-white">Logger Page</h2>
-      <p className="text-gray-400 text-sm mt-2">Fleshed out in Phase 3. You can use the Quick Logger shortcuts on the Dashboard in the meantime!</p>
-    </div>
-  );
-}
-
-function ActionsPlaceholder() {
-  return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-8 glass-card max-w-xl mx-auto my-12 border border-white/5">
-      <span className="text-4xl mb-4">🏆</span>
-      <h2 className="text-xl font-bold text-white">Challenges Library</h2>
-      <p className="text-gray-400 text-sm mt-2">Fleshed out in Phase 3. Strengthen your streaks and earn badges through eco-tasks!</p>
-    </div>
-  );
-}
-
-function LeaderboardPlaceholder() {
-  return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-8 glass-card max-w-xl mx-auto my-12 border border-white/5">
-      <span className="text-4xl mb-4">👥</span>
-      <h2 className="text-xl font-bold text-white">Leaderboards</h2>
-      <p className="text-gray-400 text-sm mt-2">Fleshed out in Phase 3. Team standing aggregations and real-time competitor lists.</p>
-    </div>
-  );
-}
-
-function ProfilePlaceholder() {
-  return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-8 glass-card max-w-xl mx-auto my-12 border border-white/5">
-      <span className="text-4xl mb-4">👤</span>
-      <h2 className="text-xl font-bold text-white">My Profile</h2>
-      <p className="text-gray-400 text-sm mt-2">Fleshed out in Phase 3. Detailed carbon history charts, badge display cabinet, and progress sharing card.</p>
-    </div>
-  );
-}
+import Log from './pages/Log';
+import Actions from './pages/Actions';
+import Leaderboard from './pages/Leaderboard';
+import Profile from './pages/Profile';
 
 function Navbar({ user, streak }: { user: any; streak: number }) {
   const location = useLocation();
@@ -125,8 +89,8 @@ function Navbar({ user, streak }: { user: any; streak: number }) {
 }
 
 function MainContent() {
-  const { user, loading: authLoading, saveOnboarding } = useAuth();
-  const { insights, loading: footprintLoading, logActivity } = useFootprint(user?.userId);
+  const { user, loading: authLoading, saveOnboarding, updateUsername, joinTeam } = useAuth();
+  const { insights, loading: footprintLoading, logActivity, completeChallenge } = useFootprint(user?.userId);
 
   const loading = authLoading || footprintLoading;
 
@@ -171,10 +135,10 @@ function MainContent() {
               />
             } 
           />
-          <Route path="/log" element={<LogPlaceholder />} />
-          <Route path="/actions" element={<ActionsPlaceholder />} />
-          <Route path="/leaderboard" element={<LeaderboardPlaceholder />} />
-          <Route path="/profile" element={<ProfilePlaceholder />} />
+          <Route path="/log" element={<Log onLog={logActivity} />} />
+          <Route path="/actions" element={<Actions user={user} onCompleteChallenge={completeChallenge} />} />
+          <Route path="/leaderboard" element={<Leaderboard user={user} insights={insights} onJoinTeam={joinTeam} />} />
+          <Route path="/profile" element={<Profile user={user} onUpdateUsername={updateUsername} />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </main>
