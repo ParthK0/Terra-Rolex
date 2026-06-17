@@ -38,11 +38,16 @@ def create_log(request: LogEntryRequest, x_user_id: str = Header(default="defaul
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.get("", response_model=List[LogEntryResponse])
-def get_logs(x_user_id: str = Header(default="default_user")):
+def get_logs(
+    x_user_id: str = Header(default="default_user"),
+    limit: int = 50,
+    offset: int = 0
+):
     try:
         logs = get_user_logs(x_user_id)
+        paginated = logs[offset: offset + limit]
         res = []
-        for l in logs:
+        for l in paginated:
             res.append(LogEntryResponse(
                 id=l["id"],
                 userId=l["userId"],

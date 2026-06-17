@@ -3,17 +3,17 @@ from typing import List, Optional
 from datetime import datetime
 
 class OnboardingData(BaseModel):
-    transport_km_per_month: float
+    transport_km_per_month: float = Field(..., ge=0.0, description="Monthly commute distance in km")
     transport_type: str = "car"  # car, electric_car, motorbike, public_transport, bicycle
     diet_type: str = "balanced"  # heavy_meat, balanced, low_meat, vegetarian, vegan
-    ac_hours_per_week: float
-    flights_per_year: int
+    ac_hours_per_week: float = Field(..., ge=0.0, description="AC hours of operation per week")
+    flights_per_year: int = Field(..., ge=0, description="Annual passenger flight count")
     shopping_frequency: str = "average"  # minimalist, average, shopaholic
 
 class LogEntryRequest(BaseModel):
     category: str  # transport, food, energy, flights
     subtype: str   # e.g., car, public_transport, red_meat, plant_based, ac, washing_machine, flight_short, flight_medium, flight_long
-    amount: float  # e.g., km, servings, hours, count
+    amount: float = Field(..., gt=0.0, description="Activity quantity, must be greater than 0")
     description: Optional[str] = None
 
 class LogEntryResponse(BaseModel):

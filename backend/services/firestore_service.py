@@ -3,7 +3,10 @@ import json
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 
+import threading
+
 DB_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "mock_db.json")
+_db_lock = threading.Lock()
 
 # In-memory cached reference for local testing
 _local_db: Dict[str, Any] = {
@@ -25,24 +28,29 @@ _local_db: Dict[str, Any] = {
 
 def load_db() -> Dict[str, Any]:
     global _local_db
-    if not os.path.exists(DB_FILE):
-        save_db()
-        return _local_db
-    try:
-        with open(DB_FILE, "r") as f:
-            data = json.load(f)
-            # Standardize datetime parsing if needed
-            return data
-    except Exception as e:
-        print(f"Error loading mock_db: {e}")
-        return _local_db
+    with _db_lock:
+        if not os.path.exists(DB_FILE):
+            try:
+                with open(DB_FILE, "w") as f:
+                    json.dump(_local_db, f, indent=4, default=str)
+            except Exception as e:
+                print(f"Error initializing mock_db: {e}")
+            return _local_db
+        try:
+            with open(DB_FILE, "r") as f:
+                data = json.load(f)
+                return data
+        except Exception as e:
+            print(f"Error loading mock_db: {e}")
+            return _local_db
 
 def save_db() -> None:
-    try:
-        with open(DB_FILE, "w") as f:
-            json.dump(_local_db, f, indent=4, default=str)
-    except Exception as e:
-        print(f"Error saving mock_db: {e}")
+    with _db_lock:
+        try:
+            with open(DB_FILE, "w") as f:
+                json.dump(_local_db, f, indent=4, default=str)
+        except Exception as e:
+            print(f"Error saving mock_db: {e}")
 
 # Initialize local DB structure on start
 _local_db = load_db()
@@ -68,7 +76,6 @@ except Exception as e:
 def get_user_profile(user_id: str) -> Dict[str, Any]:
     if firebase_initialized:
         # Real Firebase call
-        # For simplicity and robust fallback, we wrap it in a try-except
         try:
             from firebase_admin import firestore
             db = firestore.client()
@@ -77,11 +84,10 @@ def get_user_profile(user_id: str) -> Dict[str, Any]:
                 return doc.to_dict()
         except Exception as e:
             print(f"Firebase error in get_user_profile: {e}")
-            
-    db_data = load_db()
-    if user_id not in db_data["users"]:
-        # Create default mock user
-        db_data["users"][user_id] = {
+
+    # Always work off _local_db for in-process consistency
+    if user_id not in _local_db["users"]:
+        default = {
             "userId": user_id,
             "userName": f"EcoWarrior_{user_id[:4]}",
             "streak": 0,
@@ -90,8 +96,9 @@ def get_user_profile(user_id: str) -> Dict[str, Any]:
             "badges": ["Carbon Onboarder"],
             "completed_challenges": []
         }
+        _local_db["users"][user_id] = default
         save_db()
-    return db_data["users"][user_id]
+    return _local_db["users"][user_id]
 
 def update_user_profile(user_id: str, updates: Dict[str, Any]) -> Dict[str, Any]:
     if firebase_initialized:
@@ -102,28 +109,35 @@ def update_user_profile(user_id: str, updates: Dict[str, Any]) -> Dict[str, Any]
         except Exception as e:
             print(f"Firebase error in update_user_profile: {e}")
 
-    db_data = load_db()
-    if user_id not in db_data["users"]:
-        db_data["users"][user_id] = {"userId": user_id, "userName": f"EcoWarrior_{user_id[:4]}", "streak": 0, "completed_challenges": [], "badges": []}
-    db_data["users"][user_id].update(updates)
+    # Update the shared in-memory dict directly for in-process consistency
+    if user_id not in _local_db["users"]:
+        _local_db["users"][user_id] = {"userId": user_id, "userName": f"EcoWarrior_{user_id[:4]}", "streak": 0, "completed_challenges": [], "badges": []}
+    _local_db["users"][user_id].update(updates)
     save_db()
-    return db_data["users"][user_id]
+    return _local_db["users"][user_id]
 
-def get_user_logs(user_id: str) -> List[Dict[str, Any]]:
+def get_user_logs(user_id: str, limit: int = 200, offset: int = 0) -> List[Dict[str, Any]]:
     if firebase_initialized:
         try:
             from firebase_admin import firestore
             db = firestore.client()
-            docs = db.collection("logs").where("userId", "==", user_id).order_by("timestamp", direction=firestore.Query.DESCENDING).stream()
+            docs = (
+                db.collection("logs")
+                .where("userId", "==", user_id)
+                .order_by("timestamp", direction=firestore.Query.DESCENDING)
+                .offset(offset)
+                .limit(limit)
+                .stream()
+            )
             return [doc.to_dict() for doc in docs]
         except Exception as e:
             print(f"Firebase error in get_user_logs: {e}")
 
     db_data = load_db()
     user_logs = [log for log in db_data["logs"] if log["userId"] == user_id]
-    # Sort by timestamp descending
+    # Sort by timestamp descending then apply pagination slice
     user_logs.sort(key=lambda x: x.get("timestamp", ""), reverse=True)
-    return user_logs
+    return user_logs[offset: offset + limit]
 
 def add_user_log(user_id: str, log_data: Dict[str, Any]) -> Dict[str, Any]:
     log_id = f"log_{int(datetime.now().timestamp() * 1000)}"
@@ -140,8 +154,8 @@ def add_user_log(user_id: str, log_data: Dict[str, Any]) -> Dict[str, Any]:
         except Exception as e:
             print(f"Firebase error in add_user_log: {e}")
 
-    db_data = load_db()
-    db_data["logs"].append(log_data)
+    # Append directly to _local_db for in-process consistency
+    _local_db["logs"].append(log_data)
     save_db()
     return log_data
 

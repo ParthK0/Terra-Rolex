@@ -16,13 +16,20 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configure CORS for local React/Vite development
+# Configure CORS — restrict to known frontend origins.
+# In production, set ALLOWED_ORIGINS env var as a comma-separated list of domains.
+_raw_origins = os.environ.get(
+    "ALLOWED_ORIGINS",
+    "http://localhost:5173,http://localhost:4173"  # Vite dev + preview defaults
+)
+ALLOWED_ORIGINS = [o.strip() for o in _raw_origins.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In development, allow all. In production, restrict to frontend domain.
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["Content-Type", "x-user-id", "Authorization"],
 )
 
 # Mount routers
