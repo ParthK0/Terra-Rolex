@@ -7,12 +7,28 @@ interface GlobeProps {
   status: 'thriving' | 'healthy' | 'threatened' | 'degraded';
 }
 
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = React.useState(false);
+
+  React.useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduced(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  return reduced;
+}
+
 function LivingEarth({ status }: GlobeProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const wireRef = useRef<THREE.Mesh>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
-  // Rotate the globe slowly
+  // Rotate the globe slowly unless user prefers reduced motion
   useFrame((state) => {
+    if (prefersReducedMotion) return;
     const time = state.clock.getElapsedTime();
     if (meshRef.current) {
       meshRef.current.rotation.y = time * 0.05;
@@ -79,8 +95,10 @@ function LivingEarth({ status }: GlobeProps) {
 
 function AtmosphereParticles({ status }: GlobeProps) {
   const pointsRef = useRef<THREE.Points>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useFrame((state) => {
+    if (prefersReducedMotion) return;
     const time = state.clock.getElapsedTime();
     if (pointsRef.current) {
       pointsRef.current.rotation.y = time * 0.02;
@@ -135,8 +153,23 @@ function AtmosphereParticles({ status }: GlobeProps) {
 }
 
 export default function Globe({ status }: GlobeProps) {
+  const statusDescriptions = {
+    thriving: 'The Living World globe is thriving. Forests are lush, air quality is pristine, and emissions are well below target.',
+    healthy: 'The Living World globe is healthy. Atmosphere is balanced and oceans are thriving.',
+    threatened: 'The Living World globe is threatened. Smog particles are rising and temperature anomalies are detected.',
+    degraded: 'The Living World globe is in critical condition. Carbon particles are saturating the atmosphere.'
+  };
+
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   return (
-    <div className="relative w-full h-[320px] md:h-[400px] flex items-center justify-center rounded-2xl overflow-hidden bg-gradient-to-b from-gray-950/20 to-gray-950/80 border border-white/5">
+    <div
+      role="img"
+      aria-label={`Living World Carbon Globe — Status: ${status}`}
+      className="relative w-full h-[320px] md:h-[400px] flex items-center justify-center rounded-2xl overflow-hidden bg-gradient-to-b from-gray-950/20 to-gray-950/80 border border-white/5"
+    >
+      {/* Screen-reader description */}
+      <p className="sr-only">{statusDescriptions[status]}</p>
       {/* Overlay Status Badge */}
       <div className="absolute top-4 left-4 z-10 flex flex-col">
         <span className="text-[10px] uppercase font-bold text-gray-500 tracking-widest">Living Environment</span>
@@ -166,7 +199,7 @@ export default function Globe({ status }: GlobeProps) {
         
         <OrbitControls 
           enableZoom={false} 
-          autoRotate 
+          autoRotate={!prefersReducedMotion} 
           autoRotateSpeed={0.5} 
           enablePan={false}
           maxPolarAngle={Math.PI / 1.5}
