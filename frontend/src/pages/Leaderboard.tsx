@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLeaderboard } from '../hooks/useLeaderboard';
-import { Users, User, Medal, Flame, Sparkles, LogIn } from 'lucide-react';
+import { Users, User, Flame, Sparkles, LogIn, TrendingUp, TrendingDown, RefreshCw } from 'lucide-react';
 
 interface LeaderboardProps {
   user: any;
@@ -12,6 +12,7 @@ export default function Leaderboard({ user, insights, onJoinTeam }: LeaderboardP
   const [activeTab, setActiveTab] = useState<'users' | 'teams'>('users');
   const [teamInput, setTeamInput] = useState('');
   const [joining, setJoining] = useState(false);
+  const [notification, setNotification] = useState<{ text: string; isError?: boolean } | null>(null);
 
   const currentScore = insights?.rolling_score_kg || 0;
   const { usersLeaderboard, teamsLeaderboard, loading, refreshLeaderboard } = useLeaderboard(user?.userId, currentScore);
@@ -22,199 +23,251 @@ export default function Leaderboard({ user, insights, onJoinTeam }: LeaderboardP
     if (!cleanTeam) return;
 
     setJoining(true);
+    setNotification(null);
     try {
       await onJoinTeam(cleanTeam);
       setTeamInput('');
-      alert(`Successfully joined team: ${cleanTeam}!`);
+      setNotification({ text: `Successfully joined team: ${cleanTeam}!` });
       refreshLeaderboard();
     } catch (err) {
       console.error(err);
-      alert("Joined team locally!");
+      setNotification({ text: "Joined team locally!" });
     } finally {
       setJoining(false);
     }
   };
 
+  const handleForceSync = async () => {
+    setNotification(null);
+    try {
+      await refreshLeaderboard();
+      setNotification({ text: "Leaderboard refreshed successfully!" });
+    } catch (err) {
+      console.error(err);
+      setNotification({ text: "Failed to refresh leaderboard.", isError: true });
+    }
+  };
+
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-black text-white">Social Leaderboards</h1>
-          <p className="text-sm text-gray-400 mt-1">
-            Compete on lower carbon footprints. Join a floor/team and drive collective awareness.
-          </p>
-        </div>
-
-        {/* Team join form */}
-        <form onSubmit={handleJoinTeam} className="flex gap-2 w-full md:w-auto">
-          <input
-            type="text"
-            placeholder="Enter floor or team (e.g. Floor 4)"
-            value={teamInput}
-            onChange={(e) => setTeamInput(e.target.value)}
-            className="bg-gray-950 border border-white/5 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 w-full md:w-48"
-          />
-          <button
-            type="submit"
-            disabled={joining}
-            className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-gray-950 font-bold text-xs rounded-xl flex items-center gap-1 cursor-pointer disabled:opacity-50 whitespace-nowrap"
-          >
-            <LogIn className="h-3 w-3" />
-            <span>{joining ? 'Joining...' : 'Join Team'}</span>
-          </button>
-        </form>
-      </div>
-
-      {/* Tabs Selector */}
-      <div className="flex bg-gray-950 p-1 rounded-xl border border-white/5 max-w-xs">
-        <button
-          onClick={() => setActiveTab('users')}
-          className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-            activeTab === 'users' ? 'bg-emerald-500 text-gray-950' : 'text-gray-400 hover:text-gray-200'
-          }`}
-        >
-          <User className="h-3.5 w-3.5" />
-          <span>Members</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('teams')}
-          className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-            activeTab === 'teams' ? 'bg-emerald-500 text-gray-950' : 'text-gray-400 hover:text-gray-200'
-          }`}
-        >
-          <Users className="h-3.5 w-3.5" />
-          <span>Teams</span>
-        </button>
-      </div>
-
-      {/* Leaderboard tables */}
-      <div className="glass-card border border-white/5 overflow-hidden">
-        {loading ? (
-          <div className="p-12 text-center text-gray-400 space-y-3">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent mx-auto" />
-            <p className="text-xs">Fetching standings...</p>
-          </div>
-        ) : activeTab === 'users' ? (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="border-b border-white/5 bg-white/5 text-gray-400 font-bold uppercase tracking-wider">
-                  <th className="py-4 px-6 text-center w-16">Rank</th>
-                  <th className="py-4 px-6">Eco Warrior</th>
-                  <th className="py-4 px-6">Team / Floor</th>
-                  <th className="py-4 px-6 text-center w-28">Streak</th>
-                  <th className="py-4 px-6 text-right w-36">7-Day Score</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/5">
-                {usersLeaderboard.map((item, idx) => {
-                  const rank = idx + 1;
-                  const isSelf = item.userId === user?.userId;
-
-                  return (
-                    <tr 
-                      key={item.userId}
-                      className={`hover:bg-white/5 transition-colors ${isSelf ? 'bg-emerald-500/5 font-semibold' : ''}`}
-                    >
-                      <td className="py-4 px-6 text-center">
-                        {rank === 1 && <Medal className="h-5 w-5 text-yellow-500 mx-auto fill-yellow-500/10" />}
-                        {rank === 2 && <Medal className="h-5 w-5 text-gray-300 mx-auto fill-gray-300/10" />}
-                        {rank === 3 && <Medal className="h-5 w-5 text-amber-600 mx-auto fill-amber-600/10" />}
-                        {rank > 3 && <span className="text-gray-500 font-mono">{rank}</span>}
-                      </td>
-                      <td className="py-4 px-6">
-                        <div className="flex items-center gap-2">
-                          <span className="text-white">{item.userName}</span>
-                          {isSelf && (
-                            <span className="text-[9px] px-1.5 py-0.5 bg-emerald-500/10 text-emerald-400 rounded border border-emerald-500/20 font-bold uppercase">
-                              You
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="py-4 px-6 text-gray-400">{item.teamName || 'Independent'}</td>
-                      <td className="py-4 px-6 text-center font-mono">
-                        <div className="flex items-center justify-center gap-1 text-orange-400">
-                          <Flame className="h-3.5 w-3.5 fill-orange-500/10" />
-                          <span>{item.streak}</span>
-                        </div>
-                      </td>
-                      <td className="py-4 px-6 text-right font-mono font-bold text-white">
-                        {item.score.toFixed(1)} <span className="text-[10px] font-normal text-gray-500">kg CO₂</span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="border-b border-white/5 bg-white/5 text-gray-400 font-bold uppercase tracking-wider">
-                  <th className="py-4 px-6 text-center w-16">Rank</th>
-                  <th className="py-4 px-6">Team Name</th>
-                  <th className="py-4 px-6 text-center w-28">Members</th>
-                  <th className="py-4 px-6 text-right w-48">Avg 7-Day Footprint</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/5">
-                {teamsLeaderboard.map((item, idx) => {
-                  const rank = idx + 1;
-                  const isSelfTeam = item.teamName === user?.teamName;
-
-                  return (
-                    <tr 
-                      key={item.teamName}
-                      className={`hover:bg-white/5 transition-colors ${isSelfTeam ? 'bg-emerald-500/5 font-semibold' : ''}`}
-                    >
-                      <td className="py-4 px-6 text-center">
-                        {rank === 1 && <Medal className="h-5 w-5 text-yellow-500 mx-auto fill-yellow-500/10" />}
-                        {rank === 2 && <Medal className="h-5 w-5 text-gray-300 mx-auto fill-gray-300/10" />}
-                        {rank === 3 && <Medal className="h-5 w-5 text-amber-600 mx-auto fill-amber-600/10" />}
-                        {rank > 3 && <span className="text-gray-500 font-mono">{rank}</span>}
-                      </td>
-                      <td className="py-4 px-6">
-                        <div className="flex items-center gap-2">
-                          <span className="text-white">{item.teamName}</span>
-                          {isSelfTeam && (
-                            <span className="text-[9px] px-1.5 py-0.5 bg-emerald-500/10 text-emerald-400 rounded border border-emerald-500/20 font-bold uppercase">
-                              Active
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="py-4 px-6 text-center text-gray-400 font-mono">{item.memberCount}</td>
-                      <td className="py-4 px-6 text-right font-mono font-bold text-white">
-                        {item.score.toFixed(1)} <span className="text-[10px] font-normal text-gray-500">kg CO₂/user</span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
-
-      <div className="glass-card p-6 border border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Sparkles className="text-emerald-400 h-6 w-6 shrink-0" />
-          <div>
-            <h3 className="text-sm font-bold text-white">Team Target Carbon Budget</h3>
-            <p className="text-xs text-gray-400 mt-0.5">
-              Floor 3 currently leads. The aggregate budget goal is 50 kg CO₂ per person.
+    <div className="min-h-screen bg-white py-12 px-6">
+      <div className="max-w-5xl mx-auto space-y-10">
+        
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="space-y-1">
+            <h1 className="text-3xl font-bold tracking-tight text-text-charcoal font-display">Social Standings</h1>
+            <p className="text-sm text-text-grey">
+              Compare carbon footprint averages, join a team, and drive collective awareness.
             </p>
           </div>
+
+          {/* Join team form */}
+          <form onSubmit={handleJoinTeam} className="flex gap-2 w-full md:w-auto">
+            <input
+              type="text"
+              placeholder="e.g. Floor 3"
+              value={teamInput}
+              onChange={(e) => setTeamInput(e.target.value)}
+              className="border border-gray-200 rounded-xl px-4 py-2.5 text-xs text-text-charcoal focus:outline-none focus:border-accent-blue w-full md:w-48 bg-bg-base"
+            />
+            <button
+              type="submit"
+              disabled={joining}
+              className="px-4 py-2.5 bg-accent-blue hover:bg-blue-600 text-white font-bold text-xs rounded-xl flex items-center gap-1 cursor-pointer disabled:opacity-50 whitespace-nowrap"
+            >
+              <LogIn className="h-3.5 w-3.5" />
+              <span>{joining ? 'Joining...' : 'Join Team'}</span>
+            </button>
+          </form>
         </div>
-        <button
-          onClick={() => alert("Leaderboard refreshed!")}
-          className="px-4 py-2 border border-white/10 hover:bg-white/5 text-xs font-bold text-gray-300 rounded-xl cursor-pointer"
-        >
-          Force Sync
-        </button>
+
+        {notification && (
+          <div 
+            role={notification.isError ? "alert" : "status"}
+            className={`p-4 rounded-xl border text-xs font-bold ${
+              notification.isError 
+                ? "bg-accent-red/10 border-accent-red/20 text-accent-red" 
+                : "bg-accent-green/10 border-accent-green/20 text-accent-green"
+            }`}
+          >
+            {notification.text}
+          </div>
+        )}
+
+        {/* View Toggle */}
+        <div className="flex bg-gray-100 p-1 rounded-xl border border-gray-200/60 max-w-xs">
+          <button
+            onClick={() => setActiveTab('users')}
+            className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+              activeTab === 'users' ? 'bg-accent-blue text-white shadow-sm' : 'text-text-grey hover:text-text-charcoal'
+            }`}
+          >
+            <User className="h-3.5 w-3.5" />
+            <span>Individual</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('teams')}
+            className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+              activeTab === 'teams' ? 'bg-accent-blue text-white shadow-sm' : 'text-text-grey hover:text-text-charcoal'
+            }`}
+          >
+            <Users className="h-3.5 w-3.5" />
+            <span>Team</span>
+          </button>
+        </div>
+
+        {/* Standings list */}
+        <div className="premium-card overflow-hidden">
+          {loading ? (
+            <div className="p-12 text-center text-text-grey space-y-3">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-accent-blue border-t-transparent mx-auto" />
+              <p className="text-xs">Fetching standings...</p>
+            </div>
+          ) : activeTab === 'users' ? (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-gray-200/60 bg-bg-base text-text-grey font-bold uppercase tracking-wider">
+                    <th className="py-4 px-6 text-center w-16">Rank</th>
+                    <th className="py-4 px-6">Eco Warrior</th>
+                    <th className="py-4 px-6">Team / Floor</th>
+                    <th className="py-4 px-6 text-center w-28">Streak</th>
+                    <th className="py-4 px-6 text-right w-36">7-Day Score</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {usersLeaderboard.map((item, idx) => {
+                    const rank = idx + 1;
+                    const isSelf = item.userId === user?.userId;
+                    
+                    // Left border accents for top 3
+                    let borderAccent = "";
+                    if (rank === 1) borderAccent = "border-l-4 border-l-[#F59E0B]";
+                    else if (rank === 2) borderAccent = "border-l-4 border-l-[#9CA3AF]";
+                    else if (rank === 3) borderAccent = "border-l-4 border-l-[#B45309]";
+
+                    // Simulated rank delta
+                    const rankDeltaUp = idx % 2 === 0;
+
+                    return (
+                      <tr 
+                        key={item.userId}
+                        className={`hover:bg-bg-base transition-colors ${borderAccent} ${isSelf ? 'bg-accent-blue/5 font-semibold' : ''}`}
+                      >
+                        <td className="py-4 px-6 text-center">
+                          <span className="text-text-charcoal font-bold">{rank}</span>
+                        </td>
+                        <td className="py-4 px-6">
+                          <div className="flex items-center gap-3">
+                            {/* Avatar */}
+                            <div className="h-7 w-7 rounded-full bg-accent-blue/10 flex items-center justify-center font-bold text-accent-blue text-xs flex-shrink-0">
+                              {item.userName ? item.userName[0].toUpperCase() : 'U'}
+                            </div>
+                            <span className="text-text-charcoal font-semibold">{item.userName}</span>
+                            {isSelf && (
+                              <span className="text-[9px] px-1.5 py-0.5 bg-accent-blue/10 text-accent-blue rounded font-bold uppercase">
+                                You
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="py-4 px-6 text-text-grey font-semibold">{item.teamName || 'Independent'}</td>
+                        <td className="py-4 px-6 text-center font-mono">
+                          <div className="flex items-center justify-center gap-1.5 text-accent-amber font-bold">
+                            <Flame className="h-3.5 w-3.5 fill-accent-amber/10" />
+                            <span>{item.streak}</span>
+                          </div>
+                        </td>
+                        <td className="py-4 px-6 text-right font-mono font-bold text-accent-blue">
+                          <div className="flex items-center justify-end gap-2">
+                            <span>{item.score.toFixed(1)} <span className="text-[10px] font-normal text-text-grey">kg CO₂</span></span>
+                            {rankDeltaUp ? (
+                              <TrendingUp className="h-3.5 w-3.5 text-accent-green" />
+                            ) : (
+                              <TrendingDown className="h-3.5 w-3.5 text-accent-red" />
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-gray-200/60 bg-bg-base text-text-grey font-bold uppercase tracking-wider">
+                    <th className="py-4 px-6 text-center w-16">Rank</th>
+                    <th className="py-4 px-6">Team Name</th>
+                    <th className="py-4 px-6 text-center w-28">Members</th>
+                    <th className="py-4 px-6 text-right w-48">Avg 7-Day Footprint</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {teamsLeaderboard.map((item, idx) => {
+                    const rank = idx + 1;
+                    const isSelfTeam = item.teamName === user?.teamName;
+                    
+                    let borderAccent = "";
+                    if (rank === 1) borderAccent = "border-l-4 border-l-[#F59E0B]";
+                    else if (rank === 2) borderAccent = "border-l-4 border-l-[#9CA3AF]";
+                    else if (rank === 3) borderAccent = "border-l-4 border-l-[#B45309]";
+
+                    return (
+                      <tr 
+                        key={item.teamName}
+                        className={`hover:bg-bg-base transition-colors ${borderAccent} ${isSelfTeam ? 'bg-accent-blue/5 font-semibold' : ''}`}
+                      >
+                        <td className="py-4 px-6 text-center">
+                          <span className="text-text-charcoal font-bold">{rank}</span>
+                        </td>
+                        <td className="py-4 px-6">
+                          <div className="flex items-center gap-3">
+                            <div className="h-7 w-7 rounded-full bg-accent-blue/10 flex items-center justify-center font-bold text-accent-blue text-xs flex-shrink-0">
+                              T
+                            </div>
+                            <span className="text-text-charcoal font-semibold">{item.teamName}</span>
+                            {isSelfTeam && (
+                              <span className="text-[9px] px-1.5 py-0.5 bg-accent-green/10 text-accent-green rounded font-bold uppercase">
+                                Active
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="py-4 px-6 text-center text-text-grey font-mono font-bold">{item.memberCount}</td>
+                        <td className="py-4 px-6 text-right font-mono font-bold text-accent-blue">
+                          {item.score.toFixed(1)} <span className="text-[10px] font-normal text-text-grey">kg CO₂/user</span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* Sync Panel */}
+        <div className="premium-card p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Sparkles className="text-accent-blue h-6 w-6 shrink-0" />
+            <div>
+              <h3 className="text-sm font-bold text-text-charcoal">Team Target Carbon Budget</h3>
+              <p className="text-xs text-text-grey mt-0.5">
+                Standings sync in real-time. Target ceiling: 50 kg CO₂ per person.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={handleForceSync}
+            className="px-4 py-2 border border-gray-200 hover:bg-bg-base text-xs font-bold text-text-charcoal rounded-xl flex items-center gap-1.5 cursor-pointer"
+          >
+            <RefreshCw className="h-3.5 w-3.5" />
+            <span>Force Sync</span>
+          </button>
+        </div>
       </div>
     </div>
   );

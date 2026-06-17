@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { calculateBaselineClient } from '../lib/co2calc';
-import { AWARENESS_BENCHMARKS } from '../lib/benchmarks';
+import { Car, Zap, Leaf, Plane, ShoppingBag, CheckCircle2, ChevronRight, ChevronLeft } from 'lucide-react';
 
 interface OnboardingProps {
   onComplete: (data: {
@@ -35,9 +36,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
     shoppingFreq
   );
 
-  // Benchmark references
-  const indianResident = AWARENESS_BENCHMARKS.find(b => b.id === 'indian_resident');
-  const globalResident = AWARENESS_BENCHMARKS.find(b => b.id === 'global_resident');
+  const annualTonnes = localCalc.annualTonnes;
 
   const nextStep = () => setStep(prev => Math.min(prev + 1, 6));
   const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
@@ -71,72 +70,138 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
     { title: "Result", desc: "Your Baseline Carbon Footprint" }
   ];
 
-  return (
-    <div className="min-h-[85vh] flex flex-col items-center justify-center p-4 md:p-8">
-      {/* Progress indicators */}
-      <div className="w-full max-w-2xl mb-8">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-xs uppercase font-semibold text-emerald-400 tracking-wider">
-            Step {step} of 6: {stepsInfo[step - 1].title}
-          </span>
-          <span className="text-xs text-gray-400">
-            {Math.round((step / 6) * 100)}% Complete
-          </span>
-        </div>
-        <div className="h-1.5 w-full bg-gray-800 rounded-full overflow-hidden">
-          <motion.div 
-            className="h-full bg-gradient-to-r from-emerald-500 to-teal-400"
-            initial={{ width: 0 }}
-            animate={{ width: `${(step / 6) * 100}%` }}
-            transition={{ duration: 0.4 }}
-          />
+  // Helper component to render benchmark bars
+  const BenchmarkChart = () => {
+    const maxVal = Math.max(annualTonnes, 6.0);
+    const estimateWidth = `${Math.max(8, Math.min(100, (annualTonnes / maxVal) * 100))}%`;
+    const indianWidth = `${Math.min(100, (1.8 / maxVal) * 100)}%`;
+    const globalWidth = `${Math.min(100, (4.0 / maxVal) * 100)}%`;
+
+    return (
+      <div className="space-y-4 pt-4 border-t border-gray-200/50">
+        <span className="text-[10px] uppercase font-bold text-text-grey tracking-wider block">Live Estimate Comparison</span>
+        
+        <div className="space-y-3">
+          {/* Estimate */}
+          <div className="space-y-1">
+            <div className="flex justify-between text-xs font-semibold text-text-charcoal">
+              <span>Your current estimate</span>
+              <span className="text-accent-blue font-bold">{annualTonnes.toFixed(2)} tons / yr</span>
+            </div>
+            <div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-accent-blue transition-all duration-300" 
+                style={{ width: estimateWidth }}
+              />
+            </div>
+          </div>
+
+          {/* India average */}
+          <div className="space-y-1">
+            <div className="flex justify-between text-xs font-semibold text-text-charcoal">
+              <span>Average Indian urban resident</span>
+              <span className="text-accent-green font-bold">1.8 tons / yr</span>
+            </div>
+            <div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-accent-green" 
+                style={{ width: indianWidth }}
+              />
+            </div>
+          </div>
+
+          {/* Global average */}
+          <div className="space-y-1">
+            <div className="flex justify-between text-xs font-semibold text-text-charcoal">
+              <span>Global average limit</span>
+              <span className="text-accent-amber font-bold">4.0 tons / yr</span>
+            </div>
+            <div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-accent-amber" 
+                style={{ width: globalWidth }}
+              />
+            </div>
+          </div>
         </div>
       </div>
+    );
+  };
 
-      <div className="w-full max-w-2xl min-h-[400px] glass-card glow-green p-6 md:p-10 flex flex-col justify-between">
+  return (
+    <div className="min-h-screen sky-hero-container flex flex-col items-center justify-center p-6 md:p-12 relative">
+      
+      {/* Floating White Quiz Card */}
+      <div className="w-full max-w-2xl bg-white border border-gray-200/60 rounded-3xl shadow-xl p-8 md:p-12 flex flex-col justify-between min-h-[520px] relative z-10">
+        
+        {/* Segmented Top Progress Bar */}
+        <div className="w-full mb-8" role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={6}>
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-[10px] uppercase font-bold text-accent-blue tracking-wider">
+              Step {step} of 6: {stepsInfo[step - 1].title}
+            </span>
+            <span className="text-xs text-text-grey font-semibold">
+              {Math.round((step / 6) * 100)}%
+            </span>
+          </div>
+          <div className="flex gap-1.5 h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div 
+                key={i} 
+                className={`h-full flex-1 transition-all duration-300 rounded-full ${
+                  i <= step ? 'bg-accent-blue' : 'bg-gray-200'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+
         <AnimatePresence mode="wait">
           {step === 1 && (
             <motion.div
               key="step1"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
               className="space-y-6"
             >
               <div>
-                <h2 className="text-2xl font-bold text-white mb-2">{stepsInfo[0].title}</h2>
-                <p className="text-sm text-gray-400">{stepsInfo[0].desc}</p>
+                <h2 className="text-2xl font-bold text-text-charcoal mb-1">{stepsInfo[0].title}</h2>
+                <p className="text-xs text-text-grey">{stepsInfo[0].desc}</p>
               </div>
 
               <div className="space-y-4">
-                <label className="block text-sm text-gray-300">Mode of Transport</label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {[
-                    { id: 'car', label: 'Petrol Car', icon: '🚗' },
-                    { id: 'electric_car', label: 'Electric Car', icon: '⚡' },
-                    { id: 'motorbike', label: 'Motorbike', icon: '🛵' },
-                    { id: 'public_transport', label: 'Bus / Train', icon: '🚌' },
-                    { id: 'bicycle', label: 'Bicycle / Walk', icon: '🚲' }
-                  ].map(mode => (
-                    <button
-                      key={mode.id}
-                      onClick={() => setTransportType(mode.id)}
-                      className={`p-4 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all cursor-pointer ${
-                        transportType === mode.id
-                          ? 'border-emerald-400 bg-emerald-500/10 text-white'
-                          : 'border-white/10 bg-white/5 text-gray-300 hover:bg-white/10'
-                      }`}
-                    >
-                      <span className="text-2xl">{mode.icon}</span>
-                      <span className="text-xs font-semibold">{mode.label}</span>
-                    </button>
-                  ))}
+                    { id: 'car', label: 'Petrol Car', icon: Car },
+                    { id: 'electric_car', label: 'Electric Car', icon: Zap },
+                    { id: 'motorbike', label: 'Motorbike', icon: Car },
+                    { id: 'public_transport', label: 'Bus / Train', icon: Car },
+                    { id: 'bicycle', label: 'Bicycle / Walk', icon: Leaf }
+                  ].map(mode => {
+                    const Icon = mode.icon;
+                    const isSelected = transportType === mode.id;
+                    return (
+                      <button
+                        key={mode.id}
+                        onClick={() => setTransportType(mode.id)}
+                        className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all cursor-pointer ${
+                          isSelected
+                            ? 'border-accent-blue bg-accent-blue/5 text-accent-blue'
+                            : 'border-gray-200 hover:border-gray-300 text-text-charcoal hover:bg-bg-base'
+                        }`}
+                      >
+                        <Icon className={`h-6 w-6 ${isSelected ? 'text-accent-blue' : 'text-text-grey'}`} />
+                        <span className="text-xs font-bold">{mode.label}</span>
+                      </button>
+                    );
+                  })}
                 </div>
 
                 <div className="space-y-2 pt-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-300">Monthly Distance Commuted:</span>
-                    <span className="font-semibold text-emerald-400">{transportKm} km</span>
+                  <div className="flex justify-between text-xs font-bold text-text-charcoal">
+                    <span>Monthly Distance:</span>
+                    <span className="text-accent-blue">{transportKm} km</span>
                   </div>
                   <input
                     type="range"
@@ -145,9 +210,9 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     step="50"
                     value={transportKm}
                     onChange={(e) => setTransportKm(Number(e.target.value))}
-                    className="w-full accent-emerald-400 cursor-pointer"
+                    className="w-full accent-accent-blue cursor-pointer"
                   />
-                  <div className="flex justify-between text-xs text-gray-500">
+                  <div className="flex justify-between text-[10px] text-text-grey font-bold">
                     <span>0 km</span>
                     <span>1,500 km</span>
                     <span>3,000+ km</span>
@@ -155,92 +220,74 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 </div>
               </div>
 
-              {/* Real-time comparison */}
-              <div className="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/10 space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wide text-emerald-400">Awareness Pulse</span>
-                <p className="text-sm text-gray-300">
-                  Your monthly commute generates <strong className="text-white">{(transportKm * (transportType === 'car' ? 0.18 : transportType === 'electric_car' ? 0.05 : transportType === 'motorbike' ? 0.10 : transportType === 'public_transport' ? 0.04 : 0)).toFixed(1)} kg CO2</strong>.
-                </p>
-                {transportType === 'car' && (
-                  <p className="text-xs text-amber-300/80">
-                    💡 Swapping this commute to public transit would save around {Math.round(transportKm * 0.14)} kg CO2 per month!
-                  </p>
-                )}
-              </div>
+              <BenchmarkChart />
             </motion.div>
           )}
 
           {step === 2 && (
             <motion.div
               key="step2"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
               className="space-y-6"
             >
               <div>
-                <h2 className="text-2xl font-bold text-white mb-2">{stepsInfo[1].title}</h2>
-                <p className="text-sm text-gray-400">{stepsInfo[1].desc}</p>
+                <h2 className="text-2xl font-bold text-text-charcoal mb-1">{stepsInfo[1].title}</h2>
+                <p className="text-xs text-text-grey">{stepsInfo[1].desc}</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
-                  { id: 'heavy_meat', label: 'Heavy Meat Eater', desc: 'Frequent beef, lamb, pork, or poultry meals.', icon: '🥩' },
-                  { id: 'balanced', label: 'Balanced Mix', desc: 'Average amount of meats, poultry, dairy, and plants.', icon: '🍽️' },
-                  { id: 'low_meat', label: 'Low Meat / Fish', desc: 'Mostly fish, chicken, dairy, and vegetables.', icon: '🐟' },
-                  { id: 'vegetarian', label: 'Vegetarian', desc: 'Dairy, eggs, plants. No meats or seafood.', icon: '🧀' },
-                  { id: 'vegan', label: 'Strict Vegan', desc: 'Strictly plant-based nutrition, zero animal products.', icon: '🥗' }
-                ].map(diet => (
-                  <button
-                    key={diet.id}
-                    onClick={() => setDietType(diet.id)}
-                    className={`p-4 rounded-xl border text-left flex gap-4 items-start transition-all cursor-pointer ${
-                      dietType === diet.id
-                        ? 'border-emerald-400 bg-emerald-500/10 text-white'
-                        : 'border-white/10 bg-white/5 text-gray-300 hover:bg-white/10'
-                    }`}
-                  >
-                    <span className="text-3xl mt-1">{diet.icon}</span>
-                    <div>
-                      <h4 className="text-sm font-semibold">{diet.label}</h4>
-                      <p className="text-xs text-gray-400 mt-1">{diet.desc}</p>
-                    </div>
-                  </button>
-                ))}
+                  { id: 'heavy_meat', label: 'Heavy Meat', desc: 'Frequent beef, pork, or poultry.' },
+                  { id: 'balanced', label: 'Balanced Mix', desc: 'Average amount of meat and dairy.' },
+                  { id: 'low_meat', label: 'Low Meat', desc: 'Mostly fish, dairy, and plants.' },
+                  { id: 'vegetarian', label: 'Vegetarian', desc: 'Dairy, eggs, plants. No meat.' },
+                  { id: 'vegan', label: 'Strict Vegan', desc: 'Strictly plant-based nutrition.' }
+                ].map(diet => {
+                  const isSelected = dietType === diet.id;
+                  return (
+                    <button
+                      key={diet.id}
+                      onClick={() => setDietType(diet.id)}
+                      className={`p-4 rounded-xl border-2 text-left flex gap-3 items-center transition-all cursor-pointer ${
+                        isSelected
+                          ? 'border-accent-blue bg-accent-blue/5 text-accent-blue'
+                          : 'border-gray-200 hover:border-gray-300 text-text-charcoal hover:bg-bg-base'
+                      }`}
+                    >
+                      <Leaf className={`h-5 w-5 flex-shrink-0 ${isSelected ? 'text-accent-blue' : 'text-text-grey'}`} />
+                      <div>
+                        <h4 className="text-xs font-bold">{diet.label}</h4>
+                        <p className="text-[10px] text-text-grey mt-0.5 leading-tight">{diet.desc}</p>
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
 
-              <div className="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/10 space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wide text-emerald-400">Awareness Pulse</span>
-                <p className="text-sm text-gray-300">
-                  Your diet produces <strong className="text-white">{(90 * (dietType === 'heavy_meat' ? 3.0 : dietType === 'balanced' ? 1.5 : dietType === 'low_meat' ? 0.8 : dietType === 'vegetarian' ? 0.5 : 0.3)).toFixed(0)} kg CO2</strong> per month.
-                </p>
-                {dietType === 'heavy_meat' && (
-                  <p className="text-xs text-amber-300/80">
-                    💡 Red meat generation factors are massive. Going low-meat saves 198 kg of CO2 per month—equivalent to driving 1,100 km.
-                  </p>
-                )}
-              </div>
+              <BenchmarkChart />
             </motion.div>
           )}
 
           {step === 3 && (
             <motion.div
               key="step3"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
               className="space-y-6"
             >
               <div>
-                <h2 className="text-2xl font-bold text-white mb-2">{stepsInfo[2].title}</h2>
-                <p className="text-sm text-gray-400">{stepsInfo[2].desc}</p>
+                <h2 className="text-2xl font-bold text-text-charcoal mb-1">{stepsInfo[2].title}</h2>
+                <p className="text-xs text-text-grey">{stepsInfo[2].desc}</p>
               </div>
 
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-300">AC Usage Hours per Week:</span>
-                    <span className="font-semibold text-emerald-400">{acHours} hours</span>
+                  <div className="flex justify-between text-xs font-bold text-text-charcoal">
+                    <span>AC Usage:</span>
+                    <span className="text-accent-blue">{acHours} hours / week</span>
                   </div>
                   <input
                     type="range"
@@ -249,120 +296,112 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     step="5"
                     value={acHours}
                     onChange={(e) => setAcHours(Number(e.target.value))}
-                    className="w-full accent-emerald-400 cursor-pointer"
+                    className="w-full accent-accent-blue cursor-pointer"
                   />
-                  <div className="flex justify-between text-xs text-gray-500">
-                    <span>0 hours (No AC)</span>
-                    <span>50 hours</span>
-                    <span>100 hours (24/7)</span>
+                  <div className="flex justify-between text-[10px] text-text-grey font-bold">
+                    <span>0 hrs</span>
+                    <span>50 hrs</span>
+                    <span>100+ hrs</span>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 rounded-xl border border-white/5 bg-white/5">
-                    <h4 className="text-xs font-semibold text-gray-400 mb-1">Grid Carbon Haze</h4>
-                    <p className="text-sm text-gray-300">
-                      Typical Indian urban air conditioning runs on coal-heavy grids, translating directly to substantial greenhouse emissions.
-                    </p>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 rounded-xl border border-gray-200 bg-bg-base flex flex-col justify-between">
+                    <span className="text-[10px] uppercase font-bold text-text-grey">Equiv. Power</span>
+                    <span className="text-lg font-bold text-text-charcoal mt-1">
+                      {Math.round(acHours * 1.2)} kWh / wk
+                    </span>
                   </div>
-                  <div className="p-4 rounded-xl border border-white/5 bg-white/5">
-                    <h4 className="text-xs font-semibold text-gray-400 mb-1">Your AC Cost</h4>
-                    <p className="text-sm text-white font-semibold">
-                      {(acHours * 4 * 1.2).toFixed(1)} kg CO2 per month
-                    </p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      Same as running a typical household fan for 4,800 hours.
-                    </p>
+                  <div className="p-4 rounded-xl border border-gray-200 bg-bg-base flex flex-col justify-between">
+                    <span className="text-[10px] uppercase font-bold text-text-grey">Co2 output</span>
+                    <span className="text-lg font-bold text-accent-blue mt-1">
+                      {(acHours * 1.2).toFixed(1)} kg / wk
+                    </span>
                   </div>
                 </div>
               </div>
+
+              <BenchmarkChart />
             </motion.div>
           )}
 
           {step === 4 && (
             <motion.div
               key="step4"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
               className="space-y-6"
             >
               <div>
-                <h2 className="text-2xl font-bold text-white mb-2">{stepsInfo[3].title}</h2>
-                <p className="text-sm text-gray-400">{stepsInfo[3].desc}</p>
+                <h2 className="text-2xl font-bold text-text-charcoal mb-1">{stepsInfo[3].title}</h2>
+                <p className="text-xs text-text-grey">{stepsInfo[3].desc}</p>
               </div>
 
               <div className="space-y-6">
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-300">Annual Flights Taken (Short/Medium):</span>
-                    <span className="font-semibold text-emerald-400">{flightsCount} flights</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="10"
-                    step="1"
-                    value={flightsCount}
-                    onChange={(e) => setFlightsCount(Number(e.target.value))}
-                    className="w-full accent-emerald-400 cursor-pointer"
-                  />
-                  <div className="flex justify-between text-xs text-gray-500">
-                    <span>0 flights</span>
-                    <span>5 flights</span>
-                    <span>10+ flights</span>
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-xl bg-amber-500/5 border border-amber-500/10 space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wide text-amber-400">Benchmark Reality Check</span>
-                  <p className="text-sm text-gray-300">
-                    A single flight from Delhi to Mumbai generates <strong>90 kg of CO2</strong>. That equals <strong>4 months of electricity</strong> for an average Indian household!
-                  </p>
+                <div className="grid grid-cols-3 gap-3">
+                  {[0, 1, 3, 5, 8, 12].map(num => (
+                    <button
+                      key={num}
+                      onClick={() => setFlightsCount(num)}
+                      className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all cursor-pointer ${
+                        flightsCount === num
+                          ? 'border-accent-blue bg-accent-blue/5 text-accent-blue font-bold'
+                          : 'border-gray-200 hover:border-gray-300 text-text-charcoal hover:bg-bg-base'
+                      }`}
+                    >
+                      <Plane className={`h-5 w-5 ${flightsCount === num ? 'text-accent-blue' : 'text-text-grey'}`} />
+                      <span className="text-sm">{num} {num === 1 ? 'Flight' : 'Flights'}</span>
+                    </button>
+                  ))}
                 </div>
               </div>
+
+              <BenchmarkChart />
             </motion.div>
           )}
 
           {step === 5 && (
             <motion.div
               key="step5"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
               className="space-y-6"
             >
               <div>
-                <h2 className="text-2xl font-bold text-white mb-2">{stepsInfo[4].title}</h2>
-                <p className="text-sm text-gray-400">{stepsInfo[4].desc}</p>
+                <h2 className="text-2xl font-bold text-text-charcoal mb-1">{stepsInfo[4].title}</h2>
+                <p className="text-xs text-text-grey">{stepsInfo[4].desc}</p>
               </div>
 
-              <div className="space-y-4">
-                <label className="block text-sm text-gray-300">Shopping Frequency & Consumer Style</label>
-                <div className="grid grid-cols-1 gap-3">
-                  {[
-                    { id: 'minimalist', label: 'Eco Minimalist', desc: 'Buy only essentials, second-hand first, zero impulse purchases.', icon: '🌱' },
-                    { id: 'average', label: 'Average Consumer', desc: 'Regular purchases, buy clothes/electronics occasionally.', icon: '🛍️' },
-                    { id: 'shopaholic', label: 'High Consumer / Shopaholic', desc: 'Frequent online deliveries, fast fashion, gadget upgrades.', icon: '📦' }
-                  ].map(style => (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {[
+                  { id: 'minimalist', label: 'Minimalist', desc: 'Rarely buy new items.' },
+                  { id: 'average', label: 'Average', desc: 'Standard shopping habits.' },
+                  { id: 'shopaholic', label: 'Shopaholic', desc: 'Frequent weekly shopping.' }
+                ].map(item => {
+                  const isSelected = shoppingFreq === item.id;
+                  return (
                     <button
-                      key={style.id}
-                      onClick={() => setShoppingFreq(style.id)}
-                      className={`p-4 rounded-xl border text-left flex gap-4 items-center transition-all cursor-pointer ${
-                        shoppingFreq === style.id
-                          ? 'border-emerald-400 bg-emerald-500/10 text-white'
-                          : 'border-white/10 bg-white/5 text-gray-300 hover:bg-white/10'
+                      key={item.id}
+                      onClick={() => setShoppingFreq(item.id)}
+                      className={`p-5 rounded-xl border-2 text-center flex flex-col items-center gap-2 transition-all cursor-pointer ${
+                        isSelected
+                          ? 'border-accent-blue bg-accent-blue/5 text-accent-blue font-bold'
+                          : 'border-gray-200 hover:border-gray-300 text-text-charcoal hover:bg-bg-base'
                       }`}
                     >
-                      <span className="text-2xl">{style.icon}</span>
+                      <ShoppingBag className={`h-5 w-5 ${isSelected ? 'text-accent-blue' : 'text-text-grey'}`} />
                       <div>
-                        <h4 className="text-sm font-semibold">{style.label}</h4>
-                        <p className="text-xs text-gray-400">{style.desc}</p>
+                        <h4 className="text-xs font-bold">{item.label}</h4>
+                        <p className="text-[10px] text-text-grey mt-0.5 leading-tight">{item.desc}</p>
                       </div>
                     </button>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
+
+              <BenchmarkChart />
             </motion.div>
           )}
 
@@ -373,57 +412,43 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
               animate={{ opacity: 1, scale: 1 }}
               className="space-y-6 text-center"
             >
-              <div className="flex flex-col items-center">
-                <span className="text-5xl mb-4">🌍</span>
-                <h2 className="text-3xl font-extrabold text-white">Baseline Assessment</h2>
-                <p className="text-sm text-emerald-400 mt-1 font-semibold">Assessment Complete</p>
+              <div className="mx-auto h-12 w-12 rounded-full bg-accent-green/10 flex items-center justify-center">
+                <CheckCircle2 className="h-6 w-6 text-accent-green" />
               </div>
 
-              <div className="py-6 border-y border-white/5 space-y-4">
-                <div>
-                  <span className="text-xs text-gray-400 uppercase tracking-widest">Estimated Carbon Footprint</span>
-                  <div className="text-5xl font-black text-white mt-1">
-                    {onboardingResult ? (onboardingResult.monthly_baseline_kg * 12 / 1000).toFixed(1) : (localCalc.annualTonnes).toFixed(1)} <span className="text-xl font-normal text-gray-400">tonnes/yr</span>
+              <div className="space-y-2">
+                <h2 className="text-2xl font-bold text-text-charcoal">Setup Completed Successfully</h2>
+                <p className="text-xs text-text-grey max-w-md mx-auto">
+                  Your baseline calculations are processed. You are all set to track your daily footprint.
+                </p>
+              </div>
+
+              <div className="bg-bg-base rounded-2xl border border-gray-200/60 p-6 max-w-md mx-auto space-y-4">
+                <div className="text-center">
+                  <span className="text-[10px] uppercase font-bold text-text-grey tracking-wider">Your Baseline Footprint</span>
+                  <div className="text-4xl font-black text-accent-blue mt-1">
+                    {onboardingResult ? onboardingResult.monthly_baseline_kg : Math.round(localCalc.monthlyBaselineKg)}
+                    <span className="text-sm font-normal text-text-grey"> kg CO₂ / mo</span>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white/5 border border-white/10 max-w-lg mx-auto">
-                  <p className="text-sm text-gray-300 leading-relaxed">
-                    {onboardingResult ? onboardingResult.benchmark_context : localCalc.benchmarkContext}
-                  </p>
+                <div className="text-xs text-text-charcoal font-medium border-t border-gray-200/50 pt-3">
+                  {onboardingResult ? onboardingResult.benchmark_context : localCalc.benchmarkContext}
                 </div>
               </div>
-
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-md mx-auto text-left text-xs">
-                <div className="p-3 bg-white/5 rounded-lg">
-                  <span className="text-gray-400 block">Avg Indian Resident</span>
-                  <span className="font-semibold text-emerald-400 text-sm">{((indianResident?.co2EquivalentKg || 1800) / 1000).toFixed(1)} tonnes/yr</span>
-                </div>
-                <div className="p-3 bg-white/5 rounded-lg">
-                  <span className="text-gray-400 block">Global Average</span>
-                  <span className="font-semibold text-amber-400 text-sm">{((globalResident?.co2EquivalentKg || 4000) / 1000).toFixed(1)} tonnes/yr</span>
-                </div>
-                <div className="p-3 bg-white/5 rounded-lg col-span-2 md:col-span-1">
-                  <span className="text-gray-400 block">US Average</span>
-                  <span className="font-semibold text-red-400 text-sm">15.0 tonnes/yr</span>
-                </div>
-              </div>
-
-              <p className="text-xs text-gray-500 italic max-w-sm mx-auto">
-                Next, we will head to the Living World dashboard, where your virtual earth dynamically changes health based on your lifestyle choices!
-              </p>
             </motion.div>
           )}
         </AnimatePresence>
 
         {/* Navigation Buttons */}
-        <div className="flex justify-between items-center mt-8 pt-4 border-t border-white/5">
+        <div className="flex justify-between items-center pt-8 border-t border-gray-200/50 mt-8">
           {step > 1 && step < 6 ? (
             <button
               onClick={prevStep}
-              className="px-6 py-2.5 rounded-xl border border-white/10 text-gray-300 hover:text-white hover:bg-white/5 font-semibold text-sm cursor-pointer"
+              className="flex items-center gap-1 px-4 py-2 text-xs font-bold text-text-charcoal border border-gray-200 rounded-xl hover:bg-bg-base cursor-pointer"
             >
-              Back
+              <ChevronLeft className="h-4 w-4" />
+              <span>Back</span>
             </button>
           ) : (
             <div />
@@ -432,25 +457,27 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           {step < 5 ? (
             <button
               onClick={nextStep}
-              className="px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-gray-950 font-bold text-sm shadow-lg shadow-emerald-500/20 cursor-pointer"
+              className="flex items-center gap-1 px-5 py-2.5 bg-accent-blue hover:bg-blue-600 text-white font-bold text-xs rounded-xl shadow-md shadow-accent-blue/10 cursor-pointer"
             >
-              Continue
+              <span>Continue</span>
+              <ChevronRight className="h-4 w-4" />
             </button>
           ) : step === 5 ? (
             <button
               onClick={handleFinish}
               disabled={submitting}
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-400 hover:brightness-110 text-gray-950 font-black text-sm shadow-lg shadow-emerald-500/20 cursor-pointer disabled:opacity-50"
+              className="flex items-center gap-1 px-5 py-2.5 bg-accent-green hover:bg-green-600 text-white font-bold text-xs rounded-xl shadow-md shadow-accent-green/10 cursor-pointer disabled:opacity-50"
             >
-              {submitting ? 'Generating Baseline...' : 'Get Assessment'}
+              <span>{submitting ? 'Generating...' : 'Calculate Baseline'}</span>
+              <ChevronRight className="h-4 w-4" />
             </button>
           ) : (
-            <button
-              onClick={() => window.location.href = '/dashboard'}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-400 hover:brightness-110 text-gray-950 font-black text-sm shadow-lg shadow-emerald-500/20 cursor-pointer text-center"
+            <Link
+              to="/dashboard"
+              className="mx-auto flex items-center justify-center px-6 py-2.5 bg-accent-blue hover:bg-blue-600 text-white font-bold text-xs rounded-xl shadow-md shadow-accent-blue/10 cursor-pointer"
             >
-              Enter Living World Dashboard 🌍
-            </button>
+              <span>Go to Dashboard</span>
+            </Link>
           )}
         </div>
       </div>

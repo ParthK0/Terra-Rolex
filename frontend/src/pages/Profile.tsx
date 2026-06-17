@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useFootprint } from '../hooks/useFootprint';
-import { Award, Flame, BarChart2, CheckCircle2, PenTool } from 'lucide-react';
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from 'recharts';
+import { Award, Flame, BarChart2, CheckCircle2, PenTool, Share2 } from 'lucide-react';
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, PieChart, Pie, Cell } from 'recharts';
 
 interface ProfileProps {
   user: any;
   onUpdateUsername: (name: string) => void;
 }
 
-const COLORS = ['#10b981', '#06b6d4', '#f59e0b', '#ef4444', '#8b5cf6'];
+const COLORS = ['#2E90FA', '#16A34A', '#F59E0B', '#DC2626', '#8b5cf6'];
 
 export default function Profile({ user, onUpdateUsername }: ProfileProps) {
   const { logs, insights, loading } = useFootprint(user?.userId);
@@ -26,13 +26,13 @@ export default function Profile({ user, onUpdateUsername }: ProfileProps) {
   if (loading || !insights) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-4">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent" />
-        <p className="text-gray-400 text-xs">Loading carbon diary...</p>
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-accent-blue border-t-transparent" />
+        <p className="text-text-grey text-xs">Loading carbon diary...</p>
       </div>
     );
   }
 
-  // 1. Group logs by date for Bar Chart
+  // 1. Group logs by date for Area Chart
   const last7DaysData = Array.from({ length: 7 }).map((_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - i);
@@ -71,182 +71,224 @@ export default function Profile({ user, onUpdateUsername }: ProfileProps) {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
-      {/* Profile Overview Banner */}
-      <div className="glass-card p-6 md:p-8 border border-white/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div className="flex items-center gap-4">
-          <div className="h-16 w-16 rounded-2xl bg-emerald-500/10 border border-emerald-400/20 flex items-center justify-center text-3xl font-black text-emerald-400">
-            {user?.userName ? user.userName[0].toUpperCase() : 'U'}
-          </div>
-          <div className="space-y-1">
-            {isEditingName ? (
-              <form onSubmit={handleSaveName} className="flex gap-2">
-                <input
-                  type="text"
-                  value={nameInput}
-                  onChange={(e) => setNameInput(e.target.value)}
-                  className="bg-gray-950 border border-white/5 rounded-xl px-3 py-1.5 text-sm text-white focus:outline-none focus:border-emerald-500"
-                  autoFocus
-                />
-                <button
-                  type="submit"
-                  className="px-3 py-1.5 bg-emerald-500 text-gray-950 font-bold text-xs rounded-xl cursor-pointer"
-                >
-                  Save
-                </button>
-              </form>
-            ) : (
-              <h2 className="text-2xl font-black text-white flex items-center gap-2">
-                <span>{user?.userName || 'EcoWarrior'}</span>
-                <button 
-                  onClick={() => setIsEditingName(true)}
-                  className="text-gray-400 hover:text-white transition-colors cursor-pointer"
-                >
-                  <PenTool className="h-3.5 w-3.5" />
-                </button>
-              </h2>
-            )}
-            <p className="text-xs text-gray-400">
-              Team: <strong className="text-emerald-400 font-semibold">{user?.teamName || 'Independent'}</strong>
-            </p>
-          </div>
-        </div>
-
-        <div className="flex gap-4 w-full md:w-auto">
-          <div className="flex-1 md:flex-none p-4 rounded-xl bg-white/5 border border-white/5 text-center min-w-[100px]">
-            <span className="text-[10px] text-gray-500 uppercase font-bold block">Streak</span>
-            <div className="text-xl font-mono font-black text-orange-400 flex items-center justify-center gap-1 mt-1">
-              <Flame className="h-4 w-4 fill-orange-500/10" />
-              <span>{insights.streak} Days</span>
+    <div className="min-h-screen bg-white py-12 px-6">
+      <div className="max-w-5xl mx-auto space-y-10">
+        
+        {/* Profile Overview Banner */}
+        <div className="premium-card p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="flex items-center gap-4">
+            <div className="h-16 w-16 rounded-2xl bg-accent-blue/10 border border-accent-blue/20 flex items-center justify-center text-3xl font-black text-accent-blue">
+              {user?.userName ? user.userName[0].toUpperCase() : 'U'}
             </div>
-          </div>
-          <div className="flex-1 md:flex-none p-4 rounded-xl bg-white/5 border border-white/5 text-center min-w-[120px]">
-            <span className="text-[10px] text-gray-500 uppercase font-bold block">Annual baseline</span>
-            <div className="text-xl font-mono font-black text-white mt-1">
-              {(user?.baseline_co2 * 12 / 1000).toFixed(1)} <span className="text-xs text-gray-500 font-normal">t/yr</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Grid: Charts & Badges */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left: Charts Column */}
-        <div className="lg:col-span-7 space-y-6">
-          {/* Daily Trend */}
-          <div className="glass-card p-6 border border-white/5 space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
-              <BarChart2 className="h-4.5 w-4.5 text-emerald-400" />
-              <span>7-Day Emission Trend</span>
-            </h3>
-            
-            <div className="h-64 w-full text-xs">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={last7DaysData}>
-                  <XAxis dataKey="date" stroke="#6b7280" />
-                  <YAxis stroke="#6b7280" unit="kg" />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#090d16', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px' }}
-                    labelStyle={{ color: '#fff', fontWeight: 'bold' }}
+            <div className="space-y-1">
+              {isEditingName ? (
+                <form onSubmit={handleSaveName} className="flex gap-2" role="group" aria-label="Edit display name">
+                  <input
+                    type="text"
+                    value={nameInput}
+                    onChange={(e) => setNameInput(e.target.value)}
+                    aria-label="New display name"
+                    className="border border-gray-200 rounded-xl px-3 py-1.5 text-sm text-text-charcoal focus:outline-none focus:border-accent-blue bg-bg-base"
+                    autoFocus
                   />
-                  <Bar dataKey="co2" fill="#10b981" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+                  <button
+                    type="submit"
+                    aria-label="Save new display name"
+                    className="px-3 py-1.5 bg-accent-blue text-white font-bold text-xs rounded-xl cursor-pointer"
+                  >
+                    Save
+                  </button>
+                </form>
+              ) : (
+                <h2 className="text-2xl font-bold text-text-charcoal flex items-center gap-2">
+                  <span>{user?.userName || 'EcoWarrior'}</span>
+                  <button 
+                    onClick={() => setIsEditingName(true)}
+                    aria-label="Edit display name"
+                    className="text-text-grey hover:text-text-charcoal transition-colors cursor-pointer"
+                  >
+                    <PenTool className="h-3.5 w-3.5" />
+                  </button>
+                </h2>
+              )}
+              <p className="text-xs text-text-grey font-semibold">
+                Team: <strong className="text-accent-blue font-bold">{user?.teamName || 'Independent'}</strong>
+              </p>
             </div>
           </div>
 
-          {/* Category Share & History */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Category Pie */}
-            <div className="glass-card p-6 border border-white/5 space-y-4">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-white">Emission Share</h3>
-              <div className="h-48 w-full relative flex items-center justify-center">
-                {categoryData.length > 0 ? (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={categoryData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={45}
-                        outerRadius={65}
-                        paddingAngle={3}
-                        dataKey="value"
-                      >
-                        {categoryData.map((_, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip 
-                        contentStyle={{ backgroundColor: '#090d16', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px' }}
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <span className="text-xs text-gray-500 italic">No carbon logs registered yet</span>
-                )}
-                {/* Center text */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span className="text-xs text-gray-500 uppercase tracking-widest font-semibold">Total</span>
-                  <span className="text-sm font-bold text-white">
-                    {categoryData.reduce((sum, item) => sum + item.value, 0).toFixed(0)} kg
-                  </span>
-                </div>
+          <div className="flex gap-4 w-full md:w-auto">
+            <div className="flex-1 md:flex-none p-4 rounded-xl bg-bg-base border border-gray-200/60 text-center min-w-[110px]">
+              <span className="text-[10px] text-text-grey uppercase font-bold block">Streak</span>
+              <div className="text-xl font-bold text-accent-amber flex items-center justify-center gap-1 mt-1">
+                <Flame className="h-4 w-4 fill-accent-amber/15" />
+                <span>{insights.streak} Days</span>
+              </div>
+            </div>
+            <div className="flex-1 md:flex-none p-4 rounded-xl bg-bg-base border border-gray-200/60 text-center min-w-[130px]">
+              <span className="text-[10px] text-text-grey uppercase font-bold block">Annual baseline</span>
+              <div className="text-xl font-bold text-text-charcoal mt-1">
+                {(user?.baseline_co2 * 12 / 1000).toFixed(1)} <span className="text-xs text-text-grey font-semibold">t/yr</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Grid: Charts & Badges */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          {/* Left: Charts Column */}
+          <div className="lg:col-span-7 space-y-8">
+            
+            {/* Daily Area Trend */}
+            <div className="premium-card p-6 space-y-4">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-text-charcoal flex items-center gap-1.5 font-display">
+                <BarChart2 className="h-4.5 w-4.5 text-accent-blue" />
+                <span>7-Day Emission Trend</span>
+              </h3>
+              
+              <div className="h-64 w-full text-xs">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={last7DaysData} margin={{ left: -10, right: 10 }}>
+                    <CartesianGrid vertical={false} stroke="#E5E7EB" />
+                    <XAxis dataKey="date" stroke="#9CA3AF" />
+                    <YAxis stroke="#9CA3AF" unit="kg" />
+                    <Tooltip 
+                      contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #E5E7EB', borderRadius: '12px' }}
+                      labelStyle={{ color: '#1F2937', fontWeight: 'bold' }}
+                    />
+                    <Area type="monotone" dataKey="co2" stroke="#2E90FA" fill="rgba(46, 144, 250, 0.1)" strokeWidth={2.5} />
+                  </AreaChart>
+                </ResponsiveContainer>
               </div>
             </div>
 
-            {/* Category Breakdown legend */}
-            <div className="glass-card p-6 border border-white/5 space-y-3 flex flex-col justify-center">
-              <h4 className="text-xs font-bold uppercase text-gray-400 tracking-wider mb-1">Impact Breakdown</h4>
-              {categoryData.map((item, idx) => (
-                <div key={item.name} className="flex justify-between items-center text-xs">
-                  <div className="flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
-                    <span className="text-gray-300 font-semibold">{item.name}</span>
+            {/* Category Share & Legend */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              
+              {/* Category Pie */}
+              <div className="premium-card p-6 space-y-4">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-text-charcoal font-display">Emission Share</h3>
+                <div className="h-48 w-full relative flex items-center justify-center">
+                  {categoryData.length > 0 ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={categoryData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={45}
+                          outerRadius={65}
+                          paddingAngle={3}
+                          dataKey="value"
+                        >
+                          {categoryData.map((_, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip 
+                          contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #E5E7EB', borderRadius: '12px' }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <span className="text-xs text-text-grey italic">No carbon logs registered yet</span>
+                  )}
+                  {/* Center text */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                    <span className="text-[10px] text-text-grey uppercase tracking-widest font-bold">Total</span>
+                    <span className="text-base font-bold text-text-charcoal">
+                      {categoryData.reduce((sum, item) => sum + item.value, 0).toFixed(0)} kg
+                    </span>
                   </div>
-                  <span className="text-white font-mono font-bold">{item.value} kg CO₂</span>
                 </div>
-              ))}
-              {categoryData.length === 0 && (
-                <p className="text-xs text-gray-500 italic">No categories tracked this week.</p>
-              )}
+              </div>
+
+              {/* Impact Breakdown */}
+              <div className="premium-card p-6 space-y-3 flex flex-col justify-center">
+                <h4 className="text-xs font-bold uppercase text-text-grey tracking-wider mb-2">Impact Breakdown</h4>
+                {categoryData.map((item, idx) => (
+                  <div key={item.name} className="flex justify-between items-center text-xs">
+                    <div className="flex items-center gap-2">
+                      <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
+                      <span className="text-text-charcoal font-semibold">{item.name}</span>
+                    </div>
+                    <span className="text-text-charcoal font-mono font-bold">{item.value} kg CO₂</span>
+                  </div>
+                ))}
+                {categoryData.length === 0 && (
+                  <p className="text-xs text-text-grey italic">No categories tracked this week.</p>
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Right: Badges Cabinet Column */}
-        <div className="lg:col-span-5 space-y-6">
-          <div className="glass-card p-6 border border-white/5 space-y-5">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
-              <Award className="h-4.5 w-4.5 text-emerald-400" />
-              <span>Earned Badges Cabinet</span>
-            </h3>
+          {/* Right: Badges & Certificate Column */}
+          <div className="lg:col-span-5 space-y-8">
+            
+            {/* Badges Cabinet */}
+            <div className="premium-card p-6 space-y-5">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-text-charcoal flex items-center gap-1.5 font-display">
+                <Award className="h-4.5 w-4.5 text-accent-blue" />
+                <span>Badges Cabinet</span>
+              </h3>
 
-            <div className="space-y-4">
-              {badgesList.map(badge => {
-                const isEarned = user?.badges?.includes(badge.id);
+              <div className="space-y-4">
+                {badgesList.map(badge => {
+                  const isEarned = user?.badges?.includes(badge.id);
 
-                return (
-                  <div 
-                    key={badge.id}
-                    className={`p-4 rounded-xl border flex gap-4 items-start transition-all ${
-                      isEarned 
-                        ? 'border-emerald-500/20 bg-emerald-500/5' 
-                        : 'border-white/5 bg-white/5 opacity-40'
-                    }`}
-                  >
-                    <span className="text-3xl mt-1 select-none">{badge.icon}</span>
-                    <div className="space-y-1">
-                      <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
-                        <span>{badge.title}</span>
-                        {isEarned && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 fill-emerald-500/10" />}
-                      </h4>
-                      <p className="text-[11px] text-gray-400 leading-relaxed">{badge.desc}</p>
+                  return (
+                    <div 
+                      key={badge.id}
+                      className={`p-4 rounded-xl border flex gap-4 items-start transition-all ${
+                        isEarned 
+                          ? 'border-accent-green/20 bg-accent-green/5' 
+                          : 'border-gray-200/60 bg-white opacity-40'
+                      }`}
+                    >
+                      {/* Circular icon chip */}
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl flex-shrink-0 bg-white shadow-sm border border-gray-100`}>
+                        {badge.icon}
+                      </div>
+                      
+                      <div className="space-y-1">
+                        <h4 className="text-xs font-bold text-text-charcoal flex items-center gap-1.5">
+                          <span>{badge.title}</span>
+                          {isEarned && <CheckCircle2 className="h-3.5 w-3.5 text-accent-green fill-accent-green/10" />}
+                        </h4>
+                        <p className="text-[11px] text-text-grey leading-relaxed font-medium">{badge.desc}</p>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
+
+            {/* Certificate of Progress */}
+            <div className="border-2 border-accent-blue/40 bg-white rounded-2xl p-6 relative overflow-hidden shadow-sm flex flex-col justify-between min-h-[190px]">
+              {/* Background decorative sky image snippet */}
+              <div 
+                className="absolute right-0 top-0 w-28 h-28 bg-[url('/assets/sky.png')] bg-cover bg-center rounded-bl-3xl border-l border-b border-gray-200 opacity-80" 
+                style={{ backgroundImage: `url('/assets/sky.png')` }}
+              />
+              
+              <div className="space-y-2 max-w-[70%] z-10">
+                <span className="text-[9px] uppercase font-bold text-accent-blue tracking-widest block">Certificate of Progress</span>
+                <h3 className="text-base font-bold text-text-charcoal leading-tight font-display">TerraWatch Environmental Ambassador</h3>
+                <p className="text-[11px] text-text-grey leading-relaxed font-medium">
+                  This certifies that <strong className="text-text-charcoal font-bold">{user?.userName || 'EcoWarrior'}</strong> has maintained a daily tracking schedule with an annual carbon budget baseline of <strong className="text-text-charcoal font-bold">{(user?.baseline_co2 * 12 / 1000).toFixed(1)} tons</strong>.
+                </p>
+              </div>
+              
+              <div className="flex justify-between items-center pt-4 border-t border-gray-100 mt-4 z-10">
+                <span className="text-[10px] text-text-grey font-semibold">Verified by TerraWatch Engine</span>
+                <button className="flex items-center gap-1 text-[10px] font-bold text-accent-blue bg-accent-blue/10 px-2.5 py-1 rounded-full cursor-pointer hover:bg-accent-blue/20">
+                  <Share2 className="h-3 w-3" />
+                  <span>Share Progress</span>
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
