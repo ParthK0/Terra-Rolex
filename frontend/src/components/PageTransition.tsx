@@ -5,7 +5,7 @@ interface PageTransitionProps {
   children: React.ReactNode;
 }
 
-const pageVariants: Record<string, unknown> = {
+const pageVariants = {
   initial: {
     opacity: 0,
     y: 12,
@@ -17,7 +17,7 @@ const pageVariants: Record<string, unknown> = {
     scale: 1,
     transition: {
       duration: 0.25,
-      ease: [0.25, 1, 0.5, 1], // Snappy cubic-bezier easeOut
+      ease: [0.25, 1, 0.5, 1] as const, // Snappy cubic-bezier easeOut
     },
   },
   exit: {
@@ -26,7 +26,7 @@ const pageVariants: Record<string, unknown> = {
     scale: 0.98,
     transition: {
       duration: 0.15,
-      ease: [0.25, 0, 0.35, 1], // Smooth easeIn
+      ease: [0.25, 0, 0.35, 1] as const, // Smooth easeIn
     },
   },
 };

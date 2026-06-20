@@ -8,7 +8,7 @@ vi.mock('./api', () => ({
 }));
 
 describe('Offline Queue Utility', () => {
-  let mockStore: Record<string, unknown>[] = [];
+  let mockStore: any[] = [];
 
   beforeEach(() => {
     mockStore = [];

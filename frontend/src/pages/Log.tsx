@@ -136,7 +136,7 @@ export default function Log({ onLog }: LogProps) {
           destination,
           travelMode
         },
-        (result: unknown, status: unknown) => {
+        (result: any, status: any) => {
           setCalculatingRoute(false);
           if (status === g.maps.DirectionsStatus.OK) {
             const route = result.routes[0];

@@ -163,7 +163,7 @@ export default function Dashboard({ user, insights, loading, logs, onQuickLog }:
     other:      'Other',
   };
 
-  const categoryTotals = (logs || []).reduce((acc: Record<string, number>, log: { category?: string }) => {
+  const categoryTotals = (logs || []).reduce((acc: Record<string, number>, log: LogEntry) => {
     if ((log.co2_kg || 0) > 0) {
       const key = log.category?.toLowerCase() || 'other';
       acc[key] = (acc[key] || 0) + log.co2_kg;
