@@ -1,16 +1,19 @@
-from fastapi import APIRouter, Header, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from datetime import datetime, timedelta, timezone
 from models.schemas import InsightResponse, OnboardingData
 from services.firestore_service import get_user_profile, get_user_logs, update_user_profile
 from services.gemini_service import generate_insights_with_gemini
 from services.co2_engine import calculate_onboarding_baseline
+from routers.auth import get_current_user
 
 router = APIRouter(prefix="/insights", tags=["Insights"])
 
 @router.get("", response_model=InsightResponse)
-def get_insights(x_user_id: str = Header(default="default_user")):
+def get_insights(current_user: dict = Depends(get_current_user)):
     try:
-        profile = get_user_profile(x_user_id)
-        logs = get_user_logs(x_user_id)
+        user_id = current_user["userId"]
+        profile = get_user_profile(user_id)
+        logs = get_user_logs(user_id)
         
         # Calculate rolling 7-day footprint score
         # For our local simulation, we can sum co2 from recent logs.
@@ -18,12 +21,15 @@ def get_insights(x_user_id: str = Header(default="default_user")):
         baseline = profile.get("baseline_co2", 250.0) # monthly baseline (e.g. 250kg)
         daily_baseline = baseline / 30.0
         
+        # Calculate rolling 7-day footprint score using real date-filtered logs
+        cutoff = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
+        recent_logs = [log for log in logs if log.get("timestamp", "") >= cutoff]
+
         # Start with a week of baseline
         rolling_score = daily_baseline * 7
-        
-        # Adjust with logs (positive adding carbon, negative subtracting/saving carbon)
-        for log in logs[:15]:  # examine last 15 entries
-            # Check if within last 7 days (or simply sum last 5 entries as a simulation)
+
+        # Adjust with real recent logs (positive adds carbon, negative saves carbon)
+        for log in recent_logs:
             rolling_score += log.get("co2_kg", 0.0)
             
         rolling_score = max(0.0, rolling_score)
@@ -38,12 +44,33 @@ def get_insights(x_user_id: str = Header(default="default_user")):
         else:
             status = "degraded"
             
-        # Call Gemini insight engine
-        nudges = generate_insights_with_gemini(logs, rolling_score, profile.get("streak", 0))
+        # Caching logic to prevent calling Gemini live on every dashboard reload.
+        cached_nudges = profile.get("cached_nudges")
+        cached_logs_count = profile.get("cached_logs_count")
+        cached_streak = profile.get("cached_streak")
+        
+        current_streak = profile.get("streak", 0)
+        logs_count = len(logs)
+        
+        if (
+            cached_nudges is not None
+            and cached_logs_count == logs_count 
+            and cached_streak == current_streak
+        ):
+            nudges = cached_nudges
+        else:
+            # Generate new insights
+            nudges = generate_insights_with_gemini(logs, rolling_score, current_streak)
+            # Update user profile with cached data
+            update_user_profile(user_id, {
+                "cached_nudges": nudges,
+                "cached_logs_count": logs_count,
+                "cached_streak": current_streak
+            })
         
         return InsightResponse(
             rolling_score_kg=round(rolling_score, 1),
-            streak=profile.get("streak", 0),
+            streak=current_streak,
             nudges=nudges,
             living_world_status=status
         )
@@ -51,8 +78,9 @@ def get_insights(x_user_id: str = Header(default="default_user")):
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/onboarding")
-def save_onboarding_baseline(data: OnboardingData, x_user_id: str = Header(default="default_user")):
+def save_onboarding_baseline(data: OnboardingData, current_user: dict = Depends(get_current_user)):
     try:
+        user_id = current_user["userId"]
         monthly_baseline, benchmark_context = calculate_onboarding_baseline(
             transport_km=data.transport_km_per_month,
             transport_type=data.transport_type,
@@ -63,7 +91,7 @@ def save_onboarding_baseline(data: OnboardingData, x_user_id: str = Header(defau
         )
         
         # Save baseline to user profile
-        update_user_profile(x_user_id, {
+        update_user_profile(user_id, {
             "baseline_co2": monthly_baseline,
             "transport_type": data.transport_type,
             "diet_type": data.diet_type,

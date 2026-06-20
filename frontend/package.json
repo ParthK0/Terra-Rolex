@@ -1,5 +1,5 @@
 {
-  "name": "terra-rolex",
+  "name": "terra-watch",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -22,6 +22,7 @@
     "lucide-react": "^1.18.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
+    "react-globe.gl": "^2.38.0",
     "react-router-dom": "^7.17.0",
     "recharts": "^3.8.1",
     "tailwindcss": "^4.3.0",
@@ -29,8 +30,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@testing-library/react": "^16.3.0",
     "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
     "@types/node": "^24.12.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

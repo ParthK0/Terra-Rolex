@@ -11,6 +11,8 @@ Examples:
 - "Your meatless day saved 1.8 kg CO2. That is equivalent to charging your smartphone every day for an entire year."
 - "Running your AC for 8 hours generated 9.6 kg CO2. That is equivalent to burning 4.8 kg of coal. Consider setting a timer."
 Keep it brief: exactly 3 nudges, each 1-2 sentences. Return them as a JSON list of strings.
+
+CRITICAL: You MUST respect the "User current streak" parameter. If the user's current streak is 0 days, do NOT claim their streak is active or congratulate them on an active streak. Instead, nudge them to log their first entry or complete an action to kickstart their streak.
 """
 
 def generate_mock_insights(user_logs: List[Dict[str, Any]], rolling_score: float, streak: int) -> List[str]:
@@ -63,9 +65,14 @@ def generate_mock_insights(user_logs: List[Dict[str, Any]], rolling_score: float
             "Your logged beef/heavy meat meal cost 3.0 kg CO2. Switching to a plant-based alternative just once a week saves enough emissions to power a household fan for 300 hours."
         )
     else:
-        insights.append(
-            "You completed meatless and green commute days this week! Your streak is active, and the virtual globe is glowing brighter green."
-        )
+        if streak > 0:
+            insights.append(
+                f"You completed meatless and green commute days this week! Your {streak}-day streak is active, and the virtual sky is clearing up."
+            )
+        else:
+            insights.append(
+                "Log your first eco-friendly choice today to kick off your streak and start clearing up the virtual sky!"
+            )
 
     # Nudge 3: Energy usage / AC
     if has_high_ac:
@@ -73,9 +80,14 @@ def generate_mock_insights(user_logs: List[Dict[str, Any]], rolling_score: float
             "Your AC was running for a long stretch. Running AC for 8 hours generates 9.6 kg CO2—equivalent to burning 4.8 kg of coal. Consider setting a timer to turn off at 3 AM."
         )
     else:
-        insights.append(
-            f"Your current streak is {streak} days. Every day you log without high-energy appliance runs, the virtual sky in your dashboard turns a shade cleaner."
-        )
+        if streak > 0:
+            insights.append(
+                f"Your current streak is {streak} days. Every day you log without high-energy appliance runs, the virtual sky in your dashboard turns a shade cleaner."
+            )
+        else:
+            insights.append(
+                "Every day you log without high-energy appliance runs, the virtual sky in your dashboard turns a shade cleaner. Start tracking today!"
+            )
 
     # Make sure we return exactly 3
     while len(insights) < 3:

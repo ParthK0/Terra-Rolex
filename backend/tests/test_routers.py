@@ -1,5 +1,5 @@
 """
-Integration tests for Terra-Rolex FastAPI routers.
+Integration tests for TerraWatch FastAPI routers.
 Uses TestClient (synchronous) with a unique test user ID per test run.
 """
 import sys
@@ -13,6 +13,25 @@ from fastapi.testclient import TestClient
 from main import app
 
 client = TestClient(app)
+
+from fastapi import Header
+from typing import Optional
+from routers.auth import get_current_user
+from services.firestore_service import get_user_profile
+
+def override_get_current_user(
+    x_user_id: str = Header(default="default_user"),
+    authorization: Optional[str] = Header(default=None)
+):
+    if authorization and authorization.startswith("Bearer "):
+        token = authorization.split(" ")[1]
+        from services.auth import decode_access_token
+        payload = decode_access_token(token)
+        if payload and "sub" in payload:
+            return get_user_profile(payload["sub"])
+    return get_user_profile(x_user_id)
+
+app.dependency_overrides[get_current_user] = override_get_current_user
 
 # A unique user ID for each test session so tests don't cross-contaminate data
 TEST_USER_ID = f"test_{uuid.uuid4().hex[:8]}"
@@ -252,3 +271,85 @@ class TestLeaderboardRouter:
         assert res.status_code == 200
         assert res.json()["success"] is True
         assert res.json()["teamName"] == "Green Team"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# /auth router
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestAuthRouter:
+    def test_signup_success(self):
+        """POST /auth/signup should create a new user and return a JWT token."""
+        unique_username = f"user_{uuid.uuid4().hex[:6]}"
+        payload = {
+            "username": unique_username,
+            "password": "securepassword123"
+        }
+        res = client.post("/auth/signup", json=payload)
+        assert res.status_code == 200
+        data = res.json()
+        assert "access_token" in data
+        assert data["token_type"] == "bearer"
+        assert data["userName"] == unique_username
+
+    def test_signup_duplicate_username_fails(self):
+        """POST /auth/signup with an already registered username should return 400."""
+        duplicate_username = f"user_{uuid.uuid4().hex[:6]}"
+        payload = {
+            "username": duplicate_username,
+            "password": "securepassword123"
+        }
+        # First signup
+        res1 = client.post("/auth/signup", json=payload)
+        assert res1.status_code == 200
+        # Duplicate signup
+        res2 = client.post("/auth/signup", json=payload)
+        assert res2.status_code == 400
+        assert "already registered" in res2.json()["detail"]
+
+    def test_login_success(self):
+        """POST /auth/login with correct credentials should return a token."""
+        username = f"user_{uuid.uuid4().hex[:6]}"
+        password = "secretpassword"
+        # Signup first
+        client.post("/auth/signup", json={"username": username, "password": password})
+        
+        # Login
+        res = client.post("/auth/login", json={"username": username, "password": password})
+        assert res.status_code == 200
+        data = res.json()
+        assert "access_token" in data
+        assert data["userName"] == username
+
+    def test_login_invalid_credentials_fails(self):
+        """POST /auth/login with wrong credentials should return 401."""
+        username = f"user_{uuid.uuid4().hex[:6]}"
+        # Signup first
+        client.post("/auth/signup", json={"username": username, "password": "correctpassword"})
+        
+        # Try wrong password
+        res1 = client.post("/auth/login", json={"username": username, "password": "wrongpassword"})
+        assert res1.status_code == 401
+        
+        # Try wrong username
+        res2 = client.post("/auth/login", json={"username": "nonexistent_user", "password": "some_password"})
+        assert res2.status_code == 401
+
+    def test_get_me_success(self):
+        """GET /auth/me with a valid token should return the user profile without password_hash."""
+        username = f"user_{uuid.uuid4().hex[:6]}"
+        password = "secretpassword"
+        # Signup first
+        signup_res = client.post("/auth/signup", json={"username": username, "password": password})
+        assert signup_res.status_code == 200
+        token = signup_res.json()["access_token"]
+        
+        # Call /auth/me
+        headers = {"Authorization": f"Bearer {token}"}
+        res = client.get("/auth/me", headers=headers)
+        assert res.status_code == 200
+        data = res.json()
+        assert data["userName"] == username
+        assert "password_hash" not in data
+
+

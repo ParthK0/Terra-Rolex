@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Header, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from typing import List, Dict, Any
 from models.schemas import LeaderboardEntry, GroupLeaderboard
 from services.firestore_service import get_leaderboards, load_db
+from routers.auth import get_current_user
 
 router = APIRouter(prefix="/leaderboard", tags=["Leaderboard"])
 
@@ -51,10 +52,11 @@ def get_team_leaderboard():
         raise HTTPException(status_code=500, detail=str(e))
         
 @router.post("/join")
-def join_team(team_name: str, x_user_id: str = Header(default="default_user")):
+def join_team(team_name: str, current_user: dict = Depends(get_current_user)):
     try:
         from services.firestore_service import update_user_profile
-        update_user_profile(x_user_id, {"teamName": team_name})
+        user_id = current_user["userId"]
+        update_user_profile(user_id, {"teamName": team_name})
         return {"success": True, "teamName": team_name}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

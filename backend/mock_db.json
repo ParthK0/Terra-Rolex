@@ -220,20 +220,1431 @@
         "user_zqbyuqp": {
             "userId": "user_zqbyuqp",
             "userName": "EcoWarrior_user",
-            "streak": 1,
+            "streak": 3,
             "baseline_co2": 596.5,
             "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder",
+                "Eco Enthusiast"
+            ],
+            "completed_challenges": [
+                "c1",
+                "c2",
+                "c3"
+            ],
+            "transport_type": "car",
+            "diet_type": "balanced",
+            "ac_hours_per_week": 15.0,
+            "flights_per_year": 1,
+            "shopping_frequency": "average",
+            "cached_nudges": [
+                "Your 7-day footprint is 125.5 kg CO2. At this rate, your annual footprint will be 6.5 tons, exceeding the average Indian urban resident (1.8 tons).",
+                "You completed meatless and green commute days this week! Your 3-day streak is active, and the virtual sky is clearing up.",
+                "Your current streak is 3 days. Every day you log without high-energy appliance runs, the virtual sky in your dashboard turns a shade cleaner."
+            ],
+            "cached_logs_count": 3,
+            "cached_streak": 3
+        },
+        "test_59f040bb": {
+            "userId": "test_59f040bb",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
             "badges": [
                 "Carbon Onboarder"
             ],
             "completed_challenges": [
                 "c1"
             ],
-            "transport_type": "car",
-            "diet_type": "balanced",
-            "ac_hours_per_week": 15.0,
-            "flights_per_year": 1,
-            "shopping_frequency": "average"
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_c2_15e15445": {
+            "userId": "test_c2_15e15445",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ]
+        },
+        "default_user": {
+            "userId": "default_user",
+            "userName": "EcoWarrior_defa",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ]
+        },
+        "test_3a046063": {
+            "userId": "test_3a046063",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_c2_8122fd84": {
+            "userId": "test_c2_8122fd84",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ]
+        },
+        "user_w4gf1v5": {
+            "userId": "user_w4gf1v5",
+            "userName": "EcoWarrior_user",
+            "streak": 0,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [],
+            "cached_nudges": [
+                "Your rolling footprint is currently 58.3 kg CO2, matching the low-carbon target for global climate goals. Keep keeping it clean!",
+                "Log your first eco-friendly choice today to kick off your streak and start clearing up the virtual sky!",
+                "Every day you log without high-energy appliance runs, the virtual sky in your dashboard turns a shade cleaner. Start tracking today!"
+            ],
+            "cached_logs_count": 0,
+            "cached_streak": 0
+        },
+        "test_f74472da": {
+            "userId": "test_f74472da",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_c2_6a82e7e1": {
+            "userId": "test_c2_6a82e7e1",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ]
+        },
+        "test_57952349": {
+            "userId": "test_57952349",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_c2_8e3339a1": {
+            "userId": "test_c2_8e3339a1",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ]
+        },
+        "test_398ebd59": {
+            "userId": "test_398ebd59",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "cached_nudges": [
+                "Your Delhi-Mumbai flight generated 90 kg CO2. That single trip offset 6 weeks of the eco-actions you completed this month. If you take that route 3x a year, it represents 35% of your annual footprint.",
+                "Your daily petrol car commute generates substantial CO2. Swapping just 1 day a week to public transit or cycling saves 8.4 kg CO2\u2014equivalent to charging a laptop for 6 months.",
+                "Every day you log without high-energy appliance runs, the virtual sky in your dashboard turns a shade cleaner. Start tracking today!"
+            ],
+            "cached_logs_count": 3,
+            "cached_streak": 0,
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_c2_b1da9a02": {
+            "userId": "test_c2_b1da9a02",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ]
+        },
+        "test_479d037d": {
+            "userId": "test_479d037d",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "cached_nudges": [
+                "Your Delhi-Mumbai flight generated 90 kg CO2. That single trip offset 6 weeks of the eco-actions you completed this month. If you take that route 3x a year, it represents 35% of your annual footprint.",
+                "Your daily petrol car commute generates substantial CO2. Swapping just 1 day a week to public transit or cycling saves 8.4 kg CO2\u2014equivalent to charging a laptop for 6 months.",
+                "Every day you log without high-energy appliance runs, the virtual sky in your dashboard turns a shade cleaner. Start tracking today!"
+            ],
+            "cached_logs_count": 3,
+            "cached_streak": 0,
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_log_f42597": {
+            "userId": "test_log_f42597",
+            "userName": "EcoWarrior_test",
+            "streak": 0,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": []
+        },
+        "test_c2_9f770a52": {
+            "userId": "test_c2_9f770a52",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ]
+        },
+        "test_dd25f780": {
+            "userId": "test_dd25f780",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "cached_nudges": [
+                "Your Delhi-Mumbai flight generated 90 kg CO2. That single trip offset 6 weeks of the eco-actions you completed this month. If you take that route 3x a year, it represents 35% of your annual footprint.",
+                "Your daily petrol car commute generates substantial CO2. Swapping just 1 day a week to public transit or cycling saves 8.4 kg CO2\u2014equivalent to charging a laptop for 6 months.",
+                "Every day you log without high-energy appliance runs, the virtual sky in your dashboard turns a shade cleaner. Start tracking today!"
+            ],
+            "cached_logs_count": 3,
+            "cached_streak": 0,
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_log_88332a": {
+            "userId": "test_log_88332a",
+            "userName": "EcoWarrior_test",
+            "streak": 0,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": []
+        },
+        "test_c2_fce0cf9a": {
+            "userId": "test_c2_fce0cf9a",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ]
+        },
+        "4a274e6f-92ab-45ef-aacb-45a240c5752c": {
+            "userId": "4a274e6f-92ab-45ef-aacb-45a240c5752c",
+            "userName": "user_b0c403",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$r7jDebiZAykluDPiICMGMuroe/6DX627/QVREagP8RqVq5vqfXZ1y",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "079381d1-0062-4786-9851-a484c7f5b50a": {
+            "userId": "079381d1-0062-4786-9851-a484c7f5b50a",
+            "userName": "user_5af14a",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$W.LeXvfHUlyEh8y1Q5WEOeuPy5Z3EDtRJ.dNbm7w1.WKOFbQflgBe",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "60c89987-d489-4aac-8160-2fe03b3fe04b": {
+            "userId": "60c89987-d489-4aac-8160-2fe03b3fe04b",
+            "userName": "user_ff0237",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$.9VJQPtID2855kOnrhGb0OLPGNQM77vQQPzT6n7j3tKV0vRQoT9s6",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "820feff7-944c-4ade-a0b1-7330d433cb46": {
+            "userId": "820feff7-944c-4ade-a0b1-7330d433cb46",
+            "userName": "user_829d1e",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$XIj8sPyQutnCsB0rLEApLueBG2Kuug1R90Yygx5fW9J57XvMm3LrK",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "test_7e49dc08": {
+            "userId": "test_7e49dc08",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "cached_nudges": [
+                "Your Delhi-Mumbai flight generated 90 kg CO2. That single trip offset 6 weeks of the eco-actions you completed this month. If you take that route 3x a year, it represents 35% of your annual footprint.",
+                "Your daily petrol car commute generates substantial CO2. Swapping just 1 day a week to public transit or cycling saves 8.4 kg CO2\u2014equivalent to charging a laptop for 6 months.",
+                "Every day you log without high-energy appliance runs, the virtual sky in your dashboard turns a shade cleaner. Start tracking today!"
+            ],
+            "cached_logs_count": 3,
+            "cached_streak": 0,
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_log_64c668": {
+            "userId": "test_log_64c668",
+            "userName": "EcoWarrior_test",
+            "streak": 0,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": []
+        },
+        "test_c2_e60f9d69": {
+            "userId": "test_c2_e60f9d69",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ]
+        },
+        "1b87f2f9-299c-437f-91e9-b0568cf03dca": {
+            "userId": "1b87f2f9-299c-437f-91e9-b0568cf03dca",
+            "userName": "user_d6b67a",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$XZD9P56rs2bCnLYZkaY9Wu6DY5Us3jXQTjuHgA0580ow1ZbFMAAJm",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "c2af5ccb-7c7e-42f1-bad3-2664e80f8d10": {
+            "userId": "c2af5ccb-7c7e-42f1-bad3-2664e80f8d10",
+            "userName": "user_df55c9",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$7NHZkQCO2A.RI1HFM3YlMewJJqxBGL8Vs/5Mo8ic8T.WOFgnCrFi2",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "5241a2da-884c-4ca8-93e9-f082431a470c": {
+            "userId": "5241a2da-884c-4ca8-93e9-f082431a470c",
+            "userName": "user_acf933",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$nVzLpKj66W2ovxuasZLyneJab0X2vfzuwuD0OSv58oq17f8uxvB4S",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "c2a2d3f2-0e05-4d81-9492-fdebd6c4929c": {
+            "userId": "c2a2d3f2-0e05-4d81-9492-fdebd6c4929c",
+            "userName": "user_359a91",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$p7Dbh2SC4Y1ohz7ae.7V/e4tWjCSqBosZDXlR0SZGuNUwBXe42Ndu",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "3baf4a3c-e4d8-4100-b6cd-e801c962ab86": {
+            "userId": "3baf4a3c-e4d8-4100-b6cd-e801c962ab86",
+            "userName": "user_24ef01",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$ZARta5ru5m9jPI7AuarhcexkHoqu4iavyxGtSLmZYMxAyfyFTaNKu",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "test_a09e5685": {
+            "userId": "test_a09e5685",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "cached_nudges": [
+                "Your Delhi-Mumbai flight generated 90 kg CO2. That single trip offset 6 weeks of the eco-actions you completed this month. If you take that route 3x a year, it represents 35% of your annual footprint.",
+                "Your daily petrol car commute generates substantial CO2. Swapping just 1 day a week to public transit or cycling saves 8.4 kg CO2\u2014equivalent to charging a laptop for 6 months.",
+                "Every day you log without high-energy appliance runs, the virtual sky in your dashboard turns a shade cleaner. Start tracking today!"
+            ],
+            "cached_logs_count": 3,
+            "cached_streak": 0,
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_log_4504a7": {
+            "userId": "test_log_4504a7",
+            "userName": "EcoWarrior_test",
+            "streak": 0,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": []
+        },
+        "test_c2_8fb13d2f": {
+            "userId": "test_c2_8fb13d2f",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ]
+        },
+        "2ee15477-1120-4f38-8826-d030416c34a3": {
+            "userId": "2ee15477-1120-4f38-8826-d030416c34a3",
+            "userName": "user_9c8fde",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$s/jIiH8gbXLGKxrO7UUtTu5HNRUKJymHribjp8qGsSC/9v21qTOpG",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "2dc499b2-5827-4422-b6a8-0709641e15f8": {
+            "userId": "2dc499b2-5827-4422-b6a8-0709641e15f8",
+            "userName": "user_4c8563",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$sXVGTKFntQprDCY5tzB04e5jdZPfjl0L3eE99GVcZ9zSk6hhblxPW",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "b370188a-fca8-4ed9-a210-949ef74da3c5": {
+            "userId": "b370188a-fca8-4ed9-a210-949ef74da3c5",
+            "userName": "user_85eb9e",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$7zUIj8.sF5AiupSU/D9eUepArvlF2SIMpj.5AKWyU0S12mb/azlsG",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "77a92951-f982-453f-9601-5f4b519d8e1f": {
+            "userId": "77a92951-f982-453f-9601-5f4b519d8e1f",
+            "userName": "user_44f015",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$6EoRqbH9zCUoSx5tjD7y7uYsrrcsCP4QPqKsh38P.Mi2fQaA6r8My",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "28d226ea-9463-4717-a1cb-1c7fdb0d58a7": {
+            "userId": "28d226ea-9463-4717-a1cb-1c7fdb0d58a7",
+            "userName": "user_705fbf",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$DvrCVTsSQsgFiXqc/KI/3ekOpU7WUXRrNY/891p4/tqORhlkOzuYe",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "test_f6de07c9": {
+            "userId": "test_f6de07c9",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "cached_nudges": [
+                "Your Delhi-Mumbai flight generated 90 kg CO2. That single trip offset 6 weeks of the eco-actions you completed this month. If you take that route 3x a year, it represents 35% of your annual footprint.",
+                "Your daily petrol car commute generates substantial CO2. Swapping just 1 day a week to public transit or cycling saves 8.4 kg CO2\u2014equivalent to charging a laptop for 6 months.",
+                "Every day you log without high-energy appliance runs, the virtual sky in your dashboard turns a shade cleaner. Start tracking today!"
+            ],
+            "cached_logs_count": 3,
+            "cached_streak": 0,
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_log_7c58e5": {
+            "userId": "test_log_7c58e5",
+            "userName": "EcoWarrior_test",
+            "streak": 0,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": []
+        },
+        "test_c2_28cd4d44": {
+            "userId": "test_c2_28cd4d44",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ]
+        },
+        "072e7d49-9d69-4cf4-95b3-5609c9fabbeb": {
+            "userId": "072e7d49-9d69-4cf4-95b3-5609c9fabbeb",
+            "userName": "user_7a8b1e",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$0WpV33lHIltEA/o6DLisoeqg9bBaT76J7Q34Nt/Xdc6qthn2zIHgm",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "2bdb156e-08c8-4539-854e-d50d466b7a1f": {
+            "userId": "2bdb156e-08c8-4539-854e-d50d466b7a1f",
+            "userName": "user_e88b83",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$7pBnBUIoVp4J0Au.zv15PuuxkStnlJUtqVRiDGv7.byFRsuEoGOqa",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "c19fb239-7619-481a-aea6-2612005c2091": {
+            "userId": "c19fb239-7619-481a-aea6-2612005c2091",
+            "userName": "user_8f74b7",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$2kV1Y4Dmi.g6GkxVbnKaluF960R1kQxfrEJ2l1DJZEmHsRwXQrj2S",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "7d271fe4-781a-49f9-92eb-ea078d4ac356": {
+            "userId": "7d271fe4-781a-49f9-92eb-ea078d4ac356",
+            "userName": "user_546040",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$qVLiyrC0XCWnJ.JzmXdIx.1U2ze.m/jzF/aK/w7za.XlGXvByqI26",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "1d491dc3-845c-4afb-96ce-e97d3fdc6f06": {
+            "userId": "1d491dc3-845c-4afb-96ce-e97d3fdc6f06",
+            "userName": "user_2b643e",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$5D8p1USh3Qgywb.UzrPyNOh5smz9vf1dITc51ljTbHV1RCHQtvaSi",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "test_6080530e": {
+            "userId": "test_6080530e",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "cached_nudges": [
+                "Your Delhi-Mumbai flight generated 90 kg CO2. That single trip offset 6 weeks of the eco-actions you completed this month. If you take that route 3x a year, it represents 35% of your annual footprint.",
+                "Your daily petrol car commute generates substantial CO2. Swapping just 1 day a week to public transit or cycling saves 8.4 kg CO2\u2014equivalent to charging a laptop for 6 months.",
+                "Every day you log without high-energy appliance runs, the virtual sky in your dashboard turns a shade cleaner. Start tracking today!"
+            ],
+            "cached_logs_count": 3,
+            "cached_streak": 0,
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_log_43a9f4": {
+            "userId": "test_log_43a9f4",
+            "userName": "EcoWarrior_test",
+            "streak": 0,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": []
+        },
+        "test_c2_8de3025d": {
+            "userId": "test_c2_8de3025d",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ]
+        },
+        "69d03798-c595-4ed2-9385-925c8036cb68": {
+            "userId": "69d03798-c595-4ed2-9385-925c8036cb68",
+            "userName": "user_547a9e",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$F6zLild/PFji4qk9BY8Nk.Sf7YVtdJDUkbfnR4N3gzTrRWknoKoWy",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "3dd77558-dd4f-45b5-8ee4-7587a8794784": {
+            "userId": "3dd77558-dd4f-45b5-8ee4-7587a8794784",
+            "userName": "user_a476a8",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$ZFUgM8zGuOiqUA7h007MX.DM0raE6zIabKJ6agmuT.yC5EdDYEPDS",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "10844918-016a-4c24-9c42-9f2eb8829255": {
+            "userId": "10844918-016a-4c24-9c42-9f2eb8829255",
+            "userName": "user_eb3799",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$eHULaf6M2FuGef1Aa80O5On0LnR1FQqWQ5aBMRI3aiWA3vzrHO0TS",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "d863987c-f5b6-4e9a-bbc4-946b59b3a5a7": {
+            "userId": "d863987c-f5b6-4e9a-bbc4-946b59b3a5a7",
+            "userName": "user_3c93c2",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$W8aWE.tKJEY5tYsa5dH9SueZYKgXu/r/S37pfxrGjQoI5iWbZ586C",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "8c70ee99-8c46-4ce9-86c2-f16647c7e6b8": {
+            "userId": "8c70ee99-8c46-4ce9-86c2-f16647c7e6b8",
+            "userName": "user_2d5fcb",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$QmPt9xM3zqmnil2fMpNx8uPUo8N8UnusXhxMot0fceOhdSRYCTYea",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "test_ed9b7b36": {
+            "userId": "test_ed9b7b36",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "cached_nudges": [
+                "Your Delhi-Mumbai flight generated 90 kg CO2. That single trip offset 6 weeks of the eco-actions you completed this month. If you take that route 3x a year, it represents 35% of your annual footprint.",
+                "Your daily petrol car commute generates substantial CO2. Swapping just 1 day a week to public transit or cycling saves 8.4 kg CO2\u2014equivalent to charging a laptop for 6 months.",
+                "Every day you log without high-energy appliance runs, the virtual sky in your dashboard turns a shade cleaner. Start tracking today!"
+            ],
+            "cached_logs_count": 3,
+            "cached_streak": 0,
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_log_0b6fe2": {
+            "userId": "test_log_0b6fe2",
+            "userName": "EcoWarrior_test",
+            "streak": 0,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": []
+        },
+        "test_c2_ece33ea9": {
+            "userId": "test_c2_ece33ea9",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ]
+        },
+        "1e67cb4c-2877-4bc8-8ee2-3bcc733e80e4": {
+            "userId": "1e67cb4c-2877-4bc8-8ee2-3bcc733e80e4",
+            "userName": "user_cf0549",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$GnrpiIOJuGG/GzQumeWQce4DWbVBr37pE0fRShoIHsDJN1H.mi43W",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "bb34c08b-5d4e-415c-9212-2fefd1b5bea2": {
+            "userId": "bb34c08b-5d4e-415c-9212-2fefd1b5bea2",
+            "userName": "user_97515c",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$af7NO4pffuLy1oSSq98Zy.lW/51wNvz8qNsugj8zG.Vr9mP58.R1e",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "ae4a49ed-0801-403b-81b6-f286a5397610": {
+            "userId": "ae4a49ed-0801-403b-81b6-f286a5397610",
+            "userName": "user_7855d4",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$o1kBb8oQk0qoG8IOnpA1JuevwsHfiiviX3Y621gM6IC/8TjhDrQsy",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "d82ae14d-caaf-4ab5-b190-083f0b5325ef": {
+            "userId": "d82ae14d-caaf-4ab5-b190-083f0b5325ef",
+            "userName": "user_facc35",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$Xg7cj2N58QQo7vEpEG.6heguZXiTXcMTnG5hYX/EQuFybyy.jf.KW",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "e8be5cff-33fe-4c4a-a284-1f73184e5206": {
+            "userId": "e8be5cff-33fe-4c4a-a284-1f73184e5206",
+            "userName": "user_f80788",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$5TcE9yCHfWNrK6l8KINR3.o5G66fEuzzDsHUGZLYdc7B7cA0WO7Le",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "test_ee72f0ec": {
+            "userId": "test_ee72f0ec",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "cached_nudges": [
+                "Your Delhi-Mumbai flight generated 90 kg CO2. That single trip offset 6 weeks of the eco-actions you completed this month. If you take that route 3x a year, it represents 35% of your annual footprint.",
+                "Your daily petrol car commute generates substantial CO2. Swapping just 1 day a week to public transit or cycling saves 8.4 kg CO2\u2014equivalent to charging a laptop for 6 months.",
+                "Every day you log without high-energy appliance runs, the virtual sky in your dashboard turns a shade cleaner. Start tracking today!"
+            ],
+            "cached_logs_count": 3,
+            "cached_streak": 0,
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_log_2b0b08": {
+            "userId": "test_log_2b0b08",
+            "userName": "EcoWarrior_test",
+            "streak": 0,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": []
+        },
+        "test_c2_9174d404": {
+            "userId": "test_c2_9174d404",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ]
+        },
+        "60558652-e4e8-430e-aaae-1dbb3749249e": {
+            "userId": "60558652-e4e8-430e-aaae-1dbb3749249e",
+            "userName": "user_d8b9df",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$fBTxE7pg3NEIYBsEaCvVpOfrPqf7vCyEmDjXtSBiUrmQF4ULeyAhi",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "cb7fb817-6fe0-4ab2-93e8-f35e82a15708": {
+            "userId": "cb7fb817-6fe0-4ab2-93e8-f35e82a15708",
+            "userName": "user_9d9c63",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$dJ2hiVeIDkJxgQkirV2JwOYJJXYW.KGieVNhPEij.NQmM65u2Bfee",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "bca53164-018b-4e84-a59f-8113bafd0768": {
+            "userId": "bca53164-018b-4e84-a59f-8113bafd0768",
+            "userName": "user_d61035",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$1hieWKMMzV3SiS3vAnMECetk7AEg4N9xvR.HkXM.vfk9.wR0poU22",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "2b7b3c18-ca3b-4ad6-b1bd-567effbf6c48": {
+            "userId": "2b7b3c18-ca3b-4ad6-b1bd-567effbf6c48",
+            "userName": "user_e66455",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$PtiCSWqXlYeFoKRrIAdhyOMEu0aM9177/8PPLLWFGWnNk.CjgKdH2",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "00371d31-016e-4a41-af48-4cef0c689255": {
+            "userId": "00371d31-016e-4a41-af48-4cef0c689255",
+            "userName": "user_32a5cf",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$tWU3ozt4Py3E7y93Y/B7m.pj5yZh8exS7nXErkJfLRO3P3IA2fVHi",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "678d2867-8d70-41a1-bd8e-d8a1a394e89c": {
+            "userId": "678d2867-8d70-41a1-bd8e-d8a1a394e89c",
+            "userName": "testuser",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$und0JCWZm0HCi59bDPQKmOYj7.9Km/NE/5oUhhyOh40oyih6aSfWK",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "d582d740-4b13-4844-b16b-a5a2494a9af2": {
+            "userId": "d582d740-4b13-4844-b16b-a5a2494a9af2",
+            "userName": "testuser2",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$unkJsWlEzE/j2iHI0PlmLuHkDoktm0DfqtHv9usFMO8.6C7aObBZu",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "0282567b-c951-4f69-b684-df30b7379028": {
+            "userId": "0282567b-c951-4f69-b684-df30b7379028",
+            "userName": "parth2005",
+            "streak": 1,
+            "completed_challenges": [
+                "c2"
+            ],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$1mOrrvunn6WNSZ.Vmn9oLejzvsfn3IxuxYVxtQArU538hiksVWXMK",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "cached_nudges": [
+                "Your Meatless Day saved 1.8 kg CO2. That is equivalent to charging your smartphone every day for an entire year.",
+                "Your 15 km car trip added 2.85 kg CO2. That's comparable to running your AC for about 2.5 hours, and it represents almost 5% of your total footprint this week.",
+                "Fantastic work on your 1-day streak! Every logged action, big or small, helps make your invisible carbon impact visible."
+            ],
+            "cached_logs_count": 2,
+            "cached_streak": 1,
+            "role": "user"
+        },
+        "1c692bd3-cbd3-4a8f-a4aa-3c3238277ac8": {
+            "userId": "1c692bd3-cbd3-4a8f-a4aa-3c3238277ac8",
+            "userName": "testeco321",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$PtUG4oQofJ7lbd/YLYLhc.2LlN9A/1tAwXaIFAiatR6jIrOVGBEB6",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "cached_nudges": [
+                "Your streak is currently 0 days. Log your first eco-action today to kickstart your journey and begin visualizing your impact.",
+                "Your 7-day footprint is 58.3 kg CO2. Completing just one sustainable action today can begin to lower this and start your positive streak.",
+                "Every small step counts. Log any mindful choice you've made today, like using public transport or a meatless meal, to start building a powerful habit and streak."
+            ],
+            "cached_logs_count": 0,
+            "cached_streak": 0
+        },
+        "test_d058eb08": {
+            "userId": "test_d058eb08",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "cached_nudges": [
+                "The short flight you logged contributed 90 kg CO2, making up over half of your 7-day footprint. This single trip is equivalent to driving 500 km in a typical petrol car.",
+                "Your 100 km car trip generated 18 kg CO2, which is 60 times more than the 0.3 kg CO2 saved by your vegan meal. Consider pairing more eco-friendly travel with your dietary choices for greater impact.",
+                "Your current streak is 0 days. Log another activity or complete an eco-action today to kickstart your journey and build a positive habit!"
+            ],
+            "cached_logs_count": 3,
+            "cached_streak": 0,
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_log_715011": {
+            "userId": "test_log_715011",
+            "userName": "EcoWarrior_test",
+            "streak": 0,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": []
+        },
+        "test_c2_c743f9eb": {
+            "userId": "test_c2_c743f9eb",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ]
+        },
+        "736ba0c6-e577-4573-bbe0-23e37a75f326": {
+            "userId": "736ba0c6-e577-4573-bbe0-23e37a75f326",
+            "userName": "user_39acd3",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$hyBcxd.nw.Qusvpq5QzgUO.bDnxCb67qbyc4rWt3tB0TOaQBs9C.C",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "078d5930-816f-4113-929a-3fa9eea50411": {
+            "userId": "078d5930-816f-4113-929a-3fa9eea50411",
+            "userName": "user_779437",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$gdQSFXKuvPd1dv0vMcgaluyJfGeJmEMymlUFeyjEqiqDvUSXQ1fqK",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "bf2dbb24-2539-4669-915a-c9ad93eaee63": {
+            "userId": "bf2dbb24-2539-4669-915a-c9ad93eaee63",
+            "userName": "user_2a4487",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$nVsvtlF1uWDY3P3BpH8TzuI6mHtkkQJaBVHoRBbgWYpxg9ipjVbEq",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "364a604b-9787-4074-9e97-6240bf022d5d": {
+            "userId": "364a604b-9787-4074-9e97-6240bf022d5d",
+            "userName": "user_cb2698",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$IMiRmT5r09hJLSdB12bSpu5Z.yxyX7BBDA2ih0WlG6GgBKfMvJkXi",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "443c3671-bb22-49a7-866d-e5a646fc21d3": {
+            "userId": "443c3671-bb22-49a7-866d-e5a646fc21d3",
+            "userName": "user_14a932",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "password_hash": "$2b$12$VTa7.CD7pDdP4KcfGQemKOSTFXz4aagrzL7ERkzid2EbQvGD85sQa",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "test_dd5dd1c0": {
+            "userId": "test_dd5dd1c0",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "role": "user",
+            "cached_nudges": [
+                "Your streak is currently 0 days. Log an activity or complete an eco-action today to kickstart your journey and begin tracking your impact!",
+                "Your recent short flight generated 90 kg CO2. That single trip accounts for over half of your 7-day footprint, offsetting many eco-actions you might take.",
+                "Driving 100 km in a car produced 18 kg CO2. That's equivalent to charging your smartphone every day for almost two years."
+            ],
+            "cached_logs_count": 3,
+            "cached_streak": 0,
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_log_3106c6": {
+            "userId": "test_log_3106c6",
+            "userName": "EcoWarrior_test",
+            "streak": 0,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [],
+            "role": "user"
+        },
+        "test_c2_9e3a4ca8": {
+            "userId": "test_c2_9e3a4ca8",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ],
+            "role": "user"
+        },
+        "2031f4ba-00a7-4479-a171-617b13dc07ff": {
+            "userId": "2031f4ba-00a7-4479-a171-617b13dc07ff",
+            "userName": "user_6fed35",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "role": "user",
+            "password_hash": "$2b$12$yAePZa5sYF0T7nMiN7DkvuknG1/NNxJpcsLhMRHLhj9P0hjEQLynO",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "cbe4fed2-a42c-4668-8c2f-678d8c6ea758": {
+            "userId": "cbe4fed2-a42c-4668-8c2f-678d8c6ea758",
+            "userName": "user_e2ad7a",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "role": "user",
+            "password_hash": "$2b$12$Z2Xrio3id56nJcY8KLGuvOgxEUTERuEHdjCpfrUbsPwrvD.rebB1C",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "923c134e-a476-48b8-bb37-ac120ad6251a": {
+            "userId": "923c134e-a476-48b8-bb37-ac120ad6251a",
+            "userName": "user_103b8f",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "role": "user",
+            "password_hash": "$2b$12$9RlaqGhO9PHM.NNdGSFnGeojxyvGjwL54W2RG1NyVk71wywvc0Uja",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "f646416d-f5d5-4234-afb0-bab0638d7f2a": {
+            "userId": "f646416d-f5d5-4234-afb0-bab0638d7f2a",
+            "userName": "user_40f77c",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "role": "user",
+            "password_hash": "$2b$12$d/tEduidVZkmhuGKqqLqHukDQYNFdi0S0bODFH9pdrzfj396Y1aIq",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "fc7cacb9-b779-4a74-9d6d-20a0d07b8b83": {
+            "userId": "fc7cacb9-b779-4a74-9d6d-20a0d07b8b83",
+            "userName": "user_c32578",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "role": "user",
+            "password_hash": "$2b$12$X74r6keAREVmewwPWcNjUeZJgdLfM8GObcZCl5in7q1P6y7w3jAte",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "test_5acca925": {
+            "userId": "test_5acca925",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 37.0,
+            "teamName": "Green Team",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c1"
+            ],
+            "role": "user",
+            "cached_nudges": [
+                "Your streak is currently 0 days. Log your first eco-action today, like a plant-based meal or choosing public transport, to kickstart your tracking and see your positive impact grow!",
+                "Your short flight generated 90 kg CO2, accounting for over half your total footprint this week. This single trip offset the carbon savings of 300 vegan meals.",
+                "The 100 km you drove contributed 18 kg CO2. This is roughly the amount of carbon a mature tree absorbs over 10 months."
+            ],
+            "cached_logs_count": 3,
+            "cached_streak": 0,
+            "transport_type": "bicycle",
+            "diet_type": "vegan",
+            "ac_hours_per_week": 0.0,
+            "flights_per_year": 0,
+            "shopping_frequency": "minimalist"
+        },
+        "test_log_fb37ad": {
+            "userId": "test_log_fb37ad",
+            "userName": "EcoWarrior_test",
+            "streak": 0,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [],
+            "role": "user"
+        },
+        "test_c2_fec45931": {
+            "userId": "test_c2_fec45931",
+            "userName": "EcoWarrior_test",
+            "streak": 1,
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3",
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "completed_challenges": [
+                "c2"
+            ],
+            "role": "user"
+        },
+        "d7a8457b-7d33-4af7-9335-b76c557137aa": {
+            "userId": "d7a8457b-7d33-4af7-9335-b76c557137aa",
+            "userName": "user_8c829d",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "role": "user",
+            "password_hash": "$2b$12$023w6MFdoGMc5NykgeFnZuerENuw5i3bxC.xEbSLH7G5ejDzp.Yj.",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "220af45e-d6e9-4419-af4a-b2037c1d38c4": {
+            "userId": "220af45e-d6e9-4419-af4a-b2037c1d38c4",
+            "userName": "user_f6806a",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "role": "user",
+            "password_hash": "$2b$12$dYwImXu1NyVBNP2s43wSsOLJegZO5GrnKfmU8.WKjvn.p/iwmebDu",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "f14f174a-41cd-4b70-8748-0b77e9aee1bf": {
+            "userId": "f14f174a-41cd-4b70-8748-0b77e9aee1bf",
+            "userName": "user_847189",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "role": "user",
+            "password_hash": "$2b$12$OYQHinbF71Yw0W1IZenev.wWiPmaAP/U.UzF8XrITNZWUUVPFsvTi",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "5c4063a1-2ff0-492e-8dcc-56c3f1f472d5": {
+            "userId": "5c4063a1-2ff0-492e-8dcc-56c3f1f472d5",
+            "userName": "user_6a8438",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "role": "user",
+            "password_hash": "$2b$12$0dcXTkbcv0Xoj8B181jqkuZStlcpNzK2aznDOFGz6SKdr/ap7gFUq",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
+        },
+        "101a724d-db01-4941-882a-fcecd87db47b": {
+            "userId": "101a724d-db01-4941-882a-fcecd87db47b",
+            "userName": "user_d266fd",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [
+                "Carbon Onboarder"
+            ],
+            "role": "user",
+            "password_hash": "$2b$12$3zQnoc/kr8u5PonF8wLyUOPYelIL4niv0NIsts9SwuMsjPTiIQOUK",
+            "baseline_co2": 250.0,
+            "teamName": "Floor 3"
         }
     },
     "logs": [
@@ -643,6 +2054,1175 @@
             "id": "log_1781681433517",
             "userId": "user_zqbyuqp",
             "timestamp": "2026-06-17T13:00:33.517370"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-18T22:27:17.173445",
+            "id": "log_1781801837173",
+            "userId": "test_59f040bb"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-18T22:27:17.184890",
+            "id": "log_1781801837184",
+            "userId": "test_59f040bb"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-18T22:27:17.194643",
+            "id": "log_1781801837194",
+            "userId": "test_59f040bb"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-18T22:27:17.203055",
+            "id": "log_1781801837203",
+            "userId": "test_log_6d6afe"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781801837391",
+            "userId": "test_59f040bb",
+            "timestamp": "2026-06-18T22:27:17.391119"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781801837429",
+            "userId": "test_c2_15e15445",
+            "timestamp": "2026-06-18T22:27:17.429231"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781802347300",
+            "userId": "user_zqbyuqp",
+            "timestamp": "2026-06-18T22:35:47.301211"
+        },
+        {
+            "category": "energy",
+            "subtype": "AC Hibernate",
+            "amount": 1,
+            "co2_kg": -9.6,
+            "equivalent": "Saved 9.6 kg CO2. Keep the air conditioner turned off for 24 hours.",
+            "description": "Completed Challenge: AC Hibernate",
+            "id": "log_1781802381780",
+            "userId": "user_zqbyuqp",
+            "timestamp": "2026-06-18T22:36:21.780374"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781802626802",
+            "userId": "default_user",
+            "timestamp": "2026-06-18T22:40:26.802868"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-18T23:08:25.720552",
+            "id": "log_1781804305720",
+            "userId": "test_3a046063"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-18T23:08:25.734210",
+            "id": "log_1781804305734",
+            "userId": "test_3a046063"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-18T23:08:25.743454",
+            "id": "log_1781804305743",
+            "userId": "test_3a046063"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-18T23:08:25.752131",
+            "id": "log_1781804305752",
+            "userId": "test_log_042683"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781804305938",
+            "userId": "test_3a046063",
+            "timestamp": "2026-06-18T23:08:25.938645"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781804305981",
+            "userId": "test_c2_8122fd84",
+            "timestamp": "2026-06-18T23:08:25.981180"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-19T13:03:50.957597",
+            "id": "log_1781854430957",
+            "userId": "test_f74472da"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-19T13:03:50.987303",
+            "id": "log_1781854430987",
+            "userId": "test_f74472da"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T13:03:51.007861",
+            "id": "log_1781854431007",
+            "userId": "test_f74472da"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T13:03:51.030953",
+            "id": "log_1781854431030",
+            "userId": "test_log_0a6c8c"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781854466771",
+            "userId": "test_f74472da",
+            "timestamp": "2026-06-19T13:04:26.771073"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781854477630",
+            "userId": "test_c2_6a82e7e1",
+            "timestamp": "2026-06-19T13:04:37.630582"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-19T14:27:40.295784",
+            "id": "log_1781859460295",
+            "userId": "test_57952349"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-19T14:27:40.311147",
+            "id": "log_1781859460311",
+            "userId": "test_57952349"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T14:27:40.325279",
+            "id": "log_1781859460325",
+            "userId": "test_57952349"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T14:27:40.338547",
+            "id": "log_1781859460338",
+            "userId": "test_log_a9773f"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781859496189",
+            "userId": "test_57952349",
+            "timestamp": "2026-06-19T14:28:16.189066"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781859503723",
+            "userId": "test_c2_8e3339a1",
+            "timestamp": "2026-06-19T14:28:23.723382"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-19T15:49:12.268976",
+            "id": "log_1781864352268",
+            "userId": "test_398ebd59"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-19T15:49:12.279131",
+            "id": "log_1781864352279",
+            "userId": "test_398ebd59"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T15:49:12.287808",
+            "id": "log_1781864352287",
+            "userId": "test_398ebd59"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T15:49:12.298831",
+            "id": "log_1781864352298",
+            "userId": "test_log_9fa557"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781864355905",
+            "userId": "test_398ebd59",
+            "timestamp": "2026-06-19T15:49:15.905706"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781864357460",
+            "userId": "test_c2_b1da9a02",
+            "timestamp": "2026-06-19T15:49:17.460248"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-19T16:35:16.850444",
+            "id": "log_1781867116850",
+            "userId": "test_479d037d"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:35:16.868689",
+            "id": "log_1781867116868",
+            "userId": "test_479d037d"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:35:16.886165",
+            "id": "log_1781867116886",
+            "userId": "test_479d037d"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:35:16.917030",
+            "id": "log_1781867116917",
+            "userId": "test_log_f42597"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781867122438",
+            "userId": "test_479d037d",
+            "timestamp": "2026-06-19T16:35:22.438754"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781867124843",
+            "userId": "test_c2_9f770a52",
+            "timestamp": "2026-06-19T16:35:24.843745"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-19T16:36:04.916524",
+            "id": "log_1781867164916",
+            "userId": "test_dd25f780"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:36:04.937625",
+            "id": "log_1781867164937",
+            "userId": "test_dd25f780"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:36:04.956634",
+            "id": "log_1781867164956",
+            "userId": "test_dd25f780"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:36:04.982263",
+            "id": "log_1781867164982",
+            "userId": "test_log_88332a"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781867170224",
+            "userId": "test_dd25f780",
+            "timestamp": "2026-06-19T16:36:10.224996"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781867172133",
+            "userId": "test_c2_fce0cf9a",
+            "timestamp": "2026-06-19T16:36:12.133689"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-19T16:38:01.637646",
+            "id": "log_1781867281637",
+            "userId": "test_7e49dc08"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:38:01.655236",
+            "id": "log_1781867281655",
+            "userId": "test_7e49dc08"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:38:01.672479",
+            "id": "log_1781867281672",
+            "userId": "test_7e49dc08"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:38:01.698947",
+            "id": "log_1781867281698",
+            "userId": "test_log_64c668"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781867286531",
+            "userId": "test_7e49dc08",
+            "timestamp": "2026-06-19T16:38:06.531891"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781867288522",
+            "userId": "test_c2_e60f9d69",
+            "timestamp": "2026-06-19T16:38:08.522090"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-19T16:38:58.877973",
+            "id": "log_1781867338877",
+            "userId": "test_a09e5685"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:38:58.918114",
+            "id": "log_1781867338918",
+            "userId": "test_a09e5685"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:38:58.937483",
+            "id": "log_1781867338937",
+            "userId": "test_a09e5685"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to a standard meal (same as planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:38:58.962345",
+            "id": "log_1781867338962",
+            "userId": "test_log_4504a7"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781867344214",
+            "userId": "test_a09e5685",
+            "timestamp": "2026-06-19T16:39:04.214969"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781867346661",
+            "userId": "test_c2_8fb13d2f",
+            "timestamp": "2026-06-19T16:39:06.661198"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Logged as petrol car. Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-19T16:43:58.267708",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781867638267",
+            "userId": "test_f6de07c9"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:43:58.284513",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781867638284",
+            "userId": "test_f6de07c9"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to standard meals (planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:43:58.305376",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781867638305",
+            "userId": "test_f6de07c9"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to standard meals (planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:43:58.333814",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781867638333",
+            "userId": "test_log_7c58e5"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781867642309",
+            "userId": "test_f6de07c9",
+            "timestamp": "2026-06-19T16:44:02.309528"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781867643722",
+            "userId": "test_c2_28cd4d44",
+            "timestamp": "2026-06-19T16:44:03.722397"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Logged as petrol car. Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-19T16:46:01.182021",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781867761182",
+            "userId": "test_6080530e"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:46:01.219907",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781867761219",
+            "userId": "test_6080530e"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to standard meals (planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:46:01.252427",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781867761252",
+            "userId": "test_6080530e"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to standard meals (planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:46:01.302623",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781867761302",
+            "userId": "test_log_43a9f4"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781867767895",
+            "userId": "test_6080530e",
+            "timestamp": "2026-06-19T16:46:07.895659"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781867769565",
+            "userId": "test_c2_8de3025d",
+            "timestamp": "2026-06-19T16:46:09.565237"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Logged as petrol car. Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-19T16:46:52.299477",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781867812299",
+            "userId": "test_ed9b7b36"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:46:52.316245",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781867812316",
+            "userId": "test_ed9b7b36"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to standard meals (planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:46:52.336452",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781867812336",
+            "userId": "test_ed9b7b36"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to standard meals (planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T16:46:52.365650",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781867812365",
+            "userId": "test_log_0b6fe2"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781867816132",
+            "userId": "test_ed9b7b36",
+            "timestamp": "2026-06-19T16:46:56.132642"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781867817603",
+            "userId": "test_c2_ece33ea9",
+            "timestamp": "2026-06-19T16:46:57.603291"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Logged as petrol car. Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-19T17:04:51.284653",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781868891284",
+            "userId": "test_ee72f0ec"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-19T17:04:51.309322",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781868891309",
+            "userId": "test_ee72f0ec"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to standard meals (planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T17:04:51.333527",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781868891333",
+            "userId": "test_ee72f0ec"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to standard meals (planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-19T17:04:51.368850",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781868891368",
+            "userId": "test_log_2b0b08"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781868895758",
+            "userId": "test_ee72f0ec",
+            "timestamp": "2026-06-19T17:04:55.758086"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781868897733",
+            "userId": "test_c2_9174d404",
+            "timestamp": "2026-06-19T17:04:57.733176"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Logged as petrol car. Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-20T12:43:55.351567",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781939635351",
+            "userId": "test_d058eb08"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-20T12:43:55.398255",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781939635398",
+            "userId": "test_d058eb08"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to standard meals (planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-20T12:43:55.445953",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781939635445",
+            "userId": "test_d058eb08"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to standard meals (planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-20T12:43:55.503502",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781939635503",
+            "userId": "test_log_715011"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781939646111",
+            "userId": "test_d058eb08",
+            "timestamp": "2026-06-20T12:44:06.111057"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781939653502",
+            "userId": "test_c2_c743f9eb",
+            "timestamp": "2026-06-20T12:44:13.502572"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Logged as petrol car. Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-20T12:51:11.373164",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781940071373",
+            "userId": "test_dd5dd1c0"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-20T12:51:11.395722",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781940071395",
+            "userId": "test_dd5dd1c0"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to standard meals (planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-20T12:51:11.420236",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781940071420",
+            "userId": "test_dd5dd1c0"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to standard meals (planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-20T12:51:11.459855",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781940071459",
+            "userId": "test_log_3106c6"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781940082390",
+            "userId": "test_dd5dd1c0",
+            "timestamp": "2026-06-20T12:51:22.390817"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781940090352",
+            "userId": "test_c2_9e3a4ca8",
+            "timestamp": "2026-06-20T12:51:30.352420"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 100.0,
+            "co2_kg": 18.0,
+            "equivalent": "Logged as petrol car. Equivalent to charging a smartphone 2160 times.",
+            "description": "Integration test commute",
+            "timestamp": "2026-06-20T13:18:13.736863",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781941693736",
+            "userId": "test_5acca925"
+        },
+        {
+            "category": "flights",
+            "subtype": "flight_short",
+            "amount": 1.0,
+            "co2_kg": 90.0,
+            "equivalent": "Equivalent to 4 months of electricity for an average Indian household.",
+            "description": "Logged flight_short (1.0 unit(s))",
+            "timestamp": "2026-06-20T13:18:13.774111",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781941693774",
+            "userId": "test_5acca925"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to standard meals (planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-20T13:18:13.809387",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781941693809",
+            "userId": "test_5acca925"
+        },
+        {
+            "category": "food",
+            "subtype": "vegan",
+            "amount": 1.0,
+            "co2_kg": 0.3,
+            "equivalent": "Saved 1.2 kg CO2 compared to standard meals (planting 0 tree seedlings).",
+            "description": "Logged vegan (1.0 unit(s))",
+            "timestamp": "2026-06-20T13:18:13.863013",
+            "fuel_type": null,
+            "region": null,
+            "id": "log_1781941693863",
+            "userId": "test_log_fb37ad"
+        },
+        {
+            "category": "transport",
+            "subtype": "No-Car Day",
+            "amount": 1,
+            "co2_kg": -2.3,
+            "equivalent": "Saved 2.3 kg CO2. Commute via bicycle, walking, or public transport.",
+            "description": "Completed Challenge: No-Car Day",
+            "id": "log_1781941711818",
+            "userId": "test_5acca925",
+            "timestamp": "2026-06-20T13:18:31.819011"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781941722870",
+            "userId": "test_c2_fec45931",
+            "timestamp": "2026-06-20T13:18:42.870406"
+        },
+        {
+            "category": "transport",
+            "subtype": "car",
+            "amount": 15.0,
+            "co2_kg": 2.85,
+            "equivalent": "Logged as petrol car. Equivalent to charging a smartphone 342 times.",
+            "description": "Logged transport - car",
+            "timestamp": "2026-06-20T13:51:38.565907",
+            "fuel_type": "petrol",
+            "region": null,
+            "id": "log_1781943698565",
+            "userId": "0282567b-c951-4f69-b684-df30b7379028"
+        },
+        {
+            "category": "food",
+            "subtype": "Meatless Day",
+            "amount": 1,
+            "co2_kg": -1.8,
+            "equivalent": "Saved 1.8 kg CO2. Eat strictly vegetarian or vegan meals for the entire day.",
+            "description": "Completed Challenge: Meatless Day",
+            "id": "log_1781943709794",
+            "userId": "0282567b-c951-4f69-b684-df30b7379028",
+            "timestamp": "2026-06-20T13:51:49.794565"
         }
     ],
     "teams": {

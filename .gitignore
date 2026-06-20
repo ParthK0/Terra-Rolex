@@ -4,7 +4,11 @@ __pycache__/
 .venv/
 env/
 venv/
-*.env
+# Env files — never commit real secrets
+.env
+.env.*
+!.env.example
+
 
 # Node / Frontend
 node_modules/

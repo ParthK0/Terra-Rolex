@@ -31,21 +31,82 @@ export interface CalculationResult {
   equivalent: string;
 }
 
-export function calculateCO2Client(category: string, subtype: string, amount: number): CalculationResult {
+export const FUEL_FACTORS: Record<string, number> = {
+  petrol: 0.19,
+  diesel: 0.17,
+  hybrid: 0.11,
+  electric: 0.05,
+};
+
+export const GRID_FACTORS: Record<string, number> = {
+  "IN-coal-heavy": 0.85,
+  "IN-national-avg": 0.78,
+  "IN-green-grid": 0.62,
+  "Global-average": 0.45,
+};
+
+export const DEVICE_KW: Record<string, number> = {
+  ac: 1.2 / 0.78,
+  appliances: 0.3 / 0.78,
+  lighting: 0.05 / 0.78,
+};
+
+export function calculateCO2Client(
+  category: string,
+  subtype: string,
+  amount: number,
+  fuelType?: string,
+  region?: string
+): CalculationResult {
   let co2Kg = 0;
   let equivalent = "";
 
   const cat = category.toLowerCase();
   const sub = subtype.toLowerCase();
+  const ft = fuelType ? fuelType.toLowerCase() : undefined;
+  const rg = region ? region.trim() : undefined;
+
+  const gridFactor = GRID_FACTORS[rg || ""] !== undefined ? GRID_FACTORS[rg || ""] : GRID_FACTORS["IN-national-avg"];
 
   if (cat === "transport") {
-    const factor = TRANSPORT_FACTORS[sub] !== undefined ? TRANSPORT_FACTORS[sub] : 0.12;
+    let factor = TRANSPORT_FACTORS[sub] !== undefined ? TRANSPORT_FACTORS[sub] : 0.12;
+
+    if (sub === "car") {
+      if (ft === "electric") {
+        factor = 0.18 * gridFactor;
+      } else if (ft && FUEL_FACTORS[ft] !== undefined) {
+        factor = FUEL_FACTORS[ft];
+      } else {
+        factor = 0.18; // default / petrol car
+      }
+    } else if (sub === "electric_car") {
+      // support legacy electric_car subtype mapping
+      factor = 0.05;
+    } else if (sub === "motorbike") {
+      if (ft === "electric") {
+        factor = 0.05 * gridFactor;
+      } else {
+        factor = 0.10;
+      }
+    } else if (sub === "public_transport") {
+      if (ft === "bus") {
+        factor = 0.06;
+      } else if (ft === "metro") {
+        factor = 0.04 * (gridFactor / 0.78);
+      } else {
+        factor = 0.04;
+      }
+    }
+
     co2Kg = factor * amount;
+    const regionSuffix = rg ? ` in ${rg} grid zone` : "";
     if (co2Kg > 0) {
       if (sub === "car") {
-        equivalent = `Equivalent to charging a smartphone ${Math.round(co2Kg * 120)} times.`;
-      } else if (sub === "electric_car") {
-        equivalent = `Saves ${Math.round((TRANSPORT_FACTORS.car - factor) * amount)} kg CO2 compared to a petrol car.`;
+        const ftStr = ft || "petrol";
+        equivalent = `Logged as ${ftStr} car${regionSuffix}. Equivalent to charging a smartphone ${Math.round(co2Kg * 120)} times.`;
+      } else if (sub === "electric_car" || ft === "electric") {
+        const savings = (0.19 - factor) * amount;
+        equivalent = `Saved ${savings.toFixed(1)} kg CO2 compared to a petrol car${regionSuffix}.`;
       } else {
         equivalent = `Equivalent to ${co2Kg.toFixed(1)} kg of burning coal.`;
       }
@@ -64,12 +125,14 @@ export function calculateCO2Client(category: string, subtype: string, amount: nu
       equivalent = `Equivalent to ${co2Kg.toFixed(1)} kg of CO2 generated.`;
     }
   } else if (cat === "energy") {
-    const factor = ENERGY_FACTORS[sub] !== undefined ? ENERGY_FACTORS[sub] : 0.4;
+    const deviceKw = DEVICE_KW[sub] !== undefined ? DEVICE_KW[sub] : 0.4 / 0.78;
+    const factor = deviceKw * gridFactor;
     co2Kg = factor * amount;
+    const regionDesc = rg || "National Average";
     if (sub === "ac") {
-      equivalent = `Equivalent to running a refrigerator for ${Math.round(amount * 12)} hours.`;
+      equivalent = `Powered by ${regionDesc} grid (${gridFactor} kg/kWh). Equivalent to running a refrigerator for ${Math.round(amount * 12)} hours.`;
     } else {
-      equivalent = `Equivalent to ${co2Kg.toFixed(1)} kg of CO2 emissions from the grid.`;
+      equivalent = `Powered by ${regionDesc} grid. Generated ${co2Kg.toFixed(1)} kg CO2.`;
     }
   } else if (cat === "flights") {
     const factor = FLIGHT_FACTORS[sub] !== undefined ? FLIGHT_FACTORS[sub] : 100.0;

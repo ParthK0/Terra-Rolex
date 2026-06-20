@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { apiFetch } from '../lib/api';
 
 export interface LeaderboardUser {
   userId: string;
@@ -14,8 +15,6 @@ export interface TeamStanding {
   memberCount: number;
 }
 
-const API_BASE = "http://localhost:8000";
-
 export function useLeaderboard(currentUserId: string | undefined, currentScore: number) {
   const [usersLeaderboard, setUsersLeaderboard] = useState<LeaderboardUser[]>([]);
   const [teamsLeaderboard, setTeamsLeaderboard] = useState<TeamStanding[]>([]);
@@ -24,8 +23,8 @@ export function useLeaderboard(currentUserId: string | undefined, currentScore: 
   const fetchStandings = async () => {
     setLoading(true);
     try {
-      const uRes = await fetch(`${API_BASE}/leaderboard`);
-      const tRes = await fetch(`${API_BASE}/leaderboard/teams`);
+      const uRes = await apiFetch("/leaderboard");
+      const tRes = await apiFetch("/leaderboard/teams");
 
       if (uRes.ok && tRes.ok) {
         const uData = await uRes.json();

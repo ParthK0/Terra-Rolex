@@ -48,19 +48,23 @@
   }
 }
 
-/* Premium Card & Shadow Styles */
+/* ── One Universal Card Elevation System ────────────────────────────────────
+   Used identically on every card surface: stat card, quick-action card,
+   insight cards, profile cards. No exceptions. Do not add overrides.
+   border: 1px solid #EEF1F4  +  box-shadow: 0 1px 3px rgba(0,0,0,0.06)
+─────────────────────────────────────────────────────────────────────────── */
 .premium-card {
   background: #FFFFFF;
-  border: 1px solid rgba(31, 41, 55, 0.06);
+  border: 1px solid #EEF1F4;
   border-radius: 1.25rem;
-  box-shadow: 0 4px 18px -2px rgba(31, 41, 55, 0.04), 0 2px 6px -1px rgba(31, 41, 55, 0.02);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .premium-card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -4px rgba(46, 144, 250, 0.08), 0 4px 12px -2px rgba(31, 41, 55, 0.03);
-  border-color: rgba(46, 144, 250, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+  border-color: #D1D9E0;
 }
 
 /* Navigation Link Underline Transition */
@@ -82,21 +86,27 @@
   border-bottom-color: rgba(31, 41, 55, 0.1);
 }
 
-/* Sky Background Hero Container */
-.sky-hero-container {
-  background-image: linear-gradient(to bottom, rgba(247, 249, 251, 0.1), rgba(247, 249, 251, 1)), url('/src/assets/sky.png');
-  background-size: cover;
-  background-position: center 30%;
-  background-repeat: no-repeat;
-  transition: filter 0.5s ease-in-out;
+
+
+/* Bouncing chevron for scroll hint */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
 }
 
-/* Sky Haze Overlay for High Footprint Status */
-.sky-haze-overlay {
-  background-color: rgba(107, 114, 128, 0.15);
-  backdrop-filter: saturate(0.65) contrast(0.95);
-  -webkit-backdrop-filter: saturate(0.65) contrast(0.95);
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
 }
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 
 /* Custom transitions and scrollbar */
 ::-webkit-scrollbar {
@@ -113,6 +123,46 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(46, 144, 250, 0.45);
 }
+
+/* Sparkline Draw-in Animation */
+@keyframes draw-in {
+  to { stroke-dashoffset: 0; }
+}
+.animate-draw-in {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw-in 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Living Sky Background Animations ────────────────────────────────────── */
+
+/* Slow drifting cloud / gradient orb */
+@keyframes drift-slow {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  33%  { transform: translate(30px, -20px) scale(1.05); }
+  66%  { transform: translate(-20px, 15px) scale(0.97); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+@keyframes drift-medium {
+  0%   { transform: translate(0px, 0px) scale(1.02); }
+  50%  { transform: translate(-40px, 25px) scale(0.98); }
+  100% { transform: translate(0px, 0px) scale(1.02); }
+}
+@keyframes drift-fast {
+  0%   { transform: translate(0px, 0px); }
+  25%  { transform: translate(20px, -30px); }
+  75%  { transform: translate(-15px, 20px); }
+  100% { transform: translate(0px, 0px); }
+}
+
+/* Atmospheric gradient shift across sky */
+@keyframes sky-breathe {
+  0%, 100% { opacity: 0.85; }
+  50%       { opacity: 1; }
+}
+
+.animate-drift-slow   { animation: drift-slow   22s ease-in-out infinite; }
+.animate-drift-medium { animation: drift-medium  16s ease-in-out infinite; }
 
 /* Accessible reduced-motion configurations */
 @media (prefers-reduced-motion: reduce) {

@@ -1,16 +1,24 @@
-from fastapi import APIRouter, Header, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from models.schemas import LogEntryRequest, LogEntryResponse
 from services.co2_engine import calculate_co2
 from services.firestore_service import add_user_log, get_user_logs
 from datetime import datetime
+from routers.auth import get_current_user
 
 router = APIRouter(prefix="/log", tags=["Logs"])
 
 @router.post("", response_model=LogEntryResponse)
-def create_log(request: LogEntryRequest, x_user_id: str = Header(default="default_user")):
+def create_log(request: LogEntryRequest, current_user: dict = Depends(get_current_user)):
     try:
-        co2_kg, equivalent = calculate_co2(request.category, request.subtype, request.amount)
+        user_id = current_user["userId"]
+        co2_kg, equivalent = calculate_co2(
+            request.category, 
+            request.subtype, 
+            request.amount, 
+            request.fuel_type, 
+            request.region
+        )
         
         log_data = {
             "category": request.category,
@@ -19,10 +27,12 @@ def create_log(request: LogEntryRequest, x_user_id: str = Header(default="defaul
             "co2_kg": co2_kg,
             "equivalent": equivalent,
             "description": request.description or f"Logged {request.subtype} ({request.amount} unit(s))",
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
+            "fuel_type": request.fuel_type,
+            "region": request.region
         }
         
-        saved_log = add_user_log(x_user_id, log_data)
+        saved_log = add_user_log(user_id, log_data)
         return LogEntryResponse(
             id=saved_log["id"],
             userId=saved_log["userId"],
@@ -32,19 +42,22 @@ def create_log(request: LogEntryRequest, x_user_id: str = Header(default="defaul
             co2_kg=saved_log["co2_kg"],
             equivalent=saved_log["equivalent"],
             description=saved_log.get("description"),
-            timestamp=datetime.fromisoformat(saved_log["timestamp"])
+            timestamp=datetime.fromisoformat(saved_log["timestamp"]),
+            fuel_type=saved_log.get("fuel_type"),
+            region=saved_log.get("region")
         )
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.get("", response_model=List[LogEntryResponse])
 def get_logs(
-    x_user_id: str = Header(default="default_user"),
+    current_user: dict = Depends(get_current_user),
     limit: int = 50,
     offset: int = 0
 ):
     try:
-        logs = get_user_logs(x_user_id)
+        user_id = current_user["userId"]
+        logs = get_user_logs(user_id)
         paginated = logs[offset: offset + limit]
         res = []
         for l in paginated:
@@ -57,7 +70,9 @@ def get_logs(
                 co2_kg=l["co2_kg"],
                 equivalent=l["equivalent"],
                 description=l.get("description"),
-                timestamp=datetime.fromisoformat(l["timestamp"]) if isinstance(l["timestamp"], str) else l["timestamp"]
+                timestamp=datetime.fromisoformat(l["timestamp"]) if isinstance(l["timestamp"], str) else l["timestamp"],
+                fuel_type=l.get("fuel_type"),
+                region=l.get("region")
             ))
         return res
     except Exception as e:

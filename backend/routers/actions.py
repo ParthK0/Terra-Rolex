@@ -1,27 +1,30 @@
-from fastapi import APIRouter, Header, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from models.schemas import ChallengeResponse, ChallengeCompleteRequest
 from services.firestore_service import get_challenges, complete_challenge, get_user_profile
+from routers.auth import get_current_user
 import os
 
 router = APIRouter(prefix="/actions", tags=["Actions"])
 
 @router.get("", response_model=List[ChallengeResponse])
-def fetch_challenges(x_user_id: str = Header(default="default_user")):
+def fetch_challenges(current_user: dict = Depends(get_current_user)):
     try:
-        challenges = get_challenges(x_user_id)
+        user_id = current_user["userId"]
+        challenges = get_challenges(user_id)
         return [ChallengeResponse(**c) for c in challenges]
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/complete")
-def finish_challenge(request: ChallengeCompleteRequest, x_user_id: str = Header(default="default_user")):
+def finish_challenge(request: ChallengeCompleteRequest, current_user: dict = Depends(get_current_user)):
     try:
-        challenge = complete_challenge(x_user_id, request.challenge_id)
+        user_id = current_user["userId"]
+        challenge = complete_challenge(user_id, request.challenge_id)
         if not challenge:
             raise HTTPException(status_code=404, detail="Challenge not found.")
             
-        profile = get_user_profile(x_user_id)
+        profile = get_user_profile(user_id)
         streak = profile.get("streak", 0)
         co2_saved = challenge["co2_savings_kg"]
         
