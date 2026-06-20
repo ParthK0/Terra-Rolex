@@ -15,6 +15,8 @@ class LogEntryRequest(BaseModel):
     subtype: str   # e.g., car, public_transport, red_meat, plant_based, ac, washing_machine, flight_short, flight_medium, flight_long
     amount: float = Field(..., gt=0.0, description="Activity quantity, must be greater than 0")
     description: Optional[str] = None
+    fuel_type: Optional[str] = None # e.g. petrol, diesel, hybrid, electric, none
+    region: Optional[str] = None    # e.g. IN-coal-heavy, IN-national-avg, IN-green-grid, Global-average
 
 class LogEntryResponse(BaseModel):
     id: str
@@ -26,6 +28,8 @@ class LogEntryResponse(BaseModel):
     equivalent: str
     timestamp: datetime
     description: Optional[str] = None
+    fuel_type: Optional[Optional[str]] = None
+    region: Optional[Optional[str]] = None
 
 class ChallengeCompleteRequest(BaseModel):
     challenge_id: str
@@ -55,3 +59,40 @@ class InsightResponse(BaseModel):
     streak: int
     nudges: List[str]
     living_world_status: str  # thriving, healthy, threatened, degraded
+
+class AuthSignupRequest(BaseModel):
+    username: str = Field(..., min_length=3, max_length=20)
+    password: str = Field(..., min_length=6)
+
+class AuthLoginRequest(BaseModel):
+    username: str
+    password: str
+
+class AuthResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    userId: str
+    userName: str
+    role: str = "user"
+
+class AdminChallengeCreateRequest(BaseModel):
+    id: str
+    title: str
+    description: str
+    co2_savings_kg: float
+    category: str
+
+class AdminChallengeUpdateRequest(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+    co2_savings_kg: Optional[float] = None
+    category: Optional[str] = None
+
+class AdminUserTeamUpdateRequest(BaseModel):
+    team_name: str
+
+class AdminUserRoleUpdateRequest(BaseModel):
+    role: str
+
+
+

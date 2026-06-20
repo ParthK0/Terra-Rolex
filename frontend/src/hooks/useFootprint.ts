@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { calculateCO2Client } from '../lib/co2calc';
 import { getVisceralComparison } from '../lib/benchmarks';
+import { apiFetch } from '../lib/api';
+import { enqueueAction, syncOfflineQueue } from '../lib/offlineQueue';
 
 export interface LogEntry {
   id: string;
@@ -20,30 +22,29 @@ export interface InsightState {
   living_world_status: string;
 }
 
-const API_BASE = "http://localhost:8000";
-
 export function useFootprint(userId: string | undefined) {
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [insights, setInsights] = useState<InsightState | null>(null);
   const [loading, setLoading] = useState(true);
+  // Guard against concurrent fetches causing race condition / stale state overwrites
+  const fetchingRef = useRef(false);
 
   const fetchInsightsAndLogs = async () => {
-    if (!userId) return;
+    if (!userId || fetchingRef.current) return;
+    fetchingRef.current = true;
     setLoading(true);
     try {
-      // Fetch insights
-      const insRes = await fetch(`${API_BASE}/insights`, {
-        headers: { "x-user-id": userId }
-      });
-      const logRes = await fetch(`${API_BASE}/log`, {
-        headers: { "x-user-id": userId }
-      });
+      // Fetch insights & logs using authorized apiFetch
+      const insRes = await apiFetch("/insights");
+      const logRes = await apiFetch("/log");
 
       if (insRes.ok && logRes.ok) {
         const insData = await insRes.json();
         const logData = await logRes.json();
         setInsights(insData);
         setLogs(logData);
+        // Also update local storage to keep offline logs up-to-date
+        localStorage.setItem(`terra_logs_${userId}`, JSON.stringify(logData));
       } else {
         throw new Error("Backend offline");
       }
@@ -55,14 +56,16 @@ export function useFootprint(userId: string | undefined) {
       setLogs(parsedLogs);
 
       // Recalculate rolling 7-day footprint score locally
-      // Assuming a base baseline of 250kg / 30 = 8.3kg per day baseline
       const profileKey = `terra_profile_${userId}`;
       const cachedProfile = localStorage.getItem(profileKey);
       const baseline = cachedProfile ? JSON.parse(cachedProfile).baseline_co2 : 250.0;
       const dailyBaseline = baseline / 30.0;
       let score = dailyBaseline * 7;
 
-      for (const log of parsedLogs.slice(0, 15)) {
+      // Recalculate rolling 7-day footprint score using real date-filtered logs
+      const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const recentLogs = parsedLogs.filter(l => l.timestamp >= sevenDaysAgo);
+      for (const log of recentLogs) {
         score += log.co2_kg;
       }
       score = Math.max(0, score);
@@ -90,6 +93,7 @@ export function useFootprint(userId: string | undefined) {
       });
     } finally {
       setLoading(false);
+      fetchingRef.current = false;
     }
   };
 
@@ -97,16 +101,55 @@ export function useFootprint(userId: string | undefined) {
     fetchInsightsAndLogs();
   }, [userId]);
 
-  const logActivity = async (category: string, subtype: string, amount: number, description?: string) => {
+  useEffect(() => {
+    if (!userId) return;
+
+    const handleOnline = async () => {
+      console.log("Device is online. Triggering synchronization...");
+      try {
+        await syncOfflineQueue(userId);
+      } catch (err) {
+        console.error("Error syncing offline queue:", err);
+      } finally {
+        await fetchInsightsAndLogs();
+      }
+    };
+
+    window.addEventListener('online', handleOnline);
+    
+    // Attempt sync immediately if we are online on mount
+    if (navigator.onLine) {
+      handleOnline();
+    }
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+    };
+  }, [userId]);
+
+  const logActivity = async (
+    category: string,
+    subtype: string,
+    amount: number,
+    description?: string,
+    fuelType?: string,
+    region?: string
+  ) => {
     if (!userId) return null;
     try {
-      const response = await fetch(`${API_BASE}/log`, {
+      const response = await apiFetch("/log", {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'x-user-id': userId
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ category, subtype, amount, description })
+        body: JSON.stringify({
+          category,
+          subtype,
+          amount,
+          description,
+          fuel_type: fuelType,
+          region
+        })
       });
 
       if (response.ok) {
@@ -137,6 +180,20 @@ export function useFootprint(userId: string | undefined) {
       setLogs(current);
       localStorage.setItem(localLogsKey, JSON.stringify(current));
       
+      // Queue offline action
+      try {
+        await enqueueAction('log', userId, {
+          category,
+          subtype,
+          amount,
+          description,
+          fuel_type: fuelType,
+          region
+        });
+      } catch (dbErr) {
+        console.error("Failed to enqueue offline log:", dbErr);
+      }
+
       // Update local insights
       fetchInsightsAndLogs();
       return newLog;
@@ -146,11 +203,10 @@ export function useFootprint(userId: string | undefined) {
   const completeChallenge = async (challengeId: string, co2Savings: number, title: string, desc: string) => {
     if (!userId) return null;
     try {
-      const response = await fetch(`${API_BASE}/actions/complete`, {
+      const response = await apiFetch("/actions/complete", {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'x-user-id': userId
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({ challenge_id: challengeId })
       });
@@ -190,7 +246,7 @@ export function useFootprint(userId: string | undefined) {
           subtype: title,
           amount: 1,
           co2_kg: -co2Savings,
-          equivalent: `Saved ${co2Savings} kg CO2. ${desc}`,
+          equivalent: `Saved {co2Savings} kg CO2. ${desc}`,
           description: `Completed Challenge: ${title}`,
           timestamp: new Date().toISOString()
         };
@@ -199,6 +255,18 @@ export function useFootprint(userId: string | undefined) {
         const current = [fallbackLog, ...logs];
         setLogs(current);
         localStorage.setItem(localLogsKey, JSON.stringify(current));
+
+        // Queue offline action
+        try {
+          await enqueueAction('challenge', userId, {
+            challengeId,
+            co2Savings,
+            title,
+            desc
+          });
+        } catch (dbErr) {
+          console.error("Failed to enqueue offline challenge:", dbErr);
+        }
 
         fetchInsightsAndLogs();
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { calculateBaselineClient } from '../lib/co2calc';
+import { apiFetch, registerLogoutCallback } from '../lib/api';
 
 export interface UserProfile {
   userId: string;
@@ -9,84 +10,54 @@ export interface UserProfile {
   teamName: string;
   badges: string[];
   completed_challenges: string[];
+  role: 'admin' | 'user';
 }
-
-const API_BASE = "http://localhost:8000";
 
 export function useAuth() {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
-
-  // Set up local user ID
-  const [localUserId] = useState(() => {
-    const cached = localStorage.getItem("terra_userId");
-    if (cached) return cached;
-    const newId = `user_${Math.random().toString(36).substring(2, 9)}`;
-    localStorage.setItem("terra_userId", newId);
-    return newId;
-  });
+  const [authError, setAuthError] = useState<string | null>(null);
 
   const fetchProfile = async () => {
+    const token = localStorage.getItem("terra_token");
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE}/insights`, {
-        headers: { "x-user-id": localUserId }
-      });
+      const response = await apiFetch("/auth/me");
       if (response.ok) {
-        // We can fetch profile from a backend custom endpoint or fetch user details.
-        // Let's call a mock profile endpoint. Since we didn't explicitly create a GET /profile endpoint, 
-        // we can fetch from the mock DB via the insights or logs endpoint.
-        // Wait, let's look up how we implemented `/leaderboard` or `/log`.
-        // Let's do a fetch to leaderboard to see our score, or just fetch via a generic endpoint.
-        // Wait, let's create a custom get profile logic. In firestore_service we have get_user_profile.
-        // Let's verify: does `/insights` return streak and rolling score? Yes, it returns streak.
-        // Let's build a quick profile load by getting data from localStorage, and syncing if backend is active.
-        const cachedProfile = localStorage.getItem(`terra_profile_${localUserId}`);
-        let baseProfile: UserProfile = cachedProfile ? JSON.parse(cachedProfile) : {
-          userId: localUserId,
-          userName: `EcoWarrior_${localUserId.substring(5, 9)}`,
-          streak: 0,
-          baseline_co2: 250.0,
-          teamName: "Floor 3",
-          badges: ["Carbon Onboarder"],
-          completed_challenges: []
+        const profileData = await response.json();
+        const baseProfile: UserProfile = {
+          userId: profileData.userId,
+          userName: profileData.userName,
+          streak: profileData.streak || 0,
+          baseline_co2: profileData.baseline_co2 || 250.0,
+          teamName: profileData.teamName || "Floor 3",
+          badges: profileData.badges || ["Carbon Onboarder"],
+          completed_challenges: profileData.completed_challenges || [],
+          role: profileData.role || (profileData.userName?.toLowerCase() === 'admin' ? 'admin' : 'user')
         };
-
-        // Let's see if we can get rankings or details from backend
-        // Since get_user_profile is run in backend, let's fetch leaderboard to extract our details!
-        const lbRes = await fetch(`${API_BASE}/leaderboard`);
-        if (lbRes.ok) {
-          const lbData = await lbRes.json();
-          const me = lbData.find((u: any) => u.userId === localUserId);
-          if (me) {
-            baseProfile.streak = me.streak;
-            baseProfile.teamName = me.teamName || "Floor 3";
-            baseProfile.userName = me.userName;
-          }
-        }
-        
         setUser(baseProfile);
-        localStorage.setItem(`terra_profile_${localUserId}`, JSON.stringify(baseProfile));
+        localStorage.setItem("terra_userId", baseProfile.userId);
+        localStorage.setItem(`terra_profile_${baseProfile.userId}`, JSON.stringify(baseProfile));
+      } else if (response.status === 401) {
+        // Token expired/invalid, clear session
+        logout();
       } else {
-        throw new Error("Backend offline");
+        throw new Error("Profile request failed");
       }
     } catch (err) {
-      // Offline fallback
-      const cachedProfile = localStorage.getItem(`terra_profile_${localUserId}`);
-      if (cachedProfile) {
-        setUser(JSON.parse(cachedProfile));
-      } else {
-        const fallback: UserProfile = {
-          userId: localUserId,
-          userName: `EcoWarrior_${localUserId.substring(5, 9)}`,
-          streak: 0,
-          baseline_co2: 250.0,
-          teamName: "Floor 3",
-          badges: ["Carbon Onboarder"],
-          completed_challenges: []
-        };
-        setUser(fallback);
-        localStorage.setItem(`terra_profile_${localUserId}`, JSON.stringify(fallback));
+      // Offline fallback: try reading from last cached user ID
+      const cachedUid = localStorage.getItem("terra_userId");
+      if (cachedUid) {
+        const cachedProfile = localStorage.getItem(`terra_profile_${cachedUid}`);
+        if (cachedProfile) {
+          setUser(JSON.parse(cachedProfile));
+        }
       }
     } finally {
       setLoading(false);
@@ -95,7 +66,74 @@ export function useAuth() {
 
   useEffect(() => {
     fetchProfile();
-  }, [localUserId]);
+    // Register logout callback so apiFetch 401 interceptor can call our clean logout
+    registerLogoutCallback(() => logout());
+  }, []);
+
+  const login = async (username: string, password: string): Promise<boolean> => {
+    setLoading(true);
+    setAuthError(null);
+    try {
+      const res = await apiFetch("/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem("terra_token", data.access_token);
+        localStorage.setItem("terra_userId", data.userId);
+        await fetchProfile();
+        return true;
+      } else {
+        const errData = await res.json();
+        setAuthError(errData.detail || "Incorrect username or password.");
+        return false;
+      }
+    } catch (e) {
+      setAuthError("Network error. Please check if backend is online.");
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const signup = async (username: string, password: string): Promise<boolean> => {
+    setLoading(true);
+    setAuthError(null);
+    try {
+      const res = await apiFetch("/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem("terra_token", data.access_token);
+        localStorage.setItem("terra_userId", data.userId);
+        await fetchProfile();
+        return true;
+      } else {
+        const errData = await res.json();
+        setAuthError(errData.detail || "Registration failed. Try a different username.");
+        return false;
+      }
+    } catch (e) {
+      setAuthError("Network error. Please check if backend is online.");
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("terra_token");
+    localStorage.removeItem("terra_userId");
+    setUser(null);
+    setAuthError(null);
+  };
 
   const saveOnboarding = async (formData: {
     transportKm: number;
@@ -105,13 +143,11 @@ export function useAuth() {
     flightsCount: number;
     shoppingFreq: string;
   }) => {
+    if (!user) return;
     try {
-      const response = await fetch(`${API_BASE}/insights/onboarding`, {
+      const response = await apiFetch("/insights/onboarding", {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-user-id': localUserId
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           transport_km_per_month: formData.transportKm,
           transport_type: formData.transportType,
@@ -125,17 +161,17 @@ export function useAuth() {
       if (response.ok) {
         const data = await response.json();
         const updated: UserProfile = {
-          ...user!,
+          ...user,
           baseline_co2: data.monthly_baseline_kg,
         };
         setUser(updated);
-        localStorage.setItem(`terra_profile_${localUserId}`, JSON.stringify(updated));
+        localStorage.setItem(`terra_profile_${user.userId}`, JSON.stringify(updated));
         return data;
       } else {
         throw new Error("Failed to save onboarding on backend");
       }
     } catch (err) {
-      // Local fallback onboarding baseline math
+      // Local fallback calculation
       const clientMath = calculateBaselineClient(
         formData.transportKm,
         formData.transportType,
@@ -146,11 +182,11 @@ export function useAuth() {
       );
 
       const updated: UserProfile = {
-        ...user!,
+        ...user,
         baseline_co2: clientMath.monthlyBaselineKg,
       };
       setUser(updated);
-      localStorage.setItem(`terra_profile_${localUserId}`, JSON.stringify(updated));
+      localStorage.setItem(`terra_profile_${user.userId}`, JSON.stringify(updated));
       return {
         monthly_baseline_kg: clientMath.monthlyBaselineKg,
         annual_tonnes: clientMath.annualTonnes,
@@ -163,13 +199,9 @@ export function useAuth() {
     if (!user) return;
     const updated = { ...user, userName: newName };
     setUser(updated);
-    localStorage.setItem(`terra_profile_${localUserId}`, JSON.stringify(updated));
-    // Optional: sync to backend in background
-    fetch(`${API_BASE}/leaderboard/join?team_name=${user.teamName}`, {
-      method: 'POST',
-      headers: {
-        'x-user-id': localUserId
-      }
+    localStorage.setItem(`terra_profile_${user.userId}`, JSON.stringify(updated));
+    apiFetch(`/leaderboard/join?team_name=${encodeURIComponent(user.teamName)}`, {
+      method: 'POST'
     }).catch(() => {});
   };
 
@@ -177,11 +209,10 @@ export function useAuth() {
     if (!user) return;
     const updated = { ...user, teamName };
     setUser(updated);
-    localStorage.setItem(`terra_profile_${localUserId}`, JSON.stringify(updated));
+    localStorage.setItem(`terra_profile_${user.userId}`, JSON.stringify(updated));
     try {
-      await fetch(`${API_BASE}/leaderboard/join?team_name=${encodeURIComponent(teamName)}`, {
-        method: 'POST',
-        headers: { 'x-user-id': localUserId }
+      await apiFetch(`/leaderboard/join?team_name=${encodeURIComponent(teamName)}`, {
+        method: 'POST'
       });
     } catch (e) {
       console.warn("Backend offline, team join saved locally.");
@@ -191,6 +222,10 @@ export function useAuth() {
   return {
     user,
     loading,
+    authError,
+    login,
+    signup,
+    logout,
     saveOnboarding,
     updateUsername,
     joinTeam,

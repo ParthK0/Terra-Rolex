@@ -15,6 +15,7 @@ interface UserContextValue {
     shoppingFreq: string;
   }) => Promise<any>;
   refreshProfile: () => Promise<void>;
+  logout: () => void;
 }
 
 const UserContext = createContext<UserContextValue | null>(null);

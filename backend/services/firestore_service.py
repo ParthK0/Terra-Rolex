@@ -94,7 +94,8 @@ def get_user_profile(user_id: str) -> Dict[str, Any]:
             "baseline_co2": 250.0,
             "teamName": "Floor 3",
             "badges": ["Carbon Onboarder"],
-            "completed_challenges": []
+            "completed_challenges": [],
+            "role": "admin" if f"EcoWarrior_{user_id[:4]}".lower() == "admin" else "user"
         }
         _local_db["users"][user_id] = default
         save_db()
@@ -111,8 +112,22 @@ def update_user_profile(user_id: str, updates: Dict[str, Any]) -> Dict[str, Any]
 
     # Update the shared in-memory dict directly for in-process consistency
     if user_id not in _local_db["users"]:
-        _local_db["users"][user_id] = {"userId": user_id, "userName": f"EcoWarrior_{user_id[:4]}", "streak": 0, "completed_challenges": [], "badges": []}
+        _local_db["users"][user_id] = {
+            "userId": user_id,
+            "userName": f"EcoWarrior_{user_id[:4]}",
+            "streak": 0,
+            "completed_challenges": [],
+            "badges": [],
+            "role": "admin" if f"EcoWarrior_{user_id[:4]}".lower() == "admin" else "user"
+        }
+    
     _local_db["users"][user_id].update(updates)
+    if "userName" in updates:
+        username = updates["userName"]
+        _local_db["users"][user_id]["role"] = "admin" if username.lower() == "admin" else updates.get("role", _local_db["users"][user_id].get("role", "user"))
+    elif "role" in updates:
+        _local_db["users"][user_id]["role"] = updates["role"]
+
     save_db()
     return _local_db["users"][user_id]
 
@@ -238,3 +253,105 @@ def get_leaderboards() -> List[Dict[str, Any]]:
     # Sort: lower score is better (lower footprint)
     standings.sort(key=lambda x: x["score"])
     return standings
+
+def get_user_by_username(username: str) -> Optional[Dict[str, Any]]:
+    if firebase_initialized:
+        try:
+            from firebase_admin import firestore
+            db = firestore.client()
+            docs = db.collection("users").where("userName", "==", username).limit(1).stream()
+            for doc in docs:
+                data = doc.to_dict()
+                if "userId" not in data:
+                    data["userId"] = doc.id
+                return data
+            # Try case-insensitive check
+            docs_all = db.collection("users").stream()
+            for doc in docs_all:
+                data = doc.to_dict()
+                if data.get("userName", "").lower() == username.lower():
+                    if "userId" not in data:
+                        data["userId"] = doc.id
+                    return data
+        except Exception as e:
+            print(f"Firebase error in get_user_by_username: {e}")
+
+    # Fallback to local DB
+    db_data = load_db()
+    for u in db_data["users"].values():
+        if u.get("userName", "").lower() == username.lower():
+            return u
+    return None
+
+def get_all_users() -> List[Dict[str, Any]]:
+    if firebase_initialized:
+        try:
+            from firebase_admin import firestore
+            db = firestore.client()
+            docs = db.collection("users").stream()
+            return [doc.to_dict() for doc in docs]
+        except Exception as e:
+            print(f"Firebase error in get_all_users: {e}")
+    db_data = load_db()
+    return list(db_data["users"].values())
+
+def delete_user(user_id: str) -> bool:
+    deleted = False
+    if firebase_initialized:
+        try:
+            from firebase_admin import firestore
+            db = firestore.client()
+            db.collection("users").document(user_id).delete()
+            logs_ref = db.collection("logs").where("userId", "==", user_id).stream()
+            for log in logs_ref:
+                log.reference.delete()
+            deleted = True
+        except Exception as e:
+            print(f"Firebase error in delete_user: {e}")
+
+    # Operate on _local_db directly so in-memory cache stays consistent
+    if user_id in _local_db["users"]:
+        del _local_db["users"][user_id]
+        _local_db["logs"] = [log for log in _local_db["logs"] if log["userId"] != user_id]
+        save_db()
+        deleted = True
+    return deleted
+
+def get_all_logs() -> List[Dict[str, Any]]:
+    if firebase_initialized:
+        try:
+            from firebase_admin import firestore
+            db = firestore.client()
+            docs = db.collection("logs").order_by("timestamp", direction=firestore.Query.DESCENDING).stream()
+            return [doc.to_dict() for doc in docs]
+        except Exception as e:
+            print(f"Firebase error in get_all_logs: {e}")
+    db_data = load_db()
+    logs = list(db_data["logs"])
+    logs.sort(key=lambda x: x.get("timestamp", ""), reverse=True)
+    return logs
+
+def add_challenge(challenge_data: Dict[str, Any]) -> Dict[str, Any]:
+    # Mutate _local_db directly so in-memory cache stays consistent with disk
+    _local_db["challenges"].append(challenge_data)
+    save_db()
+    return challenge_data
+
+def update_challenge(challenge_id: str, updates: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    # Mutate _local_db directly so in-memory cache stays consistent with disk
+    for c in _local_db["challenges"]:
+        if c["id"] == challenge_id:
+            c.update(updates)
+            save_db()
+            return c
+    return None
+
+def delete_challenge(challenge_id: str) -> bool:
+    # Mutate _local_db directly so in-memory cache stays consistent with disk
+    initial_len = len(_local_db["challenges"])
+    _local_db["challenges"] = [c for c in _local_db["challenges"] if c["id"] != challenge_id]
+    if len(_local_db["challenges"]) < initial_len:
+        save_db()
+        return True
+    return False
+
