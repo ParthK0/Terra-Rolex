@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from typing import List
+from typing import List, Optional
 from models.schemas import LogEntryRequest, LogEntryResponse
 from services.co2_engine import calculate_co2
 from services.firestore_service import add_user_log, get_user_logs
@@ -51,13 +51,20 @@ def create_log(request: LogEntryRequest, current_user: dict = Depends(get_curren
 
 @router.get("", response_model=List[LogEntryResponse])
 def get_logs(
+    user_id: Optional[str] = None,
     current_user: dict = Depends(get_current_user),
     limit: int = 50,
     offset: int = 0
 ):
     try:
-        user_id = current_user["userId"]
-        logs = get_user_logs(user_id)
+        session_user_id = current_user["userId"]
+        target_user_id = user_id or session_user_id
+        
+        is_admin = current_user.get("role") == "admin"
+        if target_user_id != session_user_id and not is_admin:
+            raise HTTPException(status_code=403, detail="Forbidden: You cannot access another user's logs.")
+            
+        logs = get_user_logs(target_user_id)
         paginated = logs[offset: offset + limit]
         res = []
         for l in paginated:
@@ -75,5 +82,7 @@ def get_logs(
                 region=l.get("region")
             ))
         return res
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

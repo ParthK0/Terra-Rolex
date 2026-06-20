@@ -176,7 +176,7 @@ function Navbar({ user, streak, onLogout }: { user: UserProfile | null; streak: 
 
 function MainContent() {
   const { user, loading: authLoading, logout, saveOnboarding, updateUsername, joinTeam, refreshProfile } = useAuth();
-  const { logs, insights, loading: footprintLoading, logActivity, completeChallenge } = useFootprint(user?.userId);
+  const { logs, insights, loading: footprintLoading, logActivity, completeChallenge } = useFootprint(user?.userId, refreshProfile);
 
   const loading = authLoading || footprintLoading;
 
@@ -222,7 +222,7 @@ function MainContent() {
         {location.pathname !== '/onboarding' && (
           <Navbar 
             user={user} 
-            streak={insights?.streak || 0} 
+            streak={insights ? insights.streak : (user?.streak || 0)} 
             onLogout={logout}
           />
         )}

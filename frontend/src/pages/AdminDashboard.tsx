@@ -235,8 +235,17 @@ export default function AdminDashboard() {
                   <XAxis dataKey="date" stroke="#9CA3AF" tickLine={false} tick={{ fontSize: 9 }} />
                   <YAxis stroke="#9CA3AF" unit="kg" tickLine={false} tick={{ fontSize: 9 }} />
                   <Tooltip
-                    contentStyle={{ backgroundColor: '#fff', border: '1px solid #E2E8F0', borderRadius: '12px', fontSize: '11px' }}
-                    formatter={(val: any) => [`${val} kg CO₂`, 'Daily Total']}
+                    content={({ active, payload, label }) => {
+                      if (active && payload && payload.length) {
+                        return (
+                          <div role="tooltip" aria-live="polite" className="bg-white border border-[#E2E8F0] p-3.5 rounded-xl shadow-xl space-y-1 text-xs text-text-charcoal">
+                            <p className="font-extrabold">{label}</p>
+                            <p className="font-bold text-accent-blue">Daily Total: {payload[0].value} kg CO₂</p>
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
                   />
                   <Area type="monotone" dataKey="co2" stroke="#2E90FA" fill="rgba(46,144,250,0.08)" strokeWidth={2.5} />
                 </AreaChart>
@@ -264,9 +273,18 @@ export default function AdminDashboard() {
                       <Cell key={idx} fill={CHART_COLORS[idx % CHART_COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip
-                    contentStyle={{ backgroundColor: '#fff', border: '1px solid #E2E8F0', borderRadius: '12px', fontSize: '11px' }}
-                    formatter={(val: any) => [`${val} kg`, '']}
+                   <Tooltip
+                    content={({ active, payload }) => {
+                      if (active && payload && payload.length) {
+                        return (
+                          <div role="tooltip" aria-live="polite" className="bg-white border border-[#E2E8F0] p-3.5 rounded-xl shadow-xl space-y-1 text-xs text-text-charcoal">
+                            <p className="font-extrabold">{payload[0].name}</p>
+                            <p className="font-bold text-accent-green">{payload[0].value} kg</p>
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
                   />
                 </PieChart>
               </ResponsiveContainer>

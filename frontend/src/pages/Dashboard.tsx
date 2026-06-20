@@ -425,7 +425,7 @@ export default function Dashboard({ user, insights, loading, logs, onQuickLog }:
                   </span>
                   <div className="flex items-center gap-1 text-[10px] text-text-grey font-bold">
                     <Flame className="w-3.5 h-3.5 text-accent-blue" />
-                    <span>{insights.streak ?? 0} Day Streak</span>
+                    <span>{insights ? insights.streak : (user?.streak || 0)} Day Streak</span>
                   </div>
                 </div>
               </div>

@@ -26,6 +26,13 @@ export default function LocalCarbonMap({}: LocalCarbonMapProps) {
 
   // 1. Dynamic script loader for Google Maps
   useEffect(() => {
+    // PRODUCTION SECURITY REQUIREMENT:
+    // This key is loaded from frontend environment variables. To prevent unauthorized reuse
+    // and quota theft, you MUST restrict the VITE_GOOGLE_MAPS_API_KEY inside the Google Cloud Console:
+    // 1. Go to Google Cloud Console > APIs & Services > Credentials.
+    // 2. Click edit on the Map API Key.
+    // 3. Set "Application restrictions" to "Websites (HTTP referrers)".
+    // 4. Under Website restrictions, add the production domain pattern (e.g. *.yourdomain.com/*).
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
     if (!apiKey) {
       setMapError("Map API key is missing. Verify settings.");

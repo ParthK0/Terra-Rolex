@@ -22,7 +22,7 @@ export interface InsightState {
   living_world_status: string;
 }
 
-export function useFootprint(userId: string | undefined) {
+export function useFootprint(userId: string | undefined, onProfileRefresh?: () => void) {
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [insights, setInsights] = useState<InsightState | null>(null);
   const [loading, setLoading] = useState(true);
@@ -157,6 +157,7 @@ export function useFootprint(userId: string | undefined) {
         setLogs(prev => [newLog, ...prev]);
         // Refresh insights to update rolling score
         fetchInsightsAndLogs();
+        onProfileRefresh?.();
         return newLog;
       } else {
         throw new Error("Backend rejected log");
@@ -196,6 +197,7 @@ export function useFootprint(userId: string | undefined) {
 
       // Update local insights
       fetchInsightsAndLogs();
+      onProfileRefresh?.();
       return newLog;
     }
   };
@@ -215,6 +217,7 @@ export function useFootprint(userId: string | undefined) {
         const data = await response.json();
         // Refresh logs and insights
         fetchInsightsAndLogs();
+        onProfileRefresh?.();
         return data;
       } else {
         throw new Error("Backend complete failed");
@@ -269,6 +272,7 @@ export function useFootprint(userId: string | undefined) {
         }
 
         fetchInsightsAndLogs();
+        onProfileRefresh?.();
 
         return {
           success: true,

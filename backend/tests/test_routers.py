@@ -93,6 +93,11 @@ class TestLogRouter:
         for log in res.json():
             assert log["userId"] == TEST_USER_ID
 
+    def test_user_cannot_read_other_user_logs(self):
+        """GET /log?user_id=other_user should return 403 Forbidden for non-admins."""
+        res = client.get("/log?user_id=some_other_user", headers=HEADERS)
+        assert res.status_code == 403
+
     def test_create_log_invalid_amount(self):
         """POST /log with negative or zero amount should fail validation with 422."""
         payload = {"category": "transport", "subtype": "car", "amount": -10}

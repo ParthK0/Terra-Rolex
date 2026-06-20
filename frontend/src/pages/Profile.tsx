@@ -20,7 +20,7 @@ const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?:
     const val = payload[0].value;
     const isOver = val > BUDGET_CEILING;
     return (
-      <div className="bg-white border border-gray-150 p-3.5 rounded-xl shadow-xl space-y-1.5 text-xs">
+      <div role="tooltip" aria-live="polite" className="bg-white border border-gray-150 p-3.5 rounded-xl shadow-xl space-y-1.5 text-xs">
         <p className="font-extrabold text-text-charcoal font-display">{label}</p>
         <div className="flex items-center gap-1.5 font-bold text-accent-blue">
           <span>{val.toFixed(1)} kg CO₂</span>
@@ -44,7 +44,7 @@ export default function Profile({ user, onUpdateUsername }: ProfileProps) {
 
   const handleShare = async () => {
     const weeklyKg = insights?.rolling_score_kg?.toFixed(1) ?? '—';
-    const streakDays = insights?.streak ?? 0;
+    const streakDays = insights ? insights.streak : (user?.streak || 0);
     const shareText = `🌍 I'm tracking my carbon footprint on TerraRolex!\nMy 7-day footprint: ${weeklyKg} kg CO₂ | Streak: ${streakDays} days.\nJoin me at ${window.location.origin}`;
 
     if (navigator.share) {
@@ -173,7 +173,7 @@ export default function Profile({ user, onUpdateUsername }: ProfileProps) {
               <span className="text-[10px] text-text-grey uppercase font-bold block">Streak</span>
               <div className="text-xl font-bold text-accent-amber flex items-center justify-center gap-1 mt-1">
                 <Flame className="h-4 w-4 fill-accent-amber/15" />
-                <span>{insights.streak} Days</span>
+                <span>{insights ? insights.streak : (user?.streak || 0)} Days</span>
               </div>
             </div>
             <div className="flex-1 md:flex-none p-4 rounded-xl bg-bg-base border border-gray-200/60 text-center min-w-[130px]">

@@ -33,6 +33,16 @@ class FirestoreRepository(DatabaseRepository):
 
     def update_user_profile(self, user_id: str, updates: Dict[str, Any]) -> Dict[str, Any]:
         self.db.collection("users").document(user_id).set(updates, merge=True)
+        
+        # Invalidate cache if streak/userName/completed_challenges/badges are updated and not setting cached_nudges
+        cache_affecting_keys = {"streak", "userName", "completed_challenges", "badges"}
+        if any(k in updates for k in cache_affecting_keys) and "cached_nudges" not in updates:
+            self.db.collection("users").document(user_id).set({
+                "cached_nudges": None,
+                "cached_logs_count": -1,
+                "cached_streak": -1
+            }, merge=True)
+            
         return self.get_user_profile(user_id)
 
     def get_user_logs(self, user_id: str, limit: int = 200, offset: int = 0) -> List[Dict[str, Any]]:
@@ -54,6 +64,14 @@ class FirestoreRepository(DatabaseRepository):
             log_data["timestamp"] = datetime.now().isoformat()
 
         self.db.collection("logs").document(log_id).set(log_data)
+        
+        # Clear cached nudges in Firestore profile to force regeneration
+        self.db.collection("users").document(user_id).set({
+            "cached_nudges": None,
+            "cached_logs_count": -1,
+            "cached_streak": -1
+        }, merge=True)
+        
         return log_data
 
     def get_challenges(self, user_id: str) -> List[Dict[str, Any]]:
@@ -108,19 +126,40 @@ class FirestoreRepository(DatabaseRepository):
         return challenge
 
     def get_leaderboards(self) -> List[Dict[str, Any]]:
+        from services.co2_engine import calculate_co2
         # A simple implementation for Firebase; aggregate scores locally for now
         users_docs = self.db.collection("users").stream()
         standings = []
+        challenges = self.get_all_challenges()
         
         for doc in users_docs:
             profile = doc.to_dict()
             uid = profile.get("userId", doc.id)
+            completed = profile.get("completed_challenges", [])
             
             logs_docs = self.db.collection("logs").where("userId", "==", uid).stream()
             score = profile.get("baseline_co2", 250.0)
             for log in logs_docs:
                 log_data = log.to_dict()
-                score += log_data.get("co2_kg", 0.0)
+                co2_val = log_data.get("co2_kg", 0.0)
+                desc = log_data.get("description", "")
+                
+                # Check for challenge offsets
+                if co2_val < 0 or desc.startswith("Completed Challenge:"):
+                    title = log_data.get("subtype")
+                    challenge = next((c for c in challenges if c.get("title") == title or c.get("id") == title), None)
+                    if challenge and challenge.get("id") in completed:
+                        score -= abs(challenge.get("co2_savings_kg", 0.0))
+                else:
+                    # Recalculate regular emissions
+                    recalc_val, _ = calculate_co2(
+                        log_data.get("category", ""),
+                        log_data.get("subtype", ""),
+                        float(log_data.get("amount", 0.0)),
+                        log_data.get("fuel_type"),
+                        log_data.get("region")
+                    )
+                    score += recalc_val
                 
             standings.append({
                 "userId": uid,

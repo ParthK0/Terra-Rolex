@@ -15,6 +15,16 @@ Keep it brief: exactly 3 nudges, each 1-2 sentences. Return them as a JSON list 
 CRITICAL: You MUST respect the "User current streak" parameter. If the user's current streak is 0 days, do NOT claim their streak is active or congratulate them on an active streak. Instead, nudge them to log their first entry or complete an action to kickstart their streak.
 """
 
+def clean_streak_nudges(nudges: List[str], streak: int) -> List[str]:
+    cleaned = []
+    for nudge in nudges:
+        if streak == 0:
+            nudge_lower = nudge.lower()
+            if "streak is active" in nudge_lower or "active streak" in nudge_lower or "streak of" in nudge_lower or "current streak" in nudge_lower:
+                nudge = "Log your first eco-friendly choice today to kick off your streak and start clearing up the virtual sky!"
+        cleaned.append(nudge)
+    return cleaned
+
 def generate_mock_insights(user_logs: List[Dict[str, Any]], rolling_score: float, streak: int) -> List[str]:
     """
     Generates smart, personalized mock insights based on logged activity.
@@ -93,7 +103,7 @@ def generate_mock_insights(user_logs: List[Dict[str, Any]], rolling_score: float
     while len(insights) < 3:
         insights.append("Keep logging your daily actions to unlock deeper AI insights about your environmental impact.")
         
-    return insights[:3]
+    return clean_streak_nudges(insights[:3], streak)
 
 def generate_insights_with_gemini(user_logs: List[Dict[str, Any]], rolling_score: float, streak: int) -> List[str]:
     """
@@ -138,7 +148,7 @@ def generate_insights_with_gemini(user_logs: List[Dict[str, Any]], rolling_score
         
         nudges = json.loads(response.text)
         if isinstance(nudges, list) and len(nudges) >= 3:
-            return nudges[:3]
+            return clean_streak_nudges(nudges[:3], streak)
         return generate_mock_insights(user_logs, rolling_score, streak)
     except Exception as e:
         print(f"Error calling Gemini API: {e}")

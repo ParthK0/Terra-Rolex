@@ -88,6 +88,12 @@ class MockRepository(DatabaseRepository):
         elif "role" in updates:
             self._local_db["users"][user_id]["role"] = updates["role"]
 
+        cache_affecting_keys = {"streak", "userName", "completed_challenges", "badges"}
+        if any(k in updates for k in cache_affecting_keys) and "cached_nudges" not in updates:
+            self._local_db["users"][user_id]["cached_nudges"] = None
+            self._local_db["users"][user_id]["cached_logs_count"] = -1
+            self._local_db["users"][user_id]["cached_streak"] = -1
+
         self.save_db()
         return self._local_db["users"][user_id]
 
@@ -104,6 +110,14 @@ class MockRepository(DatabaseRepository):
             log_data["timestamp"] = datetime.now().isoformat()
 
         self._local_db["logs"].append(log_data)
+        
+        # Clear cached nudges to force regeneration
+        profile = self.get_user_profile(user_id)
+        profile["cached_nudges"] = None
+        profile["cached_logs_count"] = -1
+        profile["cached_streak"] = -1
+        self._local_db["users"][user_id] = profile
+        
         self.save_db()
         return log_data
 
@@ -152,12 +166,35 @@ class MockRepository(DatabaseRepository):
         return challenge
 
     def get_leaderboards(self) -> List[Dict[str, Any]]:
+        from services.co2_engine import calculate_co2
         standings = []
+        challenges = self.get_all_challenges()
+        
         for uid, profile in self._local_db["users"].items():
             user_logs = [log for log in self._local_db["logs"] if log.get("userId") == uid]
+            completed = profile.get("completed_challenges", [])
             score = profile.get("baseline_co2", 250.0)
+            
             for log in user_logs:
-                score += log.get("co2_kg", 0.0)
+                co2_val = log.get("co2_kg", 0.0)
+                desc = log.get("description", "")
+                
+                # Check for challenge offsets
+                if co2_val < 0 or desc.startswith("Completed Challenge:"):
+                    title = log.get("subtype")
+                    challenge = next((c for c in challenges if c.get("title") == title or c.get("id") == title), None)
+                    if challenge and challenge.get("id") in completed:
+                        score -= abs(challenge.get("co2_savings_kg", 0.0))
+                else:
+                    # Recalculate regular emissions
+                    recalc_val, _ = calculate_co2(
+                        log.get("category", ""),
+                        log.get("subtype", ""),
+                        float(log.get("amount", 0.0)),
+                        log.get("fuel_type"),
+                        log.get("region")
+                    )
+                    score += recalc_val
                 
             standings.append({
                 "userId": uid,
