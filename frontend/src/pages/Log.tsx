@@ -136,7 +136,7 @@ export default function Log({ onLog }: LogProps) {
           destination,
           travelMode
         },
-        (result: any, status: any) => {
+        (result: unknown, status: unknown) => {
           setCalculatingRoute(false);
           if (status === g.maps.DirectionsStatus.OK) {
             const route = result.routes[0];
@@ -156,7 +156,7 @@ export default function Log({ onLog }: LogProps) {
           }
         }
       );
-    } catch (err: any) {
+    } catch (error) { const err = error as Error;
       setCalculatingRoute(false);
       console.error(err);
       setErrorMsg("Error communicating with Google Directions API. Use manual input.");

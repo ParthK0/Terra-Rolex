@@ -46,7 +46,7 @@ export default function AdminLogs() {
       } else {
         throw new Error('Failed to retrieve atmospheric log stream.');
       }
-    } catch (err: any) {
+    } catch (error) { const err = error as Error;
       setError(err.message || 'An error occurred.');
     } finally {
       setLoading(false);

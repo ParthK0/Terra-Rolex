@@ -52,3 +52,27 @@ def test_onboarding_baseline():
     assert co2 == 320.5
     assert "320.5" in str(co2)
     assert "baseline" in context
+
+def test_co2_edge_cases():
+    # 1. Transport - Public transport (metro) - scales by grid factor
+    # Metro factor is 0.04 * (0.78 / 0.78) = 0.04. For 100km = 4.0kg
+    co2, eq = calculate_co2("transport", "public_transport", 100, fuel_type="metro", region="IN-national-avg")
+    assert co2 == 4.0
+
+    # 2. Transport - Car - Hybrid
+    co2, eq = calculate_co2("transport", "car", 100, fuel_type="hybrid")
+    assert co2 == 11.0 # 100 * 0.11
+
+    # 3. Unknown category fallback
+    co2, eq = calculate_co2("unknown_cat", "unknown_sub", 10)
+    assert co2 == 10.0 # 1.0 * amount
+    assert "Generated" in eq
+
+    # 4. Energy - Appliances
+    # factor = 0.3 / 0.78 * 0.78 = 0.3. For 5 units = 1.5kg
+    co2, eq = calculate_co2("energy", "appliances", 5)
+    assert co2 == 1.5
+
+    # 5. Food - Low meat
+    co2, eq = calculate_co2("food", "low_meat", 2)
+    assert co2 == 1.6 # 0.8 * 2

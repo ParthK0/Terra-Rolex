@@ -54,7 +54,7 @@ export default function AdminChallenges() {
       } else {
         throw new Error('Failed to load environmental challenges.');
       }
-    } catch (err: any) {
+    } catch (error) { const err = error as Error;
       setError(err.message || 'An error occurred.');
     } finally {
       setLoading(false);
@@ -105,7 +105,7 @@ export default function AdminChallenges() {
       } else {
         throw new Error('Could not create challenge on server.');
       }
-    } catch (err: any) {
+    } catch (error) { const err = error as Error;
       alert(err.message);
     }
   };
@@ -148,7 +148,7 @@ export default function AdminChallenges() {
       } else {
         throw new Error('Failed to update challenge.');
       }
-    } catch (err: any) {
+    } catch (error) { const err = error as Error;
       alert(err.message);
     }
   };
@@ -168,7 +168,7 @@ export default function AdminChallenges() {
       } else {
         throw new Error('Failed to delete challenge.');
       }
-    } catch (err: any) {
+    } catch (error) { const err = error as Error;
       alert(err.message);
     }
   };

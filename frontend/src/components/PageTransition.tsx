@@ -5,7 +5,7 @@ interface PageTransitionProps {
   children: React.ReactNode;
 }
 
-const pageVariants: any = {
+const pageVariants: Record<string, unknown> = {
   initial: {
     opacity: 0,
     y: 12,

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { calculateCO2Client } from '../lib/co2calc';
 import { getVisceralComparison } from '../lib/benchmarks';
 import { apiFetch } from '../lib/api';
@@ -29,7 +29,7 @@ export function useFootprint(userId: string | undefined) {
   // Guard against concurrent fetches causing race condition / stale state overwrites
   const fetchingRef = useRef(false);
 
-  const fetchInsightsAndLogs = async () => {
+  const fetchInsightsAndLogs = useCallback(async () => {
     if (!userId || fetchingRef.current) return;
     fetchingRef.current = true;
     setLoading(true);
@@ -95,11 +95,11 @@ export function useFootprint(userId: string | undefined) {
       setLoading(false);
       fetchingRef.current = false;
     }
-  };
+  }, [userId]);
 
   useEffect(() => {
     fetchInsightsAndLogs();
-  }, [userId]);
+  }, [userId, fetchInsightsAndLogs]);
 
   useEffect(() => {
     if (!userId) return;
@@ -125,7 +125,7 @@ export function useFootprint(userId: string | undefined) {
     return () => {
       window.removeEventListener('online', handleOnline);
     };
-  }, [userId]);
+  }, [userId, fetchInsightsAndLogs]);
 
   const logActivity = async (
     category: string,

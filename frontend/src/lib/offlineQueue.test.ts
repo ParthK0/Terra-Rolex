@@ -8,7 +8,7 @@ vi.mock('./api', () => ({
 }));
 
 describe('Offline Queue Utility', () => {
-  let mockStore: any[] = [];
+  let mockStore: Record<string, unknown>[] = [];
 
   beforeEach(() => {
     mockStore = [];
@@ -18,7 +18,7 @@ describe('Offline Queue Utility', () => {
     const mockDB = {
       transaction: () => ({
         objectStore: () => ({
-          add: (action: any) => {
+          add: (action: Record<string, unknown>) => {
             mockStore.push(action);
             const req = { onsuccess: null, onerror: null } as any;
             setTimeout(() => req.onsuccess?.(), 0);

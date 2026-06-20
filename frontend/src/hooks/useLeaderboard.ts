@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { apiFetch } from '../lib/api';
 
 export interface LeaderboardUser {
@@ -20,7 +20,7 @@ export function useLeaderboard(currentUserId: string | undefined, currentScore: 
   const [teamsLeaderboard, setTeamsLeaderboard] = useState<TeamStanding[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchStandings = async () => {
+  const fetchStandings = useCallback(async () => {
     setLoading(true);
     try {
       const uRes = await apiFetch("/leaderboard");
@@ -87,11 +87,11 @@ export function useLeaderboard(currentUserId: string | undefined, currentScore: 
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentUserId, currentScore]);
 
   useEffect(() => {
     fetchStandings();
-  }, [currentUserId, currentScore]);
+  }, [currentUserId, currentScore, fetchStandings]);
 
   return {
     usersLeaderboard,

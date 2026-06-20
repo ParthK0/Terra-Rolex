@@ -32,6 +32,7 @@ export default function Actions({ user, onCompleteChallenge }: ActionsProps) {
   const [loadingChallengeId, setLoadingChallengeId] = useState<string | null>(null);
   const [coachResponse, setCoachResponse] = useState<string | null>(null);
   const [coachError, setCoachError] = useState<string | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const loadChallenges = async () => {
     setFetchLoading(true);
@@ -44,7 +45,7 @@ export default function Actions({ user, onCompleteChallenge }: ActionsProps) {
       } else {
         throw new Error('Failed to load challenges.');
       }
-    } catch (err: any) {
+    } catch (error) { const err = error as Error;
       setFetchError(err.message || 'Could not load challenges.');
     } finally {
       setFetchLoading(false);
@@ -84,6 +85,26 @@ export default function Actions({ user, onCompleteChallenge }: ActionsProps) {
     }
   };
 
+  const handleGenerateChallenge = async () => {
+    setIsGenerating(true);
+    setCoachResponse(null);
+    setCoachError(null);
+    try {
+      const res = await apiFetch('/actions/generate', { method: 'POST' });
+      if (res.ok) {
+        const newChallenge: ChallengeItem = await res.json();
+        setChallenges(prev => [newChallenge, ...prev]);
+        setCoachResponse(`Generated personalized challenge: ${newChallenge.title}!`);
+      } else {
+        throw new Error('Failed to generate challenge');
+      }
+    } catch (e) {
+      setCoachError('Failed to contact Gemini AI. Try again later.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   // Loading skeleton
   if (fetchLoading) {
     return (
@@ -115,13 +136,23 @@ export default function Actions({ user, onCompleteChallenge }: ActionsProps) {
               Perform carbon-saving actions to grow your daily streak and clean up the atmosphere.
             </p>
           </div>
-          <button
-            onClick={loadChallenges}
-            className="flex items-center gap-1.5 text-xs font-bold text-text-grey hover:text-text-charcoal border border-gray-200 hover:bg-gray-50 px-3 py-2 rounded-xl transition-all cursor-pointer"
-          >
-            <RefreshCw className="h-3.5 w-3.5" />
-            <span>Refresh</span>
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={handleGenerateChallenge}
+              disabled={isGenerating}
+              className="flex items-center gap-1.5 text-xs font-bold text-white bg-accent-blue hover:bg-blue-600 px-3 py-2 rounded-xl transition-all cursor-pointer shadow-sm shadow-accent-blue/20 disabled:opacity-50"
+            >
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>{isGenerating ? 'Thinking...' : 'AI Challenge'}</span>
+            </button>
+            <button
+              onClick={loadChallenges}
+              className="flex items-center gap-1.5 text-xs font-bold text-text-grey hover:text-text-charcoal border border-gray-200 hover:bg-gray-50 px-3 py-2 rounded-xl transition-all cursor-pointer"
+            >
+              <RefreshCw className="h-3.5 w-3.5" />
+              <span>Refresh</span>
+            </button>
+          </div>
         </div>
 
         {/* Fetch error */}

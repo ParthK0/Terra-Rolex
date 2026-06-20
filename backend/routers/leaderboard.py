@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List, Dict, Any
 from models.schemas import LeaderboardEntry, GroupLeaderboard
-from services.firestore_service import get_leaderboards, load_db
+from services.firestore_service import get_leaderboards
 from routers.auth import get_current_user
 
 router = APIRouter(prefix="/leaderboard", tags=["Leaderboard"])

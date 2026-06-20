@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { calculateBaselineClient } from '../lib/co2calc';
 import { apiFetch, registerLogoutCallback } from '../lib/api';
 
@@ -18,7 +18,14 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState<string | null>(null);
 
-  const fetchProfile = async () => {
+  const logout = useCallback(() => {
+    localStorage.removeItem("terra_token");
+    localStorage.removeItem("terra_userId");
+    setUser(null);
+    setAuthError(null);
+  }, []);
+
+  const fetchProfile = useCallback(async () => {
     const token = localStorage.getItem("terra_token");
     if (!token) {
       setUser(null);
@@ -62,13 +69,13 @@ export function useAuth() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [logout]);
 
   useEffect(() => {
     fetchProfile();
     // Register logout callback so apiFetch 401 interceptor can call our clean logout
     registerLogoutCallback(() => logout());
-  }, []);
+  }, [fetchProfile, logout]);
 
   const login = async (username: string, password: string): Promise<boolean> => {
     setLoading(true);
@@ -127,13 +134,6 @@ export function useAuth() {
       setLoading(false);
     }
   };
-
-  function logout() {
-    localStorage.removeItem("terra_token");
-    localStorage.removeItem("terra_userId");
-    setUser(null);
-    setAuthError(null);
-  }
 
   const saveOnboarding = async (formData: {
     transportKm: number;

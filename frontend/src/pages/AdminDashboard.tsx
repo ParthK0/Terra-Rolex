@@ -58,7 +58,7 @@ export default function AdminDashboard() {
       } else {
         throw new Error("Failed to load admin dashboard statistics.");
       }
-    } catch (err: any) {
+    } catch (error) { const err = error as Error;
       setError(err.message || "An error occurred while loading dashboard statistics.");
     } finally {
       setLoading(false);
@@ -236,7 +236,7 @@ export default function AdminDashboard() {
                   <YAxis stroke="#9CA3AF" unit="kg" tickLine={false} tick={{ fontSize: 9 }} />
                   <Tooltip
                     contentStyle={{ backgroundColor: '#fff', border: '1px solid #E2E8F0', borderRadius: '12px', fontSize: '11px' }}
-                    formatter={(val: any) => [`${val} kg CO₂`, 'Daily Total']}
+                    formatter={(val: number | string) => [`${val} kg CO₂`, 'Daily Total']}
                   />
                   <Area type="monotone" dataKey="co2" stroke="#2E90FA" fill="rgba(46,144,250,0.08)" strokeWidth={2.5} />
                 </AreaChart>
@@ -266,7 +266,7 @@ export default function AdminDashboard() {
                   </Pie>
                   <Tooltip
                     contentStyle={{ backgroundColor: '#fff', border: '1px solid #E2E8F0', borderRadius: '12px', fontSize: '11px' }}
-                    formatter={(val: any) => [`${val} kg`, '']}
+                    formatter={(val: number | string) => [`${val} kg`, '']}
                   />
                 </PieChart>
               </ResponsiveContainer>

@@ -18,7 +18,7 @@ from routers import log, insights, actions, leaderboard, auth, admin
 limiter = Limiter(key_func=get_remote_address)
 
 app = FastAPI(
-    title="TerraWatch Backend API",
+    title="TerraRolex Backend API",
     description="Carbon footprint tracking, gamification, and contextual Gemini insights API.",
     version="1.0.0"
 )
@@ -56,7 +56,7 @@ app.include_router(admin.router)
 def read_root():
     return {
         "status": "online",
-        "app": "TerraWatch Carbon Footprint API",
+        "app": "TerraRolex Carbon Footprint API",
         "version": "1.0.0",
         "firebase_configured": os.environ.get("FIREBASE_CREDENTIALS_PATH") is not None,
         "gemini_configured": os.environ.get("GEMINI_API_KEY") is not None

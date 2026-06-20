@@ -42,7 +42,7 @@ export default function AdminUsers() {
       } else {
         throw new Error('Failed to retrieve user accounts.');
       }
-    } catch (err: any) {
+    } catch (error) { const err = error as Error;
       setError(err.message || 'An error occurred.');
     } finally {
       setLoading(false);
@@ -68,7 +68,7 @@ export default function AdminUsers() {
       } else {
         throw new Error('Could not update user team.');
       }
-    } catch (err: any) {
+    } catch (error) { const err = error as Error;
       alert(err.message);
     }
   };
@@ -87,7 +87,7 @@ export default function AdminUsers() {
         const errData = await response.json();
         throw new Error(errData.detail || 'Could not delete user.');
       }
-    } catch (err: any) {
+    } catch (error) { const err = error as Error;
       alert(err.message);
     }
   };
@@ -108,7 +108,7 @@ export default function AdminUsers() {
       } else {
         throw new Error('Could not update user role.');
       }
-    } catch (err: any) {
+    } catch (error) { const err = error as Error;
       alert(err.message);
     }
   };

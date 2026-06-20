@@ -95,7 +95,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   // Track if a step has been answered/interacted with
   const [answeredSteps, setAnsweredSteps] = useState<Record<number, boolean>>({});
 
-  const handleAnswer = (stepNum: number, answerValue: any, setter: (val: any) => void) => {
+  const handleAnswer = (stepNum: number, answerValue: string | number, setter: (val: string | number | undefined) => void) => {
     setter(answerValue);
     setAnsweredSteps(prev => ({ ...prev, [stepNum]: true }));
   };

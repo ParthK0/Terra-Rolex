@@ -143,3 +143,63 @@ def generate_insights_with_gemini(user_logs: List[Dict[str, Any]], rolling_score
     except Exception as e:
         print(f"Error calling Gemini API: {e}")
         return generate_mock_insights(user_logs, rolling_score, streak)
+
+def generate_dynamic_challenge(user_logs: List[Dict[str, Any]]) -> Dict[str, Any]:
+    import uuid
+    challenge_id = f"dyn_c_{uuid.uuid4().hex[:6]}"
+    
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if api_key:
+        try:
+            from google import genai
+            from google.genai import types
+            
+            client = genai.Client(api_key=api_key)
+            logs_text = ""
+            for log in user_logs[-10:]:
+                logs_text += f"- {log.get('category')}: {log.get('subtype')} ({log.get('amount')})\n"
+                
+            prompt = f"""
+            Based on these recent user activities:
+            {logs_text if logs_text else "None"}
+            
+            Create 1 personalized carbon-saving challenge. 
+            Return JSON with exactly these keys: "title", "description", "co2_savings_kg" (float), "category" (one of transport, food, energy).
+            Keep it highly specific.
+            """
+            
+            response = client.models.generate_content(
+                model='gemini-2.5-flash',
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_schema=types.Schema(
+                        type=types.Type.OBJECT,
+                        properties={
+                            "title": types.Schema(type=types.Type.STRING),
+                            "description": types.Schema(type=types.Type.STRING),
+                            "co2_savings_kg": types.Schema(type=types.Type.NUMBER),
+                            "category": types.Schema(type=types.Type.STRING)
+                        }
+                    )
+                )
+            )
+            data = json.loads(response.text)
+            return {
+                "id": challenge_id,
+                "title": data.get("title", "AI Mystery Challenge"),
+                "description": data.get("description", "A special challenge generated just for you!"),
+                "co2_savings_kg": float(data.get("co2_savings_kg", 2.0)),
+                "category": data.get("category", "other")
+            }
+        except Exception as e:
+            print("Gemini challenge generation failed:", e)
+            
+    # Fallback personalized challenge
+    return {
+        "id": challenge_id,
+        "title": "Digital Detox Hour",
+        "description": "Turn off all screens and wifi for 1 hour to save energy and reduce baseline grid load.",
+        "co2_savings_kg": 0.5,
+        "category": "energy"
+    }

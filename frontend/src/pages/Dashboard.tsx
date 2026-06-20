@@ -133,7 +133,7 @@ export default function Dashboard({ user, insights, loading, logs, onQuickLog }:
     d.setDate(d.getDate() - (6 - i));
     const dateStr = d.toISOString().split('T')[0];
     const dayLogs = (logs || []).filter((l: any) => l.timestamp?.startsWith(dateStr));
-    const co2 = dayLogs.reduce((sum: number, l: any) => sum + (l.co2_kg || 0), 0);
+    const co2 = dayLogs.reduce((sum: number, l: { co2_kg?: number }) => sum + (l.co2_kg || 0), 0);
     return Math.max(0, Number(co2.toFixed(1)));
   });
 
@@ -163,7 +163,7 @@ export default function Dashboard({ user, insights, loading, logs, onQuickLog }:
     other:      'Other',
   };
 
-  const categoryTotals = (logs || []).reduce((acc: Record<string, number>, log: any) => {
+  const categoryTotals = (logs || []).reduce((acc: Record<string, number>, log: { category?: string }) => {
     if ((log.co2_kg || 0) > 0) {
       const key = log.category?.toLowerCase() || 'other';
       acc[key] = (acc[key] || 0) + log.co2_kg;

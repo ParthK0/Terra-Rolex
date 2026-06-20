@@ -15,7 +15,7 @@ const COLORS = ['#2E90FA', '#16A34A', '#F59E0B', '#DC2626', '#8b5cf6'];
 const BUDGET_CEILING = 12; // Daily carbon budget limit in kg
 
 // Custom Tooltip component for advanced charting details
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: any[]; label?: string }) => {
   if (active && payload && payload.length) {
     const val = payload[0].value;
     const isOver = val > BUDGET_CEILING;

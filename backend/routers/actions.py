@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from models.schemas import ChallengeResponse, ChallengeCompleteRequest
-from services.firestore_service import get_challenges, complete_challenge, get_user_profile
+from services.firestore_service import get_challenges, complete_challenge, get_user_profile, get_user_logs, add_challenge
+from services.gemini_service import generate_dynamic_challenge
 from routers.auth import get_current_user
 import os
 
@@ -62,5 +63,18 @@ def finish_challenge(request: ChallengeCompleteRequest, current_user: dict = Dep
         }
     except HTTPException as he:
         raise he
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/generate", response_model=ChallengeResponse)
+def generate_ai_challenge(current_user: dict = Depends(get_current_user)):
+    try:
+        user_id = current_user["userId"]
+        user_logs = get_user_logs(user_id)
+        challenge_data = generate_dynamic_challenge(user_logs)
+        
+        saved = add_challenge(challenge_data)
+        saved["completed"] = False
+        return ChallengeResponse(**saved)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

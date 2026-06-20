@@ -14,8 +14,8 @@ const firebaseConfig = {
 export const isFirebaseConfigured = !!import.meta.env.VITE_FIREBASE_API_KEY;
 
 let app;
-let auth: any = null;
-let db: any = null;
+let auth: unknown = null;
+let db: unknown = null;
 
 if (isFirebaseConfigured) {
   try {

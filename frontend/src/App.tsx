@@ -25,7 +25,7 @@ import AdminLogs from './pages/AdminLogs';
 import AdminAnalytics from './pages/AdminAnalytics';
 
 
-function Navbar({ user, streak, onLogout }: { user: any; streak: number; onLogout: () => void }) {
+function Navbar({ user, streak, onLogout }: { user: Record<string, unknown> | null; streak: number; onLogout: () => void }) {
   const location = useLocation();
   const activeClass = "nav-link-active pb-1";
   const inactiveClass = "nav-link-inactive pb-1";

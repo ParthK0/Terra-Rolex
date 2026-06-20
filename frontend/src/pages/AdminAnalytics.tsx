@@ -14,7 +14,7 @@ interface Contributor {
 }
 
 interface AnalyticsData {
-  daily_co2_by_team: any[];
+  daily_co2_by_team: { team: string; co2: number }[];
   category_totals: Record<string, number>;
   top_contributors: Contributor[];
 }
@@ -35,7 +35,7 @@ export default function AdminAnalytics() {
       } else {
         throw new Error('Failed to load advanced system analytics.');
       }
-    } catch (err: any) {
+    } catch (error) { const err = error as Error;
       setError(err.message || 'An error occurred.');
     } finally {
       setLoading(false);

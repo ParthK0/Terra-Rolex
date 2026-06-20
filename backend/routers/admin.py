@@ -10,7 +10,6 @@ from models.schemas import (
     LogEntryResponse
 )
 from services import firestore_service
-from services.firestore_service import load_db
 from routers.auth import get_current_user
 
 router = APIRouter(prefix="/admin", tags=["Admin Operations"])
@@ -172,8 +171,7 @@ def get_all_analytics(admin: dict = Depends(require_admin)):
 def get_all_challenges_admin(admin: dict = Depends(require_admin)):
     """Return full challenge list without per-user completion status (admin context)."""
     try:
-        db_data = load_db()
-        return db_data.get("challenges", [])
+        return firestore_service.get_all_challenges()
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

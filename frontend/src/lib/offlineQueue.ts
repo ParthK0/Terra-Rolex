@@ -4,7 +4,7 @@ export interface OfflineAction {
   id?: number;
   type: 'log' | 'challenge';
   userId: string;
-  data: any;
+  data: Record<string, unknown>;
   timestamp: number;
 }
 
@@ -26,7 +26,7 @@ function openDB(): Promise<IDBDatabase> {
   });
 }
 
-export async function enqueueAction(type: 'log' | 'challenge', userId: string, data: any): Promise<void> {
+export async function enqueueAction(type: 'log' | 'challenge', userId: string, data: Record<string, unknown>): Promise<void> {
   const db = await openDB();
   return new Promise<void>((resolve, reject) => {
     const transaction = db.transaction(STORE_NAME, 'readwrite');

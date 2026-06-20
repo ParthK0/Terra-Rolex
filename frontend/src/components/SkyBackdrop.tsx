@@ -88,7 +88,7 @@ export default function SkyBackdrop({ children, hourOverride }: SkyBackdropProps
       cancelAnimationFrame(rafId);
       clearTimeout(timeoutId);
     };
-  }, [theme]);
+  }, [theme, displayTheme.gradient]);
 
   // Helper coordinate variables
   const sunBottom = `${Math.max(-10, Math.min(100, theme.sunAltitude))}%`;
