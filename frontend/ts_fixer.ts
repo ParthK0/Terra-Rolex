@@ -3,16 +3,20 @@ import * as path from 'path';
 
 function walkDir(dir: string, callback: (filepath: string) => void) {
   fs.readdirSync(dir).forEach(f => {
-    let dirPath = path.join(dir, f);
-    let isDirectory = fs.statSync(dirPath).isDirectory();
-    isDirectory ? walkDir(dirPath, callback) : callback(dirPath);
+    const dirPath = path.join(dir, f);
+    const isDirectory = fs.statSync(dirPath).isDirectory();
+    if (isDirectory) {
+      walkDir(dirPath, callback);
+    } else {
+      callback(dirPath);
+    }
   });
 }
 
 walkDir('./src', (filepath) => {
   if (filepath.endsWith('.ts') || filepath.endsWith('.tsx')) {
     let content = fs.readFileSync(filepath, 'utf8');
-    let original = content;
+    const original = content;
 
     // Fix catch (err: any)
     content = content.replace(/catch\s*\(\s*err:\s*any\s*\)\s*\{/g, 'catch (error) { const err = error as Error;');

@@ -35,6 +35,11 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   
   const url = new URL(event.request.url);
+
+  // Disable caching for local development requests to prevent HMR and React hook mismatch issues
+  if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') {
+    return;
+  }
   
   // Do not intercept or cache API requests
   if (
