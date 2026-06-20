@@ -128,12 +128,12 @@ export function useAuth() {
     }
   };
 
-  const logout = () => {
+  function logout() {
     localStorage.removeItem("terra_token");
     localStorage.removeItem("terra_userId");
     setUser(null);
     setAuthError(null);
-  };
+  }
 
   const saveOnboarding = async (formData: {
     transportKm: number;

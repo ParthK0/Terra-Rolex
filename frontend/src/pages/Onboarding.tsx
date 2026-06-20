@@ -15,6 +15,72 @@ interface OnboardingProps {
   }) => Promise<any>;
 }
 
+interface BenchmarkChartProps {
+  annualTonnes: number;
+}
+
+// Helper component to render benchmark bars
+function BenchmarkChart({ annualTonnes }: BenchmarkChartProps) {
+  const maxVal = Math.max(annualTonnes, 6.0);
+  const estimateWidth = `${Math.max(8, Math.min(100, (annualTonnes / maxVal) * 100))}%`;
+  const indianWidth = `${Math.min(100, (1.8 / maxVal) * 100)}%`;
+  const globalWidth = `${Math.min(100, (4.0 / maxVal) * 100)}%`;
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: 'auto' }}
+      className="space-y-4 pt-5 border-t border-gray-100 mt-4 overflow-hidden"
+    >
+      <span className="text-[10px] uppercase font-bold text-text-grey tracking-wider block">Live Estimate Comparison</span>
+      
+      <div className="space-y-3">
+        {/* Estimate */}
+        <div className="space-y-1">
+          <div className="flex justify-between text-xs font-semibold text-text-charcoal">
+            <span>your estimate</span>
+            <span className="text-accent-blue font-bold">{annualTonnes.toFixed(2)} tons / yr</span>
+          </div>
+          <div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-accent-blue transition-all duration-300" 
+              style={{ width: estimateWidth }}
+            />
+          </div>
+        </div>
+
+        {/* India average */}
+        <div className="space-y-1">
+          <div className="flex justify-between text-xs font-semibold text-text-charcoal">
+            <span>average Indian urban resident</span>
+            <span className="text-accent-green font-bold">1.8 tons / yr</span>
+          </div>
+          <div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-accent-green" 
+              style={{ width: indianWidth }}
+            />
+          </div>
+        </div>
+
+        {/* Global average */}
+        <div className="space-y-1">
+          <div className="flex justify-between text-xs font-semibold text-text-charcoal">
+            <span>global average</span>
+            <span className="text-accent-amber font-bold">4.0 tons / yr</span>
+          </div>
+          <div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-accent-amber" 
+              style={{ width: globalWidth }}
+            />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Onboarding({ onComplete }: OnboardingProps) {
   const [step, setStep] = useState(1);
   const [transportType, setTransportType] = useState('');
@@ -80,67 +146,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
     { title: "Result", desc: "Your Baseline Carbon Footprint" }
   ];
 
-  // Helper component to render benchmark bars
-  const BenchmarkChart = () => {
-    const maxVal = Math.max(annualTonnes, 6.0);
-    const estimateWidth = `${Math.max(8, Math.min(100, (annualTonnes / maxVal) * 100))}%`;
-    const indianWidth = `${Math.min(100, (1.8 / maxVal) * 100)}%`;
-    const globalWidth = `${Math.min(100, (4.0 / maxVal) * 100)}%`;
 
-    return (
-      <motion.div 
-        initial={{ opacity: 0, height: 0 }}
-        animate={{ opacity: 1, height: 'auto' }}
-        className="space-y-4 pt-5 border-t border-gray-100 mt-4 overflow-hidden"
-      >
-        <span className="text-[10px] uppercase font-bold text-text-grey tracking-wider block">Live Estimate Comparison</span>
-        
-        <div className="space-y-3">
-          {/* Estimate */}
-          <div className="space-y-1">
-            <div className="flex justify-between text-xs font-semibold text-text-charcoal">
-              <span>your estimate</span>
-              <span className="text-accent-blue font-bold">{annualTonnes.toFixed(2)} tons / yr</span>
-            </div>
-            <div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-accent-blue transition-all duration-300" 
-                style={{ width: estimateWidth }}
-              />
-            </div>
-          </div>
-
-          {/* India average */}
-          <div className="space-y-1">
-            <div className="flex justify-between text-xs font-semibold text-text-charcoal">
-              <span>average Indian urban resident</span>
-              <span className="text-accent-green font-bold">1.8 tons / yr</span>
-            </div>
-            <div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-accent-green" 
-                style={{ width: indianWidth }}
-              />
-            </div>
-          </div>
-
-          {/* Global average */}
-          <div className="space-y-1">
-            <div className="flex justify-between text-xs font-semibold text-text-charcoal">
-              <span>global average</span>
-              <span className="text-accent-amber font-bold">4.0 tons / yr</span>
-            </div>
-            <div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-accent-amber" 
-                style={{ width: globalWidth }}
-              />
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    );
-  };
 
   return (
     <div className="min-h-screen sky-hero-container flex flex-col items-center justify-center p-6 md:p-12 relative bg-bg-base">
@@ -239,7 +245,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 </div>
               </div>
 
-              {answeredSteps[1] && <BenchmarkChart />}
+              {answeredSteps[1] && <BenchmarkChart annualTonnes={annualTonnes} />}
             </motion.div>
           )}
 
@@ -285,7 +291,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 })}
               </div>
 
-              {answeredSteps[2] && <BenchmarkChart />}
+              {answeredSteps[2] && <BenchmarkChart annualTonnes={annualTonnes} />}
             </motion.div>
           )}
 
@@ -343,7 +349,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 </div>
               </div>
 
-              {answeredSteps[3] && <BenchmarkChart />}
+              {answeredSteps[3] && <BenchmarkChart annualTonnes={annualTonnes} />}
             </motion.div>
           )}
 
@@ -379,7 +385,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 </div>
               </div>
 
-              {answeredSteps[4] && <BenchmarkChart />}
+              {answeredSteps[4] && <BenchmarkChart annualTonnes={annualTonnes} />}
             </motion.div>
           )}
 
@@ -423,7 +429,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 })}
               </div>
 
-              {answeredSteps[5] && <BenchmarkChart />}
+              {answeredSteps[5] && <BenchmarkChart annualTonnes={annualTonnes} />}
             </motion.div>
           )}
 

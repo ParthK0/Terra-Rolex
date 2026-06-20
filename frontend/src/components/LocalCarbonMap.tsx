@@ -63,8 +63,8 @@ export default function LocalCarbonMap({}: LocalCarbonMapProps) {
     if (!g || !g.maps) return;
 
     // Define defaults (London)
-    let lat = 51.5074;
-    let lng = -0.1278;
+    const lat = 51.5074;
+    const lng = -0.1278;
 
     const renderMapInstance = (centerLat: number, centerLng: number, zoomLevel = 13) => {
       if (!mapContainerRef.current) return;
