@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? "/api" : "http://localhost:8000");
 
 // Allow useAuth to register its logout handler so 401s trigger a clean logout
 let _logoutCallback: (() => void) | null = null;
