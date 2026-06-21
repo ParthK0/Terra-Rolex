@@ -1,102 +1,170 @@
-TerraRolex: Carbon Modeling & Gamified Sustainability Platform
+# TerraRolex: Carbon Modeling & Gamified Sustainability Platform
 
-TerraRolex is a full-stack, progressive web application (PWA) designed to track, calculate, and gamify personal and team-based carbon footprints. Built for sustainability challenges, the platform aligns high-fidelity environmental data with psychological "nudges" and AI-driven insights to promote lasting behavioral change.
+TerraRolex is a full-stack, progressive web application (PWA) designed to calculate, track, and gamify personal and team-based carbon footprints.
 
-🎯Problem Statement Alignment
+---
 
-While many tools simply estimate carbon emissions, they fail to drive continued user engagement. **TerraRolex solves this by combining granular scientific tracking with gamified action loops.**
+## 2. Problem & Approach
 
-- **Accurate Calculations**: Leverages specific fuel types and regional emission factors for transportation, food, energy, and flights.
-- **AI Insights**: Generates personalized "nudges" based on rolling 7-day habits to proactively encourage greener choices.
-- **Gamification**: Includes challenges, badges, streaks, and an interactive Leaderboard to incentivize teams and individuals.
-- **Offline Capabilities**: Fully functional PWA with offline log queuing, allowing users to track emissions in remote or signal-deprived areas without data loss.
+**The Problem:** Most carbon tracking applications rely on static, infrequent, or generic estimations that fail to drive persistent user engagement, while lacking the real-time context necessary to prompt actual behavioral changes.
 
-## 📁 Repository Structure
+**Our Approach:** TerraRolex combines high-fidelity, server-side carbon calculation engines with localized emission factors (e.g., regional grid emissions and specific fuel types) and gamified loops (streaks, badges, and team leaderboards) to turn carbon tracking into a daily habit. Furthermore, the dashboard couples the user's rolling 7-day carbon logs with a Gemini AI coaching engine that generates context-aware, personalized sustainability recommendations ("nudges") directly tailored to their largest emission categories.
 
-The project is structured cleanly into frontend and backend applications:
+---
+
+## 3. Screenshots & Demo
+
+- **Glassmorphic Hero Dashboard:** A real-time, high-fidelity visualization of weekly carbon budget utilization, streak count, and contextual AI coaching advice.
+- **Granular Activity Logger:** An interactive logging interface with specific options for transport, energy, food, and flight emissions.
+- **Ranked Leaderboards:** Clean standings lists showing average carbon footprints, sorting individuals and teams to drive friendly competition.
+
+* **Live Vercel Deployment:** [terra-rolex.vercel.app](https://terra-rolex.vercel.app)
+* **Demo Video walkthrough:** [YouTube Demo Link](https://www.youtube.com/)
+
+---
+
+## 4. Tech Stack
+
+- **Frontend:** React 19, TypeScript, Vite, Tailwind CSS, Recharts, Framer Motion, Google Maps JS API
+- **Backend:** FastAPI, Python, Cloud Firestore (Firebase Admin SDK)
+- **AI Engine:** Google Gemini API (Personalized coaching and dynamic challenges)
+- **Deployment:** Vercel (Monorepo serverless hosting)
+- **Testing Frameworks:** Vitest (Frontend), Pytest (Backend)
+
+---
+
+## 5. Project Structure
 
 ```text
-/
-├── frontend/
-│   ├── src/
-│   │   ├── components/   # Shared UI components
-│   │   ├── hooks/        # Custom React hooks (auth, footprint, leaderboards)
-│   │   ├── services/     # API integration layer (FastAPI, Firebase)
-│   │   ├── utils/        # Mathematical carbon engines & helpers
-│   │   ├── pages/        # Router view pages
-│   │   └── types/        # TypeScript interfaces
-│   └── public/
-└── backend/
-    ├── app/
-    │   ├── routers/      # FastAPI endpoint routers
-    │   ├── models/       # Pydantic data schemas
-    │   ├── services/     # Core services (Firestore, Gemini, CO2 engine)
-    │   └── tests/        # Pytest integration & unit test suite
-    └── vercel.json       # Vercel serverless deployment config
+terra-rolex/
+├── backend/            # Python backend (FastAPI, Pytest, Docker configuration)
+│   ├── app/            # Source directory for backend app modules
+│   │   ├── models/     # Pydantic validation schemas
+│   │   ├── routers/    # FastAPI route controller endpoints
+│   │   ├── services/   # Firestore repositories, Gemini engine, and CO2 calculation services
+│   │   └── tests/      # Automated pytest suite
+│   ├── requirements.txt# Backend python dependencies
+│   ├── Dockerfile      # Container build configuration
+│   └── mock_db.json    # Thread-safe database fallback mock data
+├── frontend/           # React client application (Vite, TypeScript, Tailwind)
+│   ├── src/            # Source directory for client-side React code
+│   │   ├── components/ # Shared UI elements and controls
+│   │   ├── hooks/      # Custom state hooks (auth, footprints, leaderboard)
+│   │   ├── pages/      # Application router views
+│   │   ├── services/   # API connectors, offline queue, and Firebase settings
+│   │   └── utils/      # Client-side math calculators and benchmarks
+│   ├── public/         # Static assets and PWA service workers
+│   ├── package.json    # Node dependencies and scripts
+│   └── vite.config.ts  # Vite build configuration
+└── vercel.json         # Vercel monorepo deployment config
 ```
 
-## 🚀 Tech Stack
+---
 
-### Frontend
-- **React (Vite) + TypeScript**: Blazing fast client-side rendering with strong type safety.
-- **Tailwind CSS**: Utility-first CSS for a responsive, modern "airy" light theme.
-- **PWA (Service Workers)**: Offline support and caching.
-- **Recharts & React-Globe**: Interactive data visualization of carbon emissions.
-
-### Backend
-- **FastAPI (Python)**: High-performance asynchronous API for managing carbon models and user data.
-- **Firebase / Firestore**: NoSQL data storage for user profiles, logs, and leaderboards.
-- **Google Gemini AI**: Generates personalized sustainability nudges and contextual feedback based on user logs.
-
-## 🛠️ Installation & Setup
-
-### Prerequisites
-- Node.js (v18+)
-- Python (3.10+)
-- Firebase Account (for Firestore)
+## 6. Setup & Installation
 
 ### Backend Setup
-1. Navigate to the backend directory:
+1. Navigate to the backend folder:
    ```bash
    cd backend
    ```
-2. Create and activate a virtual environment:
+2. Create and activate a Python virtual environment:
    ```bash
    python -m venv .venv
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    ```
-3. Install dependencies:
+3. Install the dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-4. Set up environment variables (copy `.env.example` to `.env` and fill in API keys).
-5. Run the server:
+4. Copy the environment variables template and configure your keys:
+   ```bash
+   cp .env.example .env
+   ```
+5. Run the development server:
    ```bash
    uvicorn app.main:app --reload
    ```
 
+#### Required Backend Environment Variables (`backend/.env`):
+- `GEMINI_API_KEY`: Required. Google Gemini API key used to generate sustainability recommendations and dynamic challenges.
+- `FIREBASE_CREDENTIALS_PATH`: Optional. Filepath to your Firebase service account JSON. If omitted, the backend automatically falls back to utilizing the local `mock_db.json`.
+- `PORT`: Optional. The port to bind Uvicorn to (default: `8000`).
+
+---
+
 ### Frontend Setup
-1. Navigate to the frontend directory:
+1. Navigate to the frontend folder:
    ```bash
    cd frontend
    ```
-2. Install dependencies:
+2. Install the dependencies:
    ```bash
    npm install
    ```
-3. Start the development server:
+3. Copy the environment variables template:
+   ```bash
+   cp .env.example .env.local
+   ```
+4. Run the development server:
    ```bash
    npm run dev
    ```
 
-## 🧪 Testing and Code Quality
-TerraRolex maintains a high standard of code reliability:
-- **Frontend Testing**: `vitest` and `@testing-library/react` ensure UI components and offline queuing logic work flawlessly.
-- **Backend Testing**: `pytest` handles API integration testing and verifies the mathematical accuracy of the `co2_engine`.
-- **Linting**: Strict `eslint` configuration for TypeScript/React hooks.
-
-## 🤝 Contributing
-Feel free to open an issue or submit a pull request if you have ideas on expanding the carbon models or improving the gamification logic.
+#### Required Frontend Environment Variables (`frontend/.env.local`):
+- `VITE_API_BASE_URL`: Required. Base URL of the running FastAPI server (typically `http://localhost:8000`).
+- `VITE_FIREBASE_API_KEY` to `VITE_FIREBASE_APP_ID`: Required. Firebase Web SDK credentials for auth and collection management.
 
 ---
-*Built to make sustainability measurable and engaging.*
+
+## 7. Running Tests
+
+### Backend Tests
+Navigate to the backend directory and run the pytest suite:
+```bash
+cd backend
+pytest
+```
+* **Coverage Status:** The backend test suite covers the mathematical accuracy of the CO₂ calculation engine under various parameters, validation constraints of Pydantic models, and security/access scopes of API routers.
+
+### Frontend Tests
+Navigate to the frontend directory and run vitest:
+```bash
+cd frontend
+npm run test
+```
+* **Coverage Status:** The frontend test suite covers core rendering of components, offline IndexedDB log queue synchronization, and hook state changes.
+
+---
+
+## 8. API Overview
+
+FastAPI automatically generates interactive API documentation (Swagger UI) at `http://localhost:8000/docs`.
+
+| Endpoint | Method | Description |
+| :--- | :---: | :--- |
+| `/api/auth/register` | `POST` | Registers a new user session |
+| `/api/auth/login` | `POST` | Authenticates a user session |
+| `/api/log` | `POST` | Logs a daily action and calculates emission outputs |
+| `/api/log/history` | `GET` | Fetches historical list of user footprint entries |
+| `/api/insights/rolling` | `GET` | Computes rolling 7-day footprints and weekly budget percentages |
+| `/api/insights/coaching` | `GET` | Generates personalized, rolling-habit coaching suggestions using Gemini AI |
+| `/api/actions/challenges` | `GET` | Fetches sustainability challenges (AI-generated or fallback list) |
+| `/api/actions/verify` | `POST` | Validates a completed challenge and updates user points/streaks |
+| `/api/leaderboard` | `GET` | Fetches global and team rank standings |
+
+---
+
+## 9. Key Design Decisions
+
+- **Server-Side Carbon Validation:** Carbon math (CO₂ calculations) is executed purely on the backend. This ensures validation integrity, allows us to update regional emission factors without forcing frontend reinstalls, and guarantees a uniform source of truth for both web clients and potential future API integrations.
+- **Repository Interface Decoupling:** Implemented the Repository Pattern to decouple database storage. By coding against a generic `Repository` interface, we can swap between the serverless `FirestoreRepository` and a local file-based `MockRepository` via environment flags. This allows the system to boot instantly in restricted environments while enabling database-isolated test suites.
+- **Service Worker Offline Cache:** Implemented an IndexedDB-backed service worker queue in the frontend. When network connections drop, user carbon logs are queued locally, then automatically synchronized to the server once the connection is restored, ensuring a resilient user experience in low-connectivity areas.
+
+---
+
+## 10. Known Limitations & Next Steps
+
+- **Serverless Cold Starts:** Using free-tier serverless functions (Vercel) might introduce latency on the initial `/api/insights/coaching` endpoint load due to cold starts and remote Gemini AI API handshakes.
+- **Local Fallback DB Persistence:** When running without Firebase Admin credentials, the local database helper operates in memory, meaning data clears whenever the FastAPI process resets.
+- **Google Maps API Dependency:** If Google Maps API keys are not supplied, distance-based commute tracking falls back to standard keyboard mileage logging instead of automated route measurements.
