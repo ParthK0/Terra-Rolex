@@ -1,12 +1,10 @@
-# TerraRolex: Carbon Modeling & Gamified Sustainability Platform
+TerraRolex: Carbon Modeling & Gamified Sustainability Platform
 
 TerraRolex is a full-stack, progressive web application (PWA) designed to calculate, track, and gamify personal and team-based carbon footprints.
 
----
+ 2. Problem & Approach
 
-## 2. Problem & Approach
-
-**The Problem:** Most carbon tracking applications rely on static, infrequent, or generic estimations that fail to drive persistent user engagement, while lacking the real-time context necessary to prompt actual behavioral changes.
+The Problem: Most carbon tracking applications rely on static, infrequent, or generic estimations that fail to drive persistent user engagement, while lacking the real-time context necessary to prompt actual behavioral changes.
 
 **Our Approach:** TerraRolex combines high-fidelity, server-side carbon calculation engines with localized emission factors (e.g., regional grid emissions and specific fuel types) and gamified loops (streaks, badges, and team leaderboards) to turn carbon tracking into a daily habit. Furthermore, the dashboard couples the user's rolling 7-day carbon logs with a Gemini AI coaching engine that generates context-aware, personalized sustainability recommendations ("nudges") directly tailored to their largest emission categories.
 
