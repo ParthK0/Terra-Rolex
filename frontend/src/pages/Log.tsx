@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { calculateCO2Client } from '../lib/co2calc';
-import { getVisceralComparison } from '../lib/benchmarks';
+import { calculateCO2Client } from '../utils/co2calc';
+import { getVisceralComparison } from '../utils/benchmarks';
 import { Plane, Car, Leaf, Zap, HelpCircle, Info, Plus, Minus, MapPin, Navigation } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 

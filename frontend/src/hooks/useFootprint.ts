@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { calculateCO2Client } from '../lib/co2calc';
-import { getVisceralComparison } from '../lib/benchmarks';
-import { apiFetch } from '../lib/api';
-import { enqueueAction, syncOfflineQueue } from '../lib/offlineQueue';
+import { calculateCO2Client } from '../utils/co2calc';
+import { getVisceralComparison } from '../utils/benchmarks';
+import { apiFetch } from '../services/api';
+import { enqueueAction, syncOfflineQueue } from '../services/offlineQueue';
 
 export interface LogEntry {
   id: string;

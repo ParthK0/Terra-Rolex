@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { apiFetch } from '../lib/api';
+import { apiFetch } from '../services/api';
 import { 
   Plus, 
   Trash2, 

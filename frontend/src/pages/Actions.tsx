@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { apiFetch } from '../lib/api';
+import { apiFetch } from '../services/api';
 import { ShieldCheck, ShieldAlert, Flame, Trophy, Sparkles, Check, RefreshCw } from 'lucide-react';
 import type { UserProfile } from '../hooks/useAuth';
 

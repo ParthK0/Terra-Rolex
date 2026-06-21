@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { calculateBaselineClient } from '../lib/co2calc';
+import { calculateBaselineClient } from '../utils/co2calc';
 import { Car, Zap, Bike, Plane, ShoppingBag, CheckCircle2, ChevronRight, ChevronLeft, Leaf } from 'lucide-react';
 
 interface OnboardingProps {

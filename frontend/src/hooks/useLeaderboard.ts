@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { apiFetch } from '../lib/api';
+import { apiFetch } from '../services/api';
 
 export interface LeaderboardUser {
   userId: string;

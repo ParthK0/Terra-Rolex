@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { calculateBaselineClient } from '../lib/co2calc';
-import { apiFetch, registerLogoutCallback } from '../lib/api';
+import { calculateBaselineClient } from '../utils/co2calc';
+import { apiFetch, registerLogoutCallback } from '../services/api';
 
 export interface UserProfile {
   userId: string;
