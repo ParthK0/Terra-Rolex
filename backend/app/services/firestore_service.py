@@ -1,8 +1,8 @@
 import os
 from typing import List, Dict, Any, Optional
-from services.repository import DatabaseRepository
-from services.mock_repository import MockRepository
-from services.firestore_repository import FirestoreRepository
+from app.services.repository import DatabaseRepository
+from app.services.mock_repository import MockRepository
+from app.services.firestore_repository import FirestoreRepository
 
 # Global repository instance
 _repo: DatabaseRepository = None

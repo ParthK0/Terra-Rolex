@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List
-from models.schemas import ChallengeResponse, ChallengeCompleteRequest
-from services.firestore_service import get_challenges, complete_challenge, get_user_profile, get_user_logs, add_challenge
-from services.gemini_service import generate_dynamic_challenge
-from routers.auth import get_current_user
+from app.models.schemas import ChallengeResponse, ChallengeCompleteRequest
+from app.services.firestore_service import get_challenges, complete_challenge, get_user_profile, get_user_logs, add_challenge
+from app.services.gemini_service import generate_dynamic_challenge
+from app.routers.auth import get_current_user
 import os
 
 router = APIRouter(prefix="/actions", tags=["Actions"])

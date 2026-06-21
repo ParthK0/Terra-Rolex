@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from services.co2_engine import calculate_co2, calculate_onboarding_baseline
+from app.services.co2_engine import calculate_co2, calculate_onboarding_baseline
 
 def test_transport_calculation():
     # Petrol Car commute: 100km * 0.18 = 18.0kg CO2

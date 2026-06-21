@@ -3,9 +3,9 @@ from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from typing import Dict, Any
 
-from models.schemas import AuthSignupRequest, AuthLoginRequest, AuthResponse
-from services.auth import hash_password, verify_password, create_access_token, decode_access_token
-from services.firestore_service import get_user_by_username, get_user_profile, update_user_profile
+from app.models.schemas import AuthSignupRequest, AuthLoginRequest, AuthResponse
+from app.services.auth import hash_password, verify_password, create_access_token, decode_access_token
+from app.services.firestore_service import get_user_by_username, get_user_profile, update_user_profile
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 security = HTTPBearer()

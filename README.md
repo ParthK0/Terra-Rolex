@@ -1,17 +1,39 @@
-# TerraWatch: Carbon Modeling & Gamified Sustainability Platform
+TerraRolex: Carbon Modeling & Gamified Sustainability Platform
 
-![TerraWatch Overview](https://img.shields.io/badge/Status-Active-brightgreen) ![License](https://img.shields.io/badge/License-MIT-blue)
+TerraRolex is a full-stack, progressive web application (PWA) designed to track, calculate, and gamify personal and team-based carbon footprints. Built for sustainability challenges, the platform aligns high-fidelity environmental data with psychological "nudges" and AI-driven insights to promote lasting behavioral change.
 
-TerraWatch is a full-stack, progressive web application (PWA) designed to track, calculate, and gamify personal and team-based carbon footprints. Built for sustainability challenges, the platform aligns high-fidelity environmental data with psychological "nudges" and AI-driven insights to promote lasting behavioral change.
+🎯Problem Statement Alignment
 
-## 🎯 Problem Statement Alignment
-
-While many tools simply estimate carbon emissions, they fail to drive continued user engagement. **TerraWatch solves this by combining granular scientific tracking with gamified action loops.**
+While many tools simply estimate carbon emissions, they fail to drive continued user engagement. **TerraRolex solves this by combining granular scientific tracking with gamified action loops.**
 
 - **Accurate Calculations**: Leverages specific fuel types and regional emission factors for transportation, food, energy, and flights.
 - **AI Insights**: Generates personalized "nudges" based on rolling 7-day habits to proactively encourage greener choices.
 - **Gamification**: Includes challenges, badges, streaks, and an interactive Leaderboard to incentivize teams and individuals.
 - **Offline Capabilities**: Fully functional PWA with offline log queuing, allowing users to track emissions in remote or signal-deprived areas without data loss.
+
+## 📁 Repository Structure
+
+The project is structured cleanly into frontend and backend applications:
+
+```text
+/
+├── frontend/
+│   ├── src/
+│   │   ├── components/   # Shared UI components
+│   │   ├── hooks/        # Custom React hooks (auth, footprint, leaderboards)
+│   │   ├── services/     # API integration layer (FastAPI, Firebase)
+│   │   ├── utils/        # Mathematical carbon engines & helpers
+│   │   ├── pages/        # Router view pages
+│   │   └── types/        # TypeScript interfaces
+│   └── public/
+└── backend/
+    ├── app/
+    │   ├── routers/      # FastAPI endpoint routers
+    │   ├── models/       # Pydantic data schemas
+    │   ├── services/     # Core services (Firestore, Gemini, CO2 engine)
+    │   └── tests/        # Pytest integration & unit test suite
+    └── vercel.json       # Vercel serverless deployment config
+```
 
 ## 🚀 Tech Stack
 
@@ -50,7 +72,7 @@ While many tools simply estimate carbon emissions, they fail to drive continued 
 4. Set up environment variables (copy `.env.example` to `.env` and fill in API keys).
 5. Run the server:
    ```bash
-   uvicorn main:app --reload
+   uvicorn app.main:app --reload
    ```
 
 ### Frontend Setup
@@ -68,7 +90,7 @@ While many tools simply estimate carbon emissions, they fail to drive continued 
    ```
 
 ## 🧪 Testing and Code Quality
-TerraWatch maintains a high standard of code reliability:
+TerraRolex maintains a high standard of code reliability:
 - **Frontend Testing**: `vitest` and `@testing-library/react` ensure UI components and offline queuing logic work flawlessly.
 - **Backend Testing**: `pytest` handles API integration testing and verifies the mathematical accuracy of the `co2_engine`.
 - **Linting**: Strict `eslint` configuration for TypeScript/React hooks.

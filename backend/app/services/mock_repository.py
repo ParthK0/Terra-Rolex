@@ -3,7 +3,7 @@ import json
 import threading
 from datetime import datetime
 from typing import List, Dict, Any, Optional
-from services.repository import DatabaseRepository
+from app.services.repository import DatabaseRepository
 
 DB_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "mock_db.json")
 
@@ -166,7 +166,7 @@ class MockRepository(DatabaseRepository):
         return challenge
 
     def get_leaderboards(self) -> List[Dict[str, Any]]:
-        from services.co2_engine import calculate_co2
+        from app.services.co2_engine import calculate_co2
         standings = []
         challenges = self.get_all_challenges()
         

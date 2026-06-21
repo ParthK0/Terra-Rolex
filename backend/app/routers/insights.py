@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from datetime import datetime, timedelta, timezone
-from models.schemas import InsightResponse, OnboardingData
-from services.firestore_service import get_user_profile, get_user_logs, update_user_profile
-from services.gemini_service import generate_insights_with_gemini
-from services.co2_engine import calculate_onboarding_baseline
-from routers.auth import get_current_user
+from app.models.schemas import InsightResponse, OnboardingData
+from app.services.firestore_service import get_user_profile, get_user_logs, update_user_profile
+from app.services.gemini_service import generate_insights_with_gemini
+from app.services.co2_engine import calculate_onboarding_baseline
+from app.routers.auth import get_current_user
 
 router = APIRouter(prefix="/insights", tags=["Insights"])
 

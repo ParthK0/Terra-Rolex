@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import List, Dict, Any, Optional
 import firebase_admin
 from firebase_admin import credentials, firestore
-from services.repository import DatabaseRepository
+from app.services.repository import DatabaseRepository
 
 class FirestoreRepository(DatabaseRepository):
     def __init__(self, cred_path: str):
@@ -126,7 +126,7 @@ class FirestoreRepository(DatabaseRepository):
         return challenge
 
     def get_leaderboards(self) -> List[Dict[str, Any]]:
-        from services.co2_engine import calculate_co2
+        from app.services.co2_engine import calculate_co2
         # A simple implementation for Firebase; aggregate scores locally for now
         users_docs = self.db.collection("users").stream()
         standings = []

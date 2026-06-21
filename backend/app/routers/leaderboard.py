@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List, Dict, Any
-from models.schemas import LeaderboardEntry, GroupLeaderboard
-from services.firestore_service import get_leaderboards
-from routers.auth import get_current_user
+from app.models.schemas import LeaderboardEntry, GroupLeaderboard
+from app.services.firestore_service import get_leaderboards
+from app.routers.auth import get_current_user
 
 router = APIRouter(prefix="/leaderboard", tags=["Leaderboard"])
 
@@ -54,7 +54,7 @@ def get_team_leaderboard():
 @router.post("/join")
 def join_team(team_name: str, current_user: dict = Depends(get_current_user)):
     try:
-        from services.firestore_service import update_user_profile
+        from app.services.firestore_service import update_user_profile
         user_id = current_user["userId"]
         update_user_profile(user_id, {"teamName": team_name})
         return {"success": True, "teamName": team_name}

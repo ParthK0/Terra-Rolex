@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List, Dict, Any
 from datetime import datetime, timedelta, timezone
-from models.schemas import (
+from app.models.schemas import (
     AdminChallengeCreateRequest, 
     AdminChallengeUpdateRequest,
     AdminUserTeamUpdateRequest, 
@@ -9,8 +9,8 @@ from models.schemas import (
     ChallengeResponse, 
     LogEntryResponse
 )
-from services import firestore_service
-from routers.auth import get_current_user
+from app.services import firestore_service
+from app.routers.auth import get_current_user
 
 router = APIRouter(prefix="/admin", tags=["Admin Operations"])
 

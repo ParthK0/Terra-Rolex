@@ -10,9 +10,8 @@ import os
 
 # Load environment variables
 load_dotenv()
-
 # Import routers
-from routers import log, insights, actions, leaderboard, auth, admin
+from app.routers import log, insights, actions, leaderboard, auth, admin
 
 # Rate limiter — protects auth endpoints from brute-force
 limiter = Limiter(key_func=get_remote_address)
@@ -63,4 +62,4 @@ def read_root():
     }
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)

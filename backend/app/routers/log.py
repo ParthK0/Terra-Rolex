@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List, Optional
-from models.schemas import LogEntryRequest, LogEntryResponse
-from services.co2_engine import calculate_co2
-from services.firestore_service import add_user_log, get_user_logs
+from app.models.schemas import LogEntryRequest, LogEntryResponse
+from app.services.co2_engine import calculate_co2
+from app.services.firestore_service import add_user_log, get_user_logs
 from datetime import datetime
-from routers.auth import get_current_user
+from app.routers.auth import get_current_user
 
 router = APIRouter(prefix="/log", tags=["Logs"])
 

@@ -1,5 +1,5 @@
 """
-Integration tests for TerraWatch FastAPI routers.
+Integration tests for TerraRolex FastAPI routers.
 Uses TestClient (synchronous) with a unique test user ID per test run.
 """
 import sys
@@ -10,14 +10,14 @@ import pytest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from fastapi.testclient import TestClient
-from main import app
+from app.main import app
 
 client = TestClient(app)
 
 from fastapi import Header
 from typing import Optional
-from routers.auth import get_current_user
-from services.firestore_service import get_user_profile
+from app.routers.auth import get_current_user
+from app.services.firestore_service import get_user_profile
 
 def override_get_current_user(
     x_user_id: str = Header(default="default_user"),
@@ -25,7 +25,7 @@ def override_get_current_user(
 ):
     if authorization and authorization.startswith("Bearer "):
         token = authorization.split(" ")[1]
-        from services.auth import decode_access_token
+        from app.services.auth import decode_access_token
         payload = decode_access_token(token)
         if payload and "sub" in payload:
             return get_user_profile(payload["sub"])
